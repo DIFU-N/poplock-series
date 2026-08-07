@@ -37,7 +37,7 @@ public class AuthController : ControllerBase
             Username = dto.Username,
             PasswordHash = PasswordService.HashPassword(dto.Password),
             Banned = false,
-            Role = UserRole.User,
+            Role = UserRoles.User,
         };
 
         await _users.CreateAsync(user);
@@ -66,7 +66,7 @@ public class AuthController : ControllerBase
             }
         );
 
-        return Ok(new { message = "Logged in successfully" });
+        return Ok(new { message = "Logged in successfully", token = token, user });
     }
 
     [HttpPost("logout")]
@@ -76,39 +76,5 @@ public class AuthController : ControllerBase
         return Ok(new { message = "Logged out" });
     }
 
-    [HttpPost("register-admin")]
-    [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> RegisterAdmin(RegisterDto dto)
-    {
-        var existing = await _users.GetByUsernameAsync(dto.Username);
 
-        if (existing != null)
-            return BadRequest("User already exists");
-
-        var admin = new User
-        {
-            Username = dto.Username,
-            PasswordHash = PasswordService.HashPassword(dto.Password),
-            Banned = false,
-            Role = UserRole.Admin,
-        };
-
-        await _users.CreateAsync(admin);
-
-        return Ok(new { message = "Admin created successfully" });
-    }
-
-    [HttpPost("delete-account")]
-    [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> DeleteAdmin(RegisterDto dto)
-    {
-        var existing = await _users.GetByUsernameAsync(dto.Username);
-
-        if (existing == null)
-            return BadRequest("User doesn't exist");
-
-        await _users.DeleteAccount(existing.Username);
-
-        return Ok(new { message = "User deleted successfully" });
-    }
 }

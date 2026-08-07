@@ -4,6 +4,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using server.Repositories;
 
 namespace server.Controllers;
 
@@ -12,6 +13,13 @@ namespace server.Controllers;
 [Authorize]
 public class SecureController : ControllerBase
 {
+    private readonly UserRepository _users;
+
+    public SecureController(UserRepository users)
+    {
+        _users = users;
+    }
+
     [HttpGet]
     public IActionResult Get()
     {
@@ -33,5 +41,18 @@ public class SecureController : ControllerBase
     public IActionResult Health()
     {
         return Ok(new { status = "Healthy", time = DateTime.UtcNow });
+    }
+
+    [HttpDelete("me")]
+    public async Task<IActionResult> DeleteMyAccount()
+    {
+        var username = User.FindFirstValue(ClaimTypes.Name);
+
+        if (username == null)
+            return Unauthorized();
+
+        await _users.DeleteAccount(username);
+
+        return NoContent();
     }
 }
