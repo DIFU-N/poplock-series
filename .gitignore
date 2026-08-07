@@ -17,6 +17,12 @@
 /.next/
 /out/
 
+# server files
+/server/bin
+/server/obj
+/server/.vs
+
+
 # production
 /build
 
