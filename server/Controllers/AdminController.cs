@@ -42,10 +42,10 @@ public class AdminController : ControllerBase
         return Ok(new { message = "Admin created successfully" });
     }
 
-    [HttpPost("delete-account")]
-    public async Task<IActionResult> DeleteAdmin(RegisterDto dto)
+    [HttpDelete("delete-account")]
+    public async Task<IActionResult> DeleteAdmin(string username)
     {
-        var existing = await _users.GetByUsernameAsync(dto.Username);
+        var existing = await _users.GetByUsernameAsync(username);
 
         if (existing == null)
             return BadRequest("User doesn't exist");
@@ -53,5 +53,31 @@ public class AdminController : ControllerBase
         await _users.DeleteAccount(existing.Username);
 
         return Ok(new { message = "User deleted successfully" });
+    }
+
+    [HttpPost("ban-account")]
+    public async Task<IActionResult> BanAccount(string username)
+    {
+        var existing = await _users.GetByUsernameAsync(username);
+
+        if (existing == null)
+            return BadRequest("User doesn't exist");
+
+        await _users.BanAccount(existing.Username);
+
+        return Ok(new { message = $"{existing.Username} Account Banned" });
+    }
+
+    [HttpPost("unban-account")]
+    public async Task<IActionResult> UnbanAccount(string username)
+    {
+        var existing = await _users.GetByUsernameAsync(username);
+
+        if (existing == null)
+            return BadRequest("User doesn't exist");
+
+        await _users.UnbanAccount(existing.Username);
+
+        return Ok(new { message = $"{existing.Username} Account Unbanned" });
     }
 }

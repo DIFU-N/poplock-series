@@ -19,14 +19,15 @@ public class User
     public string PasswordHash { get; set; } = null!;
 
     [BsonElement("role")]
-    public UserRole Role { get; set; } = UserRole.User;
+    [BsonRepresentation(BsonType.String)]
+    public string Role { get; set; } = UserRoles.User;
 
     [BsonElement("banned")]
-    public bool Banned {get; set; } = false;
+    public bool Banned { get; set; } = false;
 }
 
-public enum UserRole
+public static class UserRoles
 {
-    User,
-    Admin
+    public const string User = "user";
+    public const string Admin = "admin";
 }

@@ -32,4 +32,18 @@ public class UserRepository
     {
         await _users.DeleteOneAsync(u => u.Username == username);
     }
+
+    public async Task BanAccount(string username)
+    {
+        var update = Builders<User>.Update.Set(u => u.Banned, true);
+
+        await _users.FindOneAndUpdateAsync(u => u.Username == username, update);
+    }
+
+    public async Task UnbanAccount(string username)
+    {
+        var update = Builders<User>.Update.Set(u => u.Banned, false);
+
+        await _users.FindOneAndUpdateAsync(u => u.Username == username, update);
+    }
 }
