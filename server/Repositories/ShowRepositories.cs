@@ -1,0 +1,76 @@
+using System.Runtime.CompilerServices;
+using MongoDB.Driver;
+using server.Data;
+using server.Models;
+
+namespace server.Repositories;
+
+public class ShowRepository
+{
+    private readonly IMongoCollection<Show> _shows;
+
+    public ShowRepository(MongoDbContext context)
+    {
+        _shows = context.Shows;
+    }
+
+    public async Task<Show?> GetByTitleAsync(string title)
+    {
+        return await _shows.Find(u => u.Title == title).FirstOrDefaultAsync();
+    }
+
+    public async Task<Show> GetByIdAsync(string id)
+    {
+        return await _shows.Find(u => u.Id == id).FirstOrDefaultAsync();
+    }
+
+    public async Task<Show?> DeleteAsync(string id)
+    {
+        var filter = Builders<Show>.Filter.Eq(w => w.Id, id);
+
+        var update = Builders<Show>.Update.Set(w => w.Deleted, true);
+
+        return await _shows.FindOneAndUpdateAsync(
+            filter,
+            update,
+            new FindOneAndUpdateOptions<Show> { ReturnDocument = ReturnDocument.After }
+        );
+    }
+
+    public async Task AddAsync(Show show)
+    {
+        await _shows.InsertOneAsync(show);
+    }
+
+    public async Task<List<Show>> GetAllShow()
+    {
+        return await _shows.Find(u => u.Deleted == false).ToListAsync();
+    }
+
+    public async Task<Show> UpdateAsync(Show show)
+    {
+        var filter = Builders<Show>.Filter.Eq(w => w.Id, show.Id);
+
+        // var update = Builders<Show>.Update.Set(w => w, show);
+
+        return await _shows.FindOneAndReplaceAsync(
+            filter,
+            show,
+            new FindOneAndReplaceOptions<Show> { ReturnDocument = ReturnDocument.After }
+        );
+    }
+
+    public async Task ClearAllFeatured()
+    {
+        var update = Builders<Show>.Update.Set(s => s.Featured, false);
+        await _shows.UpdateManyAsync(_ => true, update);
+    }
+
+    public async Task SetFeatured(List<string> ids)
+    {
+        var filter = Builders<Show>.Filter.In(s => s.Id, ids);
+        var update = Builders<Show>.Update.Set(s => s.Featured, true);
+
+        await _shows.UpdateManyAsync(filter, update);
+    }
+}
