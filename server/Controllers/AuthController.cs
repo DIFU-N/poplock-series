@@ -32,6 +32,18 @@ public class AuthController : ControllerBase
         if (existing != null)
             return BadRequest("User already exists");
 
+        if (dto.Username.Length > 30)
+            return BadRequest("Username cannot exceed 30 characters.");
+
+        if (dto.Username.Length < 3)
+            return BadRequest("Username must be at least 3 characters.");
+
+        if (dto.Password.Length > 64)
+            return BadRequest("Password cannot exceed 64 characters.");
+
+        if (dto.Password.Length < 8)
+            return BadRequest("Password must be at least 8 characters.");
+
         var user = new User
         {
             Username = dto.Username,
@@ -66,7 +78,14 @@ public class AuthController : ControllerBase
             }
         );
 
-        return Ok(new { message = "Logged in successfully", token = token, user });
+        return Ok(
+            new
+            {
+                message = "Logged in successfully",
+                token = token,
+                user,
+            }
+        );
     }
 
     [HttpPost("logout")]
@@ -75,6 +94,4 @@ public class AuthController : ControllerBase
         Response.Cookies.Delete("auth_token");
         return Ok(new { message = "Logged out" });
     }
-
-
 }
