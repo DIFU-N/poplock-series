@@ -53,6 +53,8 @@ public class SecureController : ControllerBase
 
         await _users.DeleteAccount(username);
 
+        Response.Cookies.Delete("auth_token");
+
         return NoContent();
     }
 }
