@@ -21,23 +21,15 @@ public class AdminController : ControllerBase
         _jwt = jwt;
     }
 
-    [HttpPost("register-admin")]
-    public async Task<IActionResult> RegisterAdmin(RegisterDto dto)
+    [HttpPost("make-admin")]
+    public async Task<IActionResult> RegisterAdmin(string username)
     {
-        var existing = await _users.GetByUsernameAsync(dto.Username);
+        var found = await _users.PromoteUser(username, UserRoles.Admin);
 
-        if (existing != null)
-            return BadRequest("User already exists");
-
-        var admin = new User
+        if (!found)
         {
-            Username = dto.Username,
-            PasswordHash = PasswordService.HashPassword(dto.Password),
-            Banned = false,
-            Role = UserRoles.Admin,
-        };
-
-        await _users.CreateAsync(admin);
+            return NotFound();
+        }
 
         return Ok(new { message = "Admin created successfully" });
     }
@@ -49,6 +41,11 @@ public class AdminController : ControllerBase
 
         if (existing == null)
             return BadRequest("User doesn't exist");
+
+        if (existing.Role == "s.admin")
+        {
+            return BadRequest("Can't delete user");
+        }
 
         await _users.DeleteAccount(existing.Username);
 
