@@ -46,4 +46,14 @@ public class UserRepository
 
         await _users.FindOneAndUpdateAsync(u => u.Username == username, update);
     }
+
+    public async Task<bool> PromoteUser(string username, string role)
+    {
+        var result = await _users.UpdateOneAsync(
+            u => u.Username == username,
+            Builders<User>.Update.Set(u => u.Role, role)
+        );
+
+        return result.ModifiedCount > 0;
+    }
 }
