@@ -14,142 +14,184 @@ namespace server.Controllers;
 [Authorize]
 public class WordControllers : ControllerBase
 {
-    private readonly WordRepository _words;
-    private readonly GroupRepository _groups;
+    private readonly PostRepository _posts;
+    private readonly CommentRepository _comments;
+    private readonly PostLikeRepository _likes;
 
-    public WordControllers(WordRepository words, GroupRepository groups)
+
+    public WordControllers(
+        PostRepository posts,
+        CommentRepository comments,
+        PostLikeRepository likes
+    )
     {
-        _words = words;
-        _groups = groups;
+        _posts = posts;
+        _comments = comments;
+        _likes = likes;
     }
 
-    [HttpPost("create")]
-    public async Task<IActionResult> CreateWord(WordDto dto)
-    {
-        var groupName = dto.Group.Trim(); // remove extra spaces
-
-        var group = await _groups.GetByNameAsync(groupName); // look up group
-        if (group == null) // create if it doesn't exist
-        {
-            group = new Group { Name = groupName };
-            await _groups.CreateAsync(group);
-        }
-
-        // Convert object -> JSON -> BsonDocument
+    [HttpPost("post/create")]
+    public async Task<IActionResult> CreatePost(PostDto dto)
+    { // Convert object -> JSON -> BsonDocument
         var json = JsonSerializer.Serialize(dto.Body);
         var bsonBody = BsonDocument.Parse(json);
 
-        var word = new Word
+        var post = new Post
         {
             Title = dto.Title,
             Body = bsonBody,
             Date = dto.Date,
             Subtitle = dto.Subtitle,
-            GroupId = group.Id,
         };
 
-        await _words.CreateAsync(word);
-        return Ok(new { message = "Word created successfully" });
+        await _posts.CreateAsync(post);
+        return Ok(new { message = "Post created successfully" });
     }
 
-    [HttpGet("readall")]
+    [HttpGet("post/readall")]
     [AllowAnonymous]
     public async Task<IActionResult> ReadWord()
     {
-        var words = await _words.GetAllPosts();
-
-        // get all unique group IDs
-        var groupIds = words.Select(w => w.GroupId).Distinct().ToList();
-        // fetch all groups at once
-        var groups = await _groups.GetManyByIdsAsync(groupIds);
-
-        // map to dictionary
-        var groupDict = groups.ToDictionary(g => g.Id, g => g.Name);
+        var words = await _posts.GetAllPosts();
 
         var result = words
-            .Select(word => new WordDto
+            .Select(word => new PostDto
             {
                 Id = word.Id,
                 Title = word.Title,
                 Body = BsonTypeMapper.MapToDotNetValue(word.Body),
                 Date = word.Date,
                 Subtitle = word.Subtitle,
-                Group = groupDict.ContainsKey(word.GroupId) ? groupDict[word.GroupId] : "",
             })
             .ToList();
 
         return Ok(result);
     }
 
-    [HttpPost("update")]
-    public async Task<IActionResult> UpdateWord(WordDto dto)
+    [HttpPost("post/update")]
+    public async Task<IActionResult> UpdateWord(PostDto dto)
     {
-        var groupName = dto.Group.Trim(); // remove extra spaces
-
-        var group = await _groups.GetByNameAsync(groupName); // look up group
-        if (group == null) // create if it doesn't exist
-        {
-            group = new Group { Name = groupName };
-            await _groups.CreateAsync(group);
-        }
-
         // Convert object -> JSON -> BsonDocument
         var json = JsonSerializer.Serialize(dto.Body);
         var bsonBody = BsonDocument.Parse(json);
 
-        var word = new Word
+        var word = new Post
         {
             Id = dto.Id,
             Title = dto.Title,
             Body = bsonBody,
             Date = DateTime.UtcNow,
             Subtitle = dto.Subtitle,
-            GroupId = group.Id,
         };
 
-        await _words.UpdateAsync(word);
+        await _posts.UpdateAsync(word);
         return Ok(new { message = "Word created successfully" });
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("post/{id}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetById(string id)
     {
-        var thought = await _words.GetByIdAsync(id);
+        var singlePost = await _posts.GetByIdAsync(id);
 
-        if (thought == null)
+        if (singlePost == null)
             return NotFound();
 
-        // var debugObj = new
-        // {
-        //     thought.Id,
-        //     thought.Title,
-        //     thought.Subtitle,
-        //     thought.Date,
-        //     Body = thought.Body.ToJson(),
-        //     thought.GroupId,
-        //     thought.Deleted,
-        // };
-
-        // Console.WriteLine(
-        //     System.Text.Json.JsonSerializer.Serialize(
-        //         debugObj,
-        //         new JsonSerializerOptions { WriteIndented = true }
-        //     )
-        // );
-
-        var group = await _groups.GetByIdAsync(thought.GroupId);
-
-        var result = new WordDto
+        var result = new PostDto
         {
-            Id = thought.Id,
-            Title = thought.Title,
-            Body = BsonTypeMapper.MapToDotNetValue(thought.Body),
-            Date = thought.Date,
-            Subtitle = thought.Subtitle,
-            Group = group?.Name ?? "",
+            Id = singlePost.Id,
+            Title = singlePost.Title,
+            Body = BsonTypeMapper.MapToDotNetValue(singlePost.Body),
+            Date = singlePost.Date,
+            Subtitle = singlePost.Subtitle,
         };
 
         return Ok(result);
     }
+
+    // comments
+    [HttpPost("{postId}/comments")]
+    public async Task<IActionResult> CreateComment(string postId, CreateCommentDto dto)
+    {
+        var authorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (authorId == null)
+        {
+            return Unauthorized();
+        }
+
+        var comment = new Comment
+        {
+            Body = dto.Body,
+            Date = DateTime.Now,
+            PostId = postId,
+            Deleted = false,
+            Likes = 0,
+            AuthorId = authorId,
+        };
+
+        await _comments.CreateComment(comment);
+        return Ok(new { message = "Post created successfully" });
+    }
+
+    [HttpGet("{postId}/comments")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ReadComments(string postId)
+    {
+        var comments = await _comments.GetAllPostRelatedComments(postId);
+
+        var result = comments
+            .Select(comment => new CommentDto
+            {
+                Id = comment.Id,
+                AuthorId = comment.AuthorId,
+                Body = comment.Body,
+                Date = comment.Date,
+                PostId = comment.PostId,
+            })
+            .ToList();
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{postId}/{commentId}/delete")]
+    public async Task<IActionResult> DeleteComment(string postId, string commentId)
+    {
+        string? authorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        
+        if (authorId == null)
+        {
+            return Unauthorized();
+        }
+
+        var comment = await _comments.GetByIdAsync(commentId);
+        if (comment == null)
+        {
+            return NotFound("Comment not found!");
+        }
+
+        if (comment.AuthorId != authorId)
+        {
+            return Forbid();
+        }
+
+        await _comments.DeleteAsync(commentId);
+        return Ok(new { message = "Comment deleted successfully" });
+    }
+
+    [HttpPut("{postId}/like")]
+    public async Task<bool> LikePost(string postId)
+    {
+        string? authorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (authorId == null)
+        {
+            return false;
+        }
+
+        await _likes.LikePost(postId, authorId);
+        return true;
+    }
+
 }

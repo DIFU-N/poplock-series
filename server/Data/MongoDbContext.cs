@@ -35,7 +35,10 @@ public class MongoDbContext
 
     public IMongoCollection<User> Users => _database.GetCollection<User>("users");
 
-    public IMongoCollection<Word> Words => _database.GetCollection<Word>("words");
+    public IMongoCollection<Post> Posts => _database.GetCollection<Post>("posts");
+    public IMongoCollection<PostLike> PostLikes => _database.GetCollection<PostLike>("postlikes");
+
+    public IMongoCollection<Comment> Comment => _database.GetCollection<Comment>("comments");
 
     public IMongoCollection<Group> Groups => _database.GetCollection<Group>("groups");
     public IMongoCollection<Show> Shows => _database.GetCollection<Show>("shows");
