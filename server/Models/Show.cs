@@ -9,38 +9,73 @@ public class Show
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; } = string.Empty;
 
+    [BsonElement("tvMazeId")]
+    public int TvMazeId { get; set; }
+
     [BsonElement("title")]
     public string Title { get; set; } = string.Empty;
 
-    [BsonElement("image")]
-    public string Image { get; set; } = string.Empty;
+    [BsonElement("language")]
+    public string Language { get; set; } = string.Empty;
 
-    [BsonElement("overview")]
-    public string Overview { get; set; } = string.Empty;
+    [BsonElement("status")]
+    public string Status { get; set; } = string.Empty;
 
-    [BsonElement("firstAired")]
-    public string FirstAired { get; set; } = "";
-
-    [BsonElement("lastAired")]
-    public string LastAired { get; set; } = "";
-
-    [BsonElement("originalCountry")]
-    public string OriginalCountry { get; set; } = "";
-
-    [BsonElement("originalLanguage")]
-    public string OriginalLanguage { get; set; } = "";
+    [BsonElement("runtime")]
+    public int? Runtime { get; set; }
 
     [BsonElement("averageRuntime")]
-    [BsonDefaultValue(0)]
-    public int AverageRuntime { get; set; } = 0;
+    public int? AverageRuntime { get; set; }
 
-    [BsonElement("score")]
-    [BsonDefaultValue(0)]
-    public int Score { get; set; } = 0;
+    [BsonElement("premiered")]
+    public DateTime? Premiered { get; set; }
 
-    [BsonElement("deleted")]
-    public bool Deleted { get; set; } = false;
+    [BsonElement("ended")]
+    public DateTime? Ended { get; set; }
 
-    [BsonElement("featured")]
-    public bool Featured { get; set; } = false;
+    [BsonElement("officialSite")]
+    public string OfficialSite { get; set; } = string.Empty;
+
+    [BsonElement("rating")]
+    public double? Rating { get; set; }
+
+    [BsonElement("genres")]
+    // [BsonDefaultValue(0)]
+    public List<string> GenreIds { get; set; } = [];
+
+    [BsonElement("image")]
+    public string? Image { get; set; } = string.Empty;
+
+    [BsonElement("summary")]
+    public string Summary { get; set; } = string.Empty;
+
+    [BsonElement("network")]
+    public Network? Network { get; set; }
+}
+
+public class Network
+{
+    [BsonElement("id")]
+    public int Id { get; set; }
+
+    [BsonElement("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [BsonElement("officialSite")]
+    public string OfficialSite { get; set; } = string.Empty;
+
+    // [BsonElement("country")]
+    // public Country? Country { get; set; }
+}
+
+public class Country
+{
+    [BsonElement("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [BsonElement("code")]
+    public string Code { get; set; } = string.Empty;
+
+    [BsonElement("timezone")]
+    public string TimeZone { get; set; } = string.Empty;
 }

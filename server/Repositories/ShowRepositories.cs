@@ -24,27 +24,28 @@ public class ShowRepository
         return await _shows.Find(u => u.Id == id).FirstOrDefaultAsync();
     }
 
-    public async Task<Show?> DeleteAsync(string id)
-    {
-        var filter = Builders<Show>.Filter.Eq(w => w.Id, id);
+    // public async Task<Show?> DeleteAsync(string id)
+    // {
+    //     var filter = Builders<Show>.Filter.Eq(w => w.Id, id);
 
-        var update = Builders<Show>.Update.Set(w => w.Deleted, true);
+    //     var update = Builders<Show>.Update.Set(w => w.Deleted, true);
 
-        return await _shows.FindOneAndUpdateAsync(
-            filter,
-            update,
-            new FindOneAndUpdateOptions<Show> { ReturnDocument = ReturnDocument.After }
-        );
-    }
+    //     return await _shows.FindOneAndUpdateAsync(
+    //         filter,
+    //         update,
+    //         new FindOneAndUpdateOptions<Show> { ReturnDocument = ReturnDocument.After }
+    //     );
+    // }
 
     public async Task AddAsync(Show show)
     {
         await _shows.InsertOneAsync(show);
     }
 
-    public async Task<List<Show>> GetAllShow()
+    public async Task<List<Show>> GetAllShows()
     {
-        return await _shows.Find(u => u.Deleted == false).ToListAsync();
+        // _ => true... match every document.
+        return await _shows.Find(_ => true).ToListAsync();
     }
 
     public async Task<Show> UpdateAsync(Show show)
@@ -60,17 +61,22 @@ public class ShowRepository
         );
     }
 
-    public async Task ClearAllFeatured()
+    public async Task<Show?> GetByTvMazeIdAsync(int tvMazeId)
     {
-        var update = Builders<Show>.Update.Set(s => s.Featured, false);
-        await _shows.UpdateManyAsync(_ => true, update);
+        return await _shows.Find(w => w.TvMazeId == tvMazeId).FirstOrDefaultAsync();
     }
 
-    public async Task SetFeatured(List<string> ids)
-    {
-        var filter = Builders<Show>.Filter.In(s => s.Id, ids);
-        var update = Builders<Show>.Update.Set(s => s.Featured, true);
+    // public async Task ClearAllFeatured()
+    // {
+    //     var update = Builders<Show>.Update.Set(s => s.Featured, false);
+    //     await _shows.UpdateManyAsync(_ => true, update);
+    // }
 
-        await _shows.UpdateManyAsync(filter, update);
-    }
+    // public async Task SetFeatured(List<string> ids)
+    // {
+    //     var filter = Builders<Show>.Filter.In(s => s.Id, ids);
+    //     var update = Builders<Show>.Update.Set(s => s.Featured, true);
+
+    //     await _shows.UpdateManyAsync(filter, update);
+    // }
 }
