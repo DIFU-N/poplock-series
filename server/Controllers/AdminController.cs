@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using server.DTO;
@@ -15,10 +16,20 @@ public class AdminController : ControllerBase
     private readonly UserRepository _users;
     private readonly JwtService _jwt;
 
-    public AdminController(UserRepository users, JwtService jwt)
+    private readonly InviteRepository _invites;
+    private readonly InviteTokenService _tokenService;
+
+    public AdminController(
+        UserRepository users,
+        JwtService jwt,
+        InviteRepository invites,
+        InviteTokenService tokenService
+    )
     {
         _users = users;
         _jwt = jwt;
+        _invites = invites;
+        _tokenService = tokenService;
     }
 
     [HttpPost("make-admin")]
@@ -76,5 +87,30 @@ public class AdminController : ControllerBase
         await _users.UnbanAccount(existing.Username);
 
         return Ok(new { message = $"{existing.Username} Account Unbanned" });
+    }
+
+    [HttpPost("create-invite")]
+    public async Task<IActionResult> CreateInvite(string name)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+
+        var token = _tokenService.GenerateToken();
+
+        var invite = new Invite
+        {
+            TokenHash = _tokenService.HashToken(token),
+            CreatedBy = userId,
+            ExpiresAt = DateTime.UtcNow.AddDays(1),
+            Used = false,
+            RecipientName = name,
+        };
+
+        await _invites.CreateAsync(invite);
+
+        return Ok(new { link = $"http://localhost:3000/invite/{token}" });
     }
 }
