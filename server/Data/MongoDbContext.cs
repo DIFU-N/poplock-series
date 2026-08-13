@@ -40,8 +40,16 @@ public class MongoDbContext
 
     public IMongoCollection<Comment> Comment => _database.GetCollection<Comment>("comments");
 
-    public IMongoCollection<Group> Groups => _database.GetCollection<Group>("groups");
     public IMongoCollection<Show> Shows => _database.GetCollection<Show>("shows");
+
+    public IMongoCollection<MustHavs> MustHavs => _database.GetCollection<MustHavs>("musthavs");
+
+    public IMongoCollection<ShowRanking> ShowRankings =>
+        _database.GetCollection<ShowRanking>("showrankings");
+
+    public IMongoCollection<Genre> Genre => _database.GetCollection<Genre>("genre");
+
+    public IMongoCollection<Invite> Invite => _database.GetCollection<Invite>("invites");
 
     // Console.WriteLine($"Collection: users");
 }
