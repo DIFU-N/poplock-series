@@ -39,7 +39,7 @@ public class Show
     [BsonElement("rating")]
     public double? Rating { get; set; }
 
-    [BsonElement("genres")]
+    [BsonElement("genreIds")]
     // [BsonDefaultValue(0)]
     public List<string> GenreIds { get; set; } = [];
 
