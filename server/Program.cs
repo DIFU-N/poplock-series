@@ -94,7 +94,7 @@ builder.Services.AddControllers();
 
 // Services
 builder.Services.AddScoped<JwtService>();
-builder.Services.AddHttpClient<TvdbService>(); //addscoped or addclient
+builder.Services.AddHttpClient<TvMazeService>(); //addscoped or addclient
 
 // Add Swagger services
 builder.Services.AddEndpointsApiExplorer();
@@ -123,10 +123,14 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDb"));
 
 builder.Services.AddSingleton<MongoDbContext>();
+builder.Services.AddSingleton<InviteTokenService>();
 builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<WordRepository>();
-builder.Services.AddScoped<GroupRepository>();
+
+builder.Services.AddScoped<MustHavsRepository>();
+builder.Services.AddScoped<ShowRankingRepository>();
+builder.Services.AddScoped<GenreRepository>();
 builder.Services.AddScoped<ShowRepository>();
+builder.Services.AddScoped<InviteRepository>();
 
 var app = builder.Build();
 
