@@ -68,7 +68,7 @@ public class WordControllers : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("post/update")]
+    [HttpPut("post/update")]
     public async Task<IActionResult> UpdateWord(PostDto dto)
     {
         // Convert object -> JSON -> BsonDocument
