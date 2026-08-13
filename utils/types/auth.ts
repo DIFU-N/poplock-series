@@ -8,3 +8,5 @@ interface AuthFormValues {
 }
 
 export type LoginFormInitialValues = AuthFormValues;
+
+export type RegisterFormInitialValues = AuthFormValues;
