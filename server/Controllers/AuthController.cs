@@ -53,7 +53,29 @@ public class AuthController : ControllerBase
         };
 
         await _users.CreateAsync(user);
-        return Ok(new { message = "User registered successfully" });
+
+        var token = _jwt.GenerateToken(user);
+
+        Response.Cookies.Append(
+            "auth_token",
+            token,
+            new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // true in production (HTTPS)
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(1000),
+            }
+        );
+
+        return Ok(
+            new
+            {
+                message = "Logged in successfully",
+                token = token,
+                user,
+            }
+        );
     }
 
     [HttpPost("login")]
