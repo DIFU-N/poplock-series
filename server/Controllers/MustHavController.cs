@@ -40,7 +40,7 @@ public class MustHavsController : ControllerBase
     {
         await _musthavs.AddMustHavs(mustHavs);
 
-        return Ok(new { message = "Added Must Hav List" });
+        return Ok(new { message = "Added Must Hav List", mustHavs });
     }
 
     [HttpPost("/add/top10")]
@@ -58,6 +58,6 @@ public class MustHavsController : ControllerBase
 
         await _showRankings.CreateAsync(showRanking);
 
-        return Ok(new { message = "Ranking submitted successfully" });
+        return Ok(new { message = "Ranking submitted successfully", showRanking });
     }
 }
