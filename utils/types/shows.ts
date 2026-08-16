@@ -32,3 +32,19 @@ export type Genre = {
   id: number;
   name: string;
 };
+
+export type getAllShowsResponse = {
+  shows: Show[];
+};
+
+export type importShowResponse = {
+  show: Show;
+};
+
+export type searchShowResponse = {
+  shows: JSON;
+};
+
+export type fetchGenresResponse = {
+  genres: Genre[];
+};
