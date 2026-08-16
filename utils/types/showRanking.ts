@@ -1,4 +1,4 @@
-export type showRanking = {
+export type ShowRanking = {
   id: string;
   userId?: string;
   showId: string;
@@ -6,7 +6,7 @@ export type showRanking = {
   participantsName?: string;
 };
 
-export type showRankingType = {
+export type ShowRankingType = {
   showId: string;
   points: number;
 };
