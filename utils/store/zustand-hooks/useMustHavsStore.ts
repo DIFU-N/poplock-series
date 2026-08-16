@@ -1,0 +1,71 @@
+import { addMustHav, addTopTenFamFriends } from "@/utils/apis/musthavs";
+import {
+  addMustHavResponse,
+  addTopTenResponse,
+  MustHav,
+} from "@/utils/types/musthavs";
+import { ShowRanking } from "@/utils/types/showRanking";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+type MustHavState = {
+  loading: boolean;
+  error: string | null;
+  mustHavs: MustHav[];
+  topTen: ShowRanking[];
+};
+
+const initialState: MustHavState = {
+  error: null,
+  loading: false,
+  mustHavs: [],
+  topTen: [],
+};
+
+export const useMustHavStore = create<MustHavState>()(
+  persist(
+    (set, get) => ({
+      ...initialState,
+      mustHavs: [],
+      topTen: [],
+      setMustHavs: async (mustHav: MustHav) => {
+        set({ loading: true });
+
+        try {
+          const addList: addMustHavResponse = await addMustHav(mustHav);
+
+          set((state) => ({
+            loading: false,
+            mustHavs: [...state.mustHavs, addList.mustHav],
+          }));
+        } catch {
+          set({
+            loading: false,
+            error: "error adding musthave",
+          });
+        }
+      },
+      setTopTen: async (showRanking: ShowRanking, token: string) => {
+        set({ loading: true });
+
+        try {
+          const addList: addTopTenResponse = await addTopTenFamFriends(
+            showRanking,
+            token,
+          );
+
+          set((state) => ({
+            loading: false,
+            topTen: [...state.topTen, addList.showRanking],
+          }));
+        } catch {
+          set({
+            loading: false,
+            error: "error adding top ten",
+          });
+        }
+      },
+    }),
+    { name: "mustHav-storage" },
+  ),
+);
