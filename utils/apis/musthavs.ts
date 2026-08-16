@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_BASE } from "./auth";
 import { MustHav } from "../types/musthavs";
-import { showRanking } from "../types/showRanking";
+import { ShowRanking } from "../types/showRanking";
 
 export const addMustHav = async (musthav: MustHav) => {
   const response = await axios.post(`${API_BASE}/musthavs/add`, { musthav });
@@ -9,7 +9,7 @@ export const addMustHav = async (musthav: MustHav) => {
 };
 
 export const addTopTenFamFriends = async (
-  showRanking: showRanking,
+  showRanking: ShowRanking,
   token: string,
 ) => {
   const response = await axios.post(`${API_BASE}/musthavs/add/top10`, {
