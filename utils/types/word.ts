@@ -18,7 +18,7 @@ export type PostLikes = {
   userId: string;
 };
 
-export type Comments = {
+export type Comment = {
   id: string;
   date: string;
   body: string;
@@ -26,4 +26,8 @@ export type Comments = {
   postId: string;
   authorId: string;
   likes: number;
+};
+
+export type fetchAllPostsResponse = {
+  posts: Post[];
 };
