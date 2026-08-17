@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_BASE } from "./auth";
-import { Comments, Post } from "../types/word";
+import { Comment, Post } from "../types/word";
 
 export const createPost = async (postData: Post) => {
   const response = await axios.post(`${API_BASE}/words/post/create`, {
@@ -26,7 +26,7 @@ export const getPostById = async (postId: string) => {
   return response.data;
 };
 
-export const addComment = async (commentData: Comments, postId: string) => {
+export const addComment = async (commentData: Comment, postId: string) => {
   const response = await axios.post(`${API_BASE}/words/${postId}/comment`, {
     postId,
     commentData,
@@ -34,7 +34,7 @@ export const addComment = async (commentData: Comments, postId: string) => {
   return response.data;
 };
 
-export const getComment = async (postId: string) => {
+export const getComments = async (postId: string) => {
   const response = await axios.get(`${API_BASE}/words/${postId}/comment`);
   return response.data;
 };
