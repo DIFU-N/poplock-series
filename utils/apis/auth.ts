@@ -5,10 +5,10 @@ import {
   RegisterFormInitialValues,
 } from "../types/auth";
 
-export const API_BASE = "http://localhost:5051/api";
+export const API_BASE = "http://localhost:5191/api";
 
 export const login = async ({ password, username }: LoginFormInitialValues) => {
-  const response = await axios.post(`${API_BASE}/login`, {
+  const response = await axios.post(`${API_BASE}/auth/login`, {
     username,
     password,
   });
@@ -19,7 +19,7 @@ export const register = async ({
   password,
   username,
 }: RegisterFormInitialValues): Promise<AuthResponse> => {
-  const response = await axios.post(`${API_BASE}/register`, {
+  const response = await axios.post(`${API_BASE}/auth/register`, {
     username,
     password,
   });
@@ -28,7 +28,7 @@ export const register = async ({
 };
 
 export const logout = async () => {
-  const response = await axios.post(`${API_BASE}/logout`);
+  const response = await axios.post(`${API_BASE}/auth/logout`);
 
   return response.data;
 };
