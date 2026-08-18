@@ -4,6 +4,7 @@ export type User = {
   passwordHash: string;
   role: string;
   banned: boolean;
+  email: string;
 };
 
 export enum UserRoles {
