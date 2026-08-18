@@ -51,5 +51,7 @@ public class MongoDbContext
 
     public IMongoCollection<Invite> Invite => _database.GetCollection<Invite>("invites");
 
+    public IMongoCollection<Episode> Episode => _database.GetCollection<Episode>("episodes");
+
     // Console.WriteLine($"Collection: users");
 }
