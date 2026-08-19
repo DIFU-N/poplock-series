@@ -8,10 +8,12 @@ namespace server.Controllers;
 public class EpisodeController : ControllerBase
 {
     private readonly EpisodeRepository _episodes;
+    private readonly TvMazeService _tvmaze;
 
-    public EpisodeController(EpisodeRepository episodes)
+    public EpisodeController(EpisodeRepository episodes, TvMazeService tvMaze)
     {
         _episodes = episodes;
+        _tvmaze = tvMaze;
     }
 
     [HttpGet]
@@ -21,4 +23,6 @@ public class EpisodeController : ControllerBase
 
         return Ok(new { message = "here are your episodes", episodes });
     }
+
+    
 }

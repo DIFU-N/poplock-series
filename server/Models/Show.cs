@@ -51,6 +51,9 @@ public class Show
 
     [BsonElement("network")]
     public Network? Network { get; set; }
+
+    [BsonElement("ScheduleFeatured")]
+    public bool ScheduleFeatured {get; set;} = false;
 }
 
 public class Network

@@ -66,17 +66,17 @@ public class ShowRepository
         return await _shows.Find(w => w.TvMazeId == tvMazeId).FirstOrDefaultAsync();
     }
 
-    // public async Task ClearAllFeatured()
-    // {
-    //     var update = Builders<Show>.Update.Set(s => s.Featured, false);
-    //     await _shows.UpdateManyAsync(_ => true, update);
-    // }
+    public async Task ClearAllFeatured()
+    {
+        var update = Builders<Show>.Update.Set(s => s.ScheduleFeatured, false);
+        await _shows.UpdateManyAsync(_ => true, update);
+    }
 
-    // public async Task SetFeatured(List<string> ids)
-    // {
-    //     var filter = Builders<Show>.Filter.In(s => s.Id, ids);
-    //     var update = Builders<Show>.Update.Set(s => s.Featured, true);
+    public async Task SetFeatured(List<string> ids)
+    {
+        var filter = Builders<Show>.Filter.In(s => s.Id, ids);
+        var update = Builders<Show>.Update.Set(s => s.ScheduleFeatured, true);
 
-    //     await _shows.UpdateManyAsync(filter, update);
-    // }
+        await _shows.UpdateManyAsync(filter, update);
+    }
 }

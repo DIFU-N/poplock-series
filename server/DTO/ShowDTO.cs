@@ -26,4 +26,6 @@ public class ShowDto
 
     public double? Rating { get; set; }
     public Network? Network { get; set; }
+
+    public bool ScheduleFeatured { get; set; } = false;
 }

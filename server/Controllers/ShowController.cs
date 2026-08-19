@@ -19,11 +19,19 @@ public class ShowController : ControllerBase
 
     private readonly GenreRepository _genre;
 
-    public ShowController(TvMazeService tvmaze, ShowRepository repo, GenreRepository genre)
+    private readonly EpisodeRepository _episode;
+
+    public ShowController(
+        TvMazeService tvmaze,
+        ShowRepository repo,
+        GenreRepository genre,
+        EpisodeRepository episode
+    )
     {
         _tvmaze = tvmaze;
         _repo = repo;
         _genre = genre;
+        _episode = episode;
     }
 
     [HttpGet("search")]
@@ -109,41 +117,72 @@ public class ShowController : ControllerBase
         return Ok(show);
     }
 
-    // [HttpPut("feature/{id}")]
-    // public async Task<IActionResult> FeatureShow(string id)
-    // {
-    //     var show = await _repo.GetByIdAsync(id);
-    //     if (show == null)
-    //         return NotFound();
+    [HttpPut("feature/{id}")]
+    public async Task<IActionResult> FeatureShow(string id)
+    {
+        var show = await _repo.GetByIdAsync(id);
+        if (show == null)
+            return NotFound();
 
-    //     show.Featured = !show.Featured;
-    //     await _repo.UpdateAsync(show);
+        show.ScheduleFeatured = !show.ScheduleFeatured;
+        await _repo.UpdateAsync(show);
 
-    //     return Ok(show);
-    // }
+        var episodes = await _tvmaze.GetEpisodes(show.TvMazeId);
 
-    // [HttpGet("featured")]
-    // [AllowAnonymous]
-    // public async Task<IActionResult> GetFeaturedShows()
-    // {
-    //     var allShows = await _repo.GetAllShow();
-    //     var featured = allShows.Where(s => s.Featured).Take(3).ToList();
+        foreach (var episode in episodes)
+        {
+            episode.ShowId = show.Id;
 
-    //     return Ok(featured);
-    // }
+            await _episode.UpserEpisode(episode);
+        }
 
-    // [HttpPut("featured")]
-    // public async Task<IActionResult> SetFeatured([FromBody] List<string> showIds)
-    // {
-    //     if (showIds.Count > 3)
-    //         return BadRequest("Max 3 featured shows allowed");
+        return Ok(show);
+    }
 
-    //     await _repo.ClearAllFeatured();
+    [HttpGet("featured")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetFeaturedShows()
+    {
+        var allShows = await _repo.GetAllShows();
+        var featured = allShows.Where(s => s.ScheduleFeatured).Take(10).ToList();
 
-    //     await _repo.SetFeatured(showIds);
+        return Ok(featured);
+    }
 
-    //     return Ok();
-    // }
+    [HttpPut("featured")]
+    public async Task<IActionResult> SetFeatured([FromBody] List<string> showIds)
+    {
+        if (showIds.Count > 10)
+            return BadRequest("Max 3 featured shows allowed");
+
+        await _repo.ClearAllFeatured();
+
+        await _repo.SetFeatured(showIds);
+
+        return Ok();
+    }
+
+    [HttpPost("featured/sync")]
+    public async Task<IActionResult> SyncFeaturedShows()
+    {
+        var allShows = await _repo.GetAllShows();
+
+        var featured = allShows.Where(w => w.ScheduleFeatured).Take(10).ToList();
+
+        foreach (var show in featured)
+        {
+            var episodes = await _tvmaze.GetEpisodes(show.TvMazeId);
+
+            foreach (var episode in episodes)
+            {
+                episode.ShowId = show.Id;
+
+                await _episode.UpserEpisode(episode);
+            }
+        }
+
+        return Ok();
+    }
 
     // [HttpDelete("{id}")]
     // public async Task<IActionResult> DeleteShow(string id)

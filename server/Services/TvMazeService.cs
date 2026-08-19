@@ -36,4 +36,35 @@ public class TvMazeService
 
         return await response.Content.ReadAsStringAsync();
     }
+
+    public async Task<List<Episode>> GetEpisodes(int tvMazeId)
+    {
+        var url = $"https://api.tvmaze.com/shows/{tvMazeId}/episodes";
+
+        var response = await _client.GetAsync(url);
+
+        response.EnsureSuccessStatusCode();
+
+        var episodes = await response.Content.ReadFromJsonAsync<List<Episode>>();
+
+        return episodes ?? [];
+    }
+
+    public async Task<Episode?> GetNextEpisode(int tvMazeId)
+    {
+        var episodes = await GetEpisodes(tvMazeId);
+
+        var nextEpisode = episodes
+            .Where(e => e.AirStamp.HasValue)
+            .Where(e => e.AirStamp > DateTimeOffset.UtcNow)
+            .OrderBy(e => e.AirStamp)
+            .FirstOrDefault();
+
+        if (nextEpisode == null)
+        {
+            return null;
+        }
+
+        return nextEpisode;
+    }
 }
