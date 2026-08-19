@@ -53,5 +53,7 @@ public class MongoDbContext
 
     public IMongoCollection<Episode> Episode => _database.GetCollection<Episode>("episodes");
 
+    public IMongoCollection<Rating> Rating => _database.GetCollection<Rating>("ratings");
+
     // Console.WriteLine($"Collection: users");
 }
