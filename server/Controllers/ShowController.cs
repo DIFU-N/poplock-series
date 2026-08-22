@@ -46,6 +46,14 @@ public class ShowController : ControllerBase
         return Content(json, "application/json");
     }
 
+    [HttpGet("search/in")]
+    [AllowAnonymous]
+    public async Task<IActionResult> SearchInDb(string id)
+    {
+        var show = await _repo.GetByIdAsync(id);
+        return Ok(show);
+    }
+
     [HttpPost("import")]
     public async Task<IActionResult> Import(int tvMazeId)
     {
@@ -149,7 +157,7 @@ public class ShowController : ControllerBase
         return Ok(featured);
     }
 
-    [HttpPut("featured")]
+    [HttpPut("featured/set")]
     public async Task<IActionResult> SetFeatured([FromBody] List<string> showIds)
     {
         if (showIds.Count > 10)
