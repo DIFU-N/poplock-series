@@ -34,3 +34,8 @@ public class ImportShowRequest
 {
     public int TvMazeId { get; set; }
 }
+
+public class SearchInDbRequest
+{
+    public string Id { get; set; } = string.Empty;
+}
