@@ -14,6 +14,7 @@ export type Show = {
   image?: string;
   summary: string;
   network?: NetworkType;
+  scheduleFeatured?: boolean;
 };
 
 export type NetworkType = {
@@ -37,14 +38,19 @@ export type getAllShowsResponse = {
   shows: Show[];
 };
 
-export type importShowResponse = {
-  show: Show;
-};
+export type importShowResponse = Show;
 
-export type searchShowResponse = {
-  shows: JSON;
-};
+// export type singleSearchResponse = {
+//   show: Show;
+//   score: number;
+// }
+
+// export type searchShowResponse = singleSearchResponse[];
 
 export type fetchGenresResponse = {
   genres: Genre[];
+};
+
+export type setFeaturedInputValues = {
+  showIds: [];
 };
