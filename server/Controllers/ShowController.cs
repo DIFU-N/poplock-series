@@ -46,7 +46,7 @@ public class ShowController : ControllerBase
         return Content(json, "application/json");
     }
 
-    [HttpGet("search/in")]
+    [HttpPost("search/in")]
     [AllowAnonymous]
     public async Task<IActionResult> SearchInDb(string id)
     {
@@ -55,8 +55,11 @@ public class ShowController : ControllerBase
     }
 
     [HttpPost("import")]
-    public async Task<IActionResult> Import(int tvMazeId)
+    [AllowAnonymous]
+    public async Task<IActionResult> Import([FromBody] ImportShowRequest request)
     {
+        var tvMazeId = request.TvMazeId;
+
         var existing = await _repo.GetByTvMazeIdAsync(tvMazeId);
 
         if (existing != null)
