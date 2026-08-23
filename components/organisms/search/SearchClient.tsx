@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { allShows, genreLabels } from "@/lib/data";
+import { useEffect } from "react";
 import ReviewCard from "./ReviewCard";
 import { useShowStore } from "@/utils/store/zustand-hooks/useShowStore";
-import { Genre, Show } from "@/utils/types/shows";
 import { useFormik } from "formik";
 import { searchForShowSchema } from "@/utils/yup";
-import { searchShowResponse, TvMazeResponse } from "@/utils/types/tvmaze";
+import { TvMazeResponse } from "@/utils/types/tvmaze";
 import { useRouter } from "next/navigation";
 
 // const GENRES: Genre[] = ["scifi", "comedy", "drama", "doc", "mystery"];
@@ -16,19 +14,15 @@ const initialValues = {
   query: "",
 };
 
-export default function SearchClient({
-  initialQuery,
-}: {
-  initialQuery: string;
-}) {
+export default function SearchClient() {
   const fetchGenres = useShowStore((state) => state.fetchGenre);
   const search = useShowStore((state) => state.searchShow);
   const searchResult = useShowStore((state) => state.searchResult);
   // const [query, setQuery] = useState(initialQuery);
-  const [genre, setGenre] = useState<Genre[]>();
-  const GENRES = useShowStore((state) => state.genres);
+  // const [genre, setGenre] = useState<Genre[]>();
+  // const GENRES = useShowStore((state) => state.genres);
 
-  const [results, setResults] = useState<searchShowResponse>([]);
+  // const [results, setResults] = useState<searchShowResponse>([]);
 
   useEffect(() => {
     fetchGenres();
@@ -54,7 +48,6 @@ export default function SearchClient({
       console.log(values.query);
 
       const result = await search(values.query);
-      setResults(result);
       console.log(result);
 
       // await importShow(searchResult?.parse.Tv)
@@ -70,10 +63,10 @@ export default function SearchClient({
 
     const importedShow = await importShow(tvMazeShow.id);
     // console.log(importedShow);
-    
+
     if (!importedShow) return;
-    
-    setShow(importedShow)
+
+    setShow(importedShow);
     router.push(`/show/${importedShow?.id}`);
   };
 
