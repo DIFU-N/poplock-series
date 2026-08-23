@@ -48,8 +48,10 @@ public class ShowController : ControllerBase
 
     [HttpPost("search/in")]
     [AllowAnonymous]
-    public async Task<IActionResult> SearchInDb(string id)
+    public async Task<IActionResult> SearchInDb([FromBody] SearchInDbRequest request)
     {
+        var id = request.Id;
+
         var show = await _repo.GetByIdAsync(id);
         return Ok(show);
     }
@@ -64,6 +66,7 @@ public class ShowController : ControllerBase
 
         if (existing != null)
         {
+            Console.WriteLine(JsonSerializer.Serialize(existing));
             return Ok(existing);
         }
 
