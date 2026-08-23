@@ -29,3 +29,8 @@ public class ShowDto
 
     public bool ScheduleFeatured { get; set; } = false;
 }
+
+public class ImportShowRequest
+{
+    public int TvMazeId { get; set; }
+}
