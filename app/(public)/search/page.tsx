@@ -1,10 +1,6 @@
 import SearchClient from "@/components/organisms/search/SearchClient";
 
-export default function SearchPage({
-  searchParams,
-}: {
-  searchParams: { q?: string };
-}) {
+export default function SearchPage() {
   return (
     <main>
       <section className="border-b border-line px-6 py-16 sm:py-20">
@@ -24,7 +20,7 @@ export default function SearchPage({
 
       <section className="px-6 py-14">
         <div className="mx-auto max-w-295">
-          <SearchClient initialQuery={searchParams.q ?? ""} />
+          <SearchClient />
         </div>
       </section>
     </main>
