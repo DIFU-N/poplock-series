@@ -1,8 +1,9 @@
 import { useAuthStore } from "@/utils/store/zustand-hooks/useAuthStore";
 import Link from "next/link";
+import AccountMenu from "./AccountMenu";
 
 const NAV = [
-  { num: "120", label: "Reviews", href: "/reviews" },
+  { num: "120", label: "Ratings", href: "/ratings" },
   { num: "150", label: "For You", href: "/foryou" },
   { num: "180", label: "Schedule", href: "/schedule" },
   { num: "199", label: "Search", href: "/search" },
@@ -34,12 +35,13 @@ export default function Header() {
             </Link>
           ))}
           {token ? (
-            <button
-              onClick={logout}
-              className="border border-line px-2.5 py-1.25 text-dim transition-colors hover:border-paper cursor-pointer hover:text-paper"
-            >
-              Logout
-            </button>
+            // <button
+            //   onClick={logout}
+            //   className="border border-line px-2.5 py-1.25 text-dim transition-colors hover:border-paper cursor-pointer hover:text-paper"
+            // >
+            //   Logout
+            // </button>
+            <AccountMenu />
           ) : (
             <Link
               href={"/login"}
