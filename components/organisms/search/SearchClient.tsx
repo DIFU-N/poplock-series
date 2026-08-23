@@ -7,8 +7,8 @@ import { useShowStore } from "@/utils/store/zustand-hooks/useShowStore";
 import { Genre, Show } from "@/utils/types/shows";
 import { useFormik } from "formik";
 import { searchForShowSchema } from "@/utils/yup";
-import { importShow } from "@/utils/apis/show";
-import { searchShowResponse } from "@/utils/types/tvmaze";
+import { searchShowResponse, TvMazeResponse } from "@/utils/types/tvmaze";
+import { useRouter } from "next/navigation";
 
 // const GENRES: Genre[] = ["scifi", "comedy", "drama", "doc", "mystery"];
 
@@ -60,6 +60,22 @@ export default function SearchClient({
       // await importShow(searchResult?.parse.Tv)
     },
   });
+
+  const setShow = useShowStore((state) => state.setOpenedShow);
+  const importShow = useShowStore((state) => state.importShow);
+  const router = useRouter();
+
+  const onClick = async (tvMazeShow: TvMazeResponse) => {
+    // console.log(tvMazeShow.id);
+
+    const importedShow = await importShow(tvMazeShow.id);
+    // console.log(importedShow);
+    
+    if (!importedShow) return;
+    
+    setShow(importedShow)
+    router.push(`/show/${importedShow?.id}`);
+  };
 
   return (
     <div>
@@ -116,7 +132,15 @@ export default function SearchClient({
       {searchResult.length > 0 ? (
         <div className="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
           {searchResult.map((show) => (
-            <ReviewCard key={show.show.id} id={show.show.id} rating={show.show.rating?.average} summary={show.show.summary} title={show.show.name} />
+            <ReviewCard
+              key={show.show.id}
+              id={show.show.id}
+              rating={show.show.rating?.average}
+              summary={show.show.summary}
+              title={show.show.name}
+              image={show.show.image?.original}
+              onClick={() => onClick(show.show)}
+            />
           ))}
         </div>
       ) : (
