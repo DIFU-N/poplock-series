@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using server.DTO;
 using server.Models;
 using server.Repositories;
 
@@ -21,9 +22,9 @@ public class RatingController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> RateShow(Rating rating)
     {
-        var ratings = _rating.RateShow(rating);
+        await _rating.RateShow(rating);
 
-        return Ok(ratings);
+        return Ok();
     }
 
     [HttpGet("me")]
@@ -50,6 +51,7 @@ public class RatingController : ControllerBase
     }
 
     [HttpGet("average/{showId}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAverageRating(string showId)
     {
         List<Rating> showRatings = await _rating.GetByShowId(showId);
@@ -59,5 +61,39 @@ public class RatingController : ControllerBase
         var averageScore = allScores.Average();
 
         return Ok(averageScore);
+    }
+
+    [HttpGet("/{showId}/me")]
+    public async Task<IActionResult> GetUserShowRating(string showId)
+    {
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+
+        var filtered = await _rating.GetByUserandShow(userId, showId);
+
+        return Ok(filtered);
+    }
+
+    [HttpGet("/{showId}/dadaman")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetDadamansRating(string showId)
+    {
+        // var showId = request.ShowId;
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+
+        var filtered = await _rating.GetDadamansRating(showId);
+
+        return Ok(filtered);
     }
 }
