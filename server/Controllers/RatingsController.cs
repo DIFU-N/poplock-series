@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ public class RatingController : ControllerBase
     public async Task<IActionResult> RateShow([FromBody] RateShowRequest request)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
 
         if (userId == null)
         {
@@ -70,7 +72,7 @@ public class RatingController : ControllerBase
         return Ok(averageScore);
     }
 
-    [HttpGet("/{showId}/me")]
+    [HttpGet("{showId}/me")]
     public async Task<IActionResult> GetUserShowRating(string showId)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -85,19 +87,10 @@ public class RatingController : ControllerBase
         return Ok(filtered);
     }
 
-    [HttpGet("/{showId}/dadaman")]
+    [HttpGet("{showId}/dadaman")]
     [AllowAnonymous]
     public async Task<IActionResult> GetDadamansRating(string showId)
     {
-        // var showId = request.ShowId;
-
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (userId == null)
-        {
-            return Unauthorized();
-        }
-
         var filtered = await _rating.GetDadamansRating(showId);
 
         return Ok(filtered);
