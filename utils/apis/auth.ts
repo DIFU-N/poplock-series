@@ -4,8 +4,23 @@ import {
   LoginFormInitialValues,
   RegisterFormInitialValues,
 } from "../types/auth";
+import { useAuthStore } from "../store/zustand-hooks/useAuthStore";
 
 export const API_BASE = "http://localhost:5191/api";
+
+export const api = axios.create({
+  baseURL: API_BASE,
+});
+
+api.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().token;
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
 
 export const login = async ({ password, username }: LoginFormInitialValues) => {
   const response = await axios.post(`${API_BASE}/auth/login`, {
