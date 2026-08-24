@@ -33,3 +33,10 @@ export type TvMazeNetworkType = {
   officialSite: string;
   country: Country;
 };
+
+export type singleSearchResponse = {
+  show: TvMazeResponse;
+  score: number;
+}
+
+export type searchShowResponse = singleSearchResponse[];
