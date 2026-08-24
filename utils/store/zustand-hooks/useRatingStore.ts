@@ -110,7 +110,7 @@ export const useRatingStore = create<RatingState>()(
         }
       },
       getUserRating: async (showId: string) => {
-        set({ loading: true });
+        set({ loading: true, userRating: null });
 
         try {
           const rating = await getUserRating(showId);
@@ -127,11 +127,14 @@ export const useRatingStore = create<RatingState>()(
             error: axios.isAxiosError(error)
               ? error.message
               : "something went wrong",
+            userRating: null
           });
+
+          return null;
         }
       },
       getDadamanRating: async (showId: string) => {
-        set({ loading: true });
+        set({ loading: true, dadamanRating: null });
 
         try {
           const rating = await getDadamansRating(showId);
@@ -148,11 +151,14 @@ export const useRatingStore = create<RatingState>()(
             error: axios.isAxiosError(error)
               ? error.message
               : "something went wrong",
+            dadamanRating: null,
           });
+
+          return null;
         }
       },
       getAverageRating: async (showId: string) => {
-        set({ loading: true });
+        set({ loading: true, averageRating: null });
 
         try {
           const rating = await getAverageRating(showId);
@@ -169,7 +175,10 @@ export const useRatingStore = create<RatingState>()(
             error: axios.isAxiosError(error)
               ? error.message
               : "something went wrong",
+            averageRating: null
           });
+
+          return null;
         }
       },
     }),
