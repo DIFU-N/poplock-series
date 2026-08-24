@@ -7,7 +7,16 @@ export type Rating = {
   updatedAt: string;
 };
 
-
 export type getUserRatingResponse = {
   rating: Rating;
+};
+
+export type RateShowRequest = {
+  showId: string;
+  score: number;
+};
+
+export type UpdateRateShowRequest = {
+  id: string;
+  score: number;
 };
