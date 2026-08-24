@@ -32,10 +32,6 @@ export const setFeaturedShows = async ({ showIds }: setFeaturedInputValues) => {
   return response.data;
 };
 
-export const rateShow = async (input: Rating) => {
-  const response = await axios.post(`${API_BASE}/rating`, { input });
-  return response.data;
-};
 
 export const getShowById = async (id: string) => {
   const response = await axios.post(`${API_BASE}/show/search/in`, { id });
