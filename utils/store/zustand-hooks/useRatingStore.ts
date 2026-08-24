@@ -6,7 +6,7 @@ import {
   rateShow,
   updateRating,
 } from "@/utils/apis/rating";
-import { getUserRatingResponse, Rating } from "@/utils/types/rating";
+import { getUserRatingResponse, RateShowRequest, Rating, UpdateRateShowRequest } from "@/utils/types/rating";
 import axios from "axios";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -25,9 +25,9 @@ type RatingState = {
   getDadamanRating: (showId: string) => Promise<getUserRatingResponse | null>;
   getAverageRating: (showId: string) => Promise<number | null>;
 
-  setRating: (rating: Rating) => Promise<void>;
+  setRating: (rating: RateShowRequest) => Promise<void>;
 
-  updateRating: (rating: Rating) => Promise<void>;
+  updateRating: (rating: UpdateRateShowRequest) => Promise<void>;
 
   getAllUsersRatings: () => Promise<Rating[]>;
 };
