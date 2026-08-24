@@ -20,9 +20,16 @@ public class RatingController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> RateShow(Rating rating)
+    public async Task<IActionResult> RateShow([FromBody] RateShowRequest request)
     {
-        await _rating.RateShow(rating);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+
+        await _rating.RateShow(request, userId);
 
         return Ok();
     }
@@ -43,9 +50,9 @@ public class RatingController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateRating(Rating rating)
+    public async Task<IActionResult> UpdateRating([FromBody] UpdateRateShowRequest request)
     {
-        var updated = _rating.Update(rating.Id, rating.Score);
+        var updated = _rating.Update(request.Id, request.Score);
 
         return Ok(updated);
     }
@@ -66,7 +73,6 @@ public class RatingController : ControllerBase
     [HttpGet("/{showId}/me")]
     public async Task<IActionResult> GetUserShowRating(string showId)
     {
-
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (userId == null)

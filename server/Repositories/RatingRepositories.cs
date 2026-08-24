@@ -1,5 +1,6 @@
 using MongoDB.Driver;
 using server.Data;
+using server.DTO;
 using server.Models;
 
 namespace server.Repositories;
@@ -15,8 +16,16 @@ public class RatingRepository
         _user = context.Users;
     }
 
-    public async Task RateShow(Rating rating)
+    public async Task RateShow(RateShowRequest request, string userId)
     {
+        var rating = new Rating
+        {
+            UserId = userId,
+            ShowId = request.ShowId,
+            Score = request.Score,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+        };
         await _ratings.InsertOneAsync(rating);
     }
 
