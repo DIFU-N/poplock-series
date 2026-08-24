@@ -1,13 +1,13 @@
 import axios from "axios";
-import { Rating } from "../types/rating";
+import { RateShowRequest, Rating, UpdateRateShowRequest } from "../types/rating";
 import { API_BASE } from "./auth";
 
 export const getAverageRating = async (showId: string) => {
   const response = await axios.get(`${API_BASE}/rating/average/${showId}`);
-  console.log(response);
+  return response.data;
 };
 
-export const rateShow = async (input: Rating) => {
+export const rateShow = async (input: RateShowRequest) => {
   const response = await axios.post(`${API_BASE}/rating`, { input });
   return response.data;
 };
@@ -22,7 +22,7 @@ export const getAllUsersRatings = async () => {
   return response.data;
 };
 
-export const updateRating = async (input: Rating) => {
+export const updateRating = async (input: UpdateRateShowRequest) => {
   const response = await axios.put(`${API_BASE}/rating`, { input });
   return response.data;
 };
