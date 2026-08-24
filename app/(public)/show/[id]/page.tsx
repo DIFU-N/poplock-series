@@ -83,7 +83,7 @@ const ShowPage = () => {
 
                   {averageRating ? (
                     <SignalBars
-                      signal={averageRating ? averageRating / 2 : 0}
+                      signal={averageRating ? averageRating : 0}
                     />
                   ) : (
                     <div className="font-mono text-xs text-white font-bold">
@@ -96,7 +96,7 @@ const ShowPage = () => {
                   <span className="font-mono text-green-400 font-bold">{"Dadaman\'s Rating"}</span>
                   {dadamanRating ? (
                     <SignalBars
-                      signal={dadamanRating ? dadamanRating.score / 2 : 0}
+                      signal={dadamanRating ? dadamanRating.score : 0}
                     />
                   ) : (
                     <div className="font-mono text-xs text-white font-bold">
@@ -107,7 +107,7 @@ const ShowPage = () => {
                 <div className="flex flex-col gap-1">
                   <span className="font-mono text-green-400 font-bold">{"Your Rating"}</span>
                   {userRating ? (
-                    <SignalBars signal={userRating ? userRating.score / 2 : 0} />
+                    <SignalBars signal={userRating ? userRating.score : 0} />
                   ) : (
                     <RateShow
                       showId={show?.id ? show?.id : ""}
