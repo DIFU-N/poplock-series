@@ -10,7 +10,7 @@ namespace server.Controllers;
 
 [ApiController]
 [Route("api/admin")]
-[Authorize(Roles = "admin")]
+[Authorize(Roles = "admin,s.admin")]
 public class AdminController : ControllerBase
 {
     private readonly UserRepository _users;
