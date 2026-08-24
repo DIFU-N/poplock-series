@@ -45,4 +45,19 @@ public class RatingRepository
     {
         return await _ratings.Find(r => r.ShowId == showId).ToListAsync();
     }
+
+    public async Task<Rating?> GetDadamansRating(string showId)
+    {
+        User? admin = await _user.Find(u => u.Role == "s.admin").FirstOrDefaultAsync();
+
+        if (admin == null)
+        {
+            return null;
+        }
+
+        var adminId = admin.Id;
+        return await _ratings
+            .Find(r => r.UserId == adminId && r.ShowId == showId)
+            .FirstOrDefaultAsync();
+    }
 }
