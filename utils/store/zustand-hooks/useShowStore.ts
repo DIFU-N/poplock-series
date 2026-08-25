@@ -1,6 +1,7 @@
 import {
   fetchGenres,
   getAllShows,
+  getShowById,
   importShow,
   searchForShow,
 } from "@/utils/apis/show";
@@ -9,9 +10,9 @@ import {
   Genre,
   getAllShowsResponse,
   importShowResponse,
-  searchShowResponse,
   Show,
 } from "@/utils/types/shows";
+import { searchShowResponse } from "@/utils/types/tvmaze";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -23,11 +24,15 @@ type ShowState = {
   fetchGenre: () => Promise<void>;
 
   shows: Show[];
+  openedShow: Show | null;
+  setOpenedShow: (show: Show) => void;
   fetchAllShows: () => Promise<void>;
-  searchShow: (query: string) => Promise<void>;
-  searchResult: JSON | null;
+  searchShow: (query: string) => Promise<searchShowResponse>;
+  searchResult: searchShowResponse;
 
-  importShow: (tvMazeId: number) => Promise<void>;
+  getShowById: (id: string) => Promise<Show | null>;
+
+  importShow: (tvMazeId: number) => Promise<Show | null>;
   importedShow: Show | null;
 
   errorData: string | null;
@@ -36,10 +41,14 @@ type ShowState = {
 const initialState: ShowState = {
   shows: [],
   fetchAllShows: async () => {},
-  searchShow: async () => {},
-  searchResult: null,
+  searchShow: async () => [],
+  setOpenedShow: () => {},
+  openedShow: null,
+  searchResult: [],
 
-  importShow: async () => {},
+  getShowById: async () => null,
+
+  importShow: async () => null,
   importedShow: null,
 
   loading: false,
@@ -74,20 +83,49 @@ export const useShowStore = create<ShowState>()(
       },
       importShow: async (tvMazeId: number) => {
         set({ loading: true });
-
+        
         try {
           const data: importShowResponse = await importShow(tvMazeId);
 
           set({
             loading: false,
-            importedShow: data.show,
+            importedShow: data,
           });
+
+          return data;
         } catch {
           set({
             loading: false,
             errorData: "Some kind of error",
           });
+
+          return null;
         }
+      },
+      getShowById: async (id: string) => {
+        set({ loading: true });
+
+        try {
+          const data: importShowResponse = await getShowById(id);
+
+          set({
+            loading: false,
+          });
+
+          return data;
+        } catch {
+          set({
+            loading: false,
+            errorData: "Some kind of error",
+          });
+
+          return null;
+        }
+      },
+      setOpenedShow: (show: Show) => {
+        set({
+          openedShow: show,
+        });
       },
       searchShow: async (query: string) => {
         set({ loading: true });
@@ -97,12 +135,15 @@ export const useShowStore = create<ShowState>()(
 
           set({
             loading: false,
-            searchResult: data.shows,
+            searchResult: [...data],
           });
+
+          return data;
         } catch {
           set({
             errorData: "Some kind of error",
           });
+          return [];
         }
       },
       fetchGenre: async () => {
