@@ -6,7 +6,14 @@ import {
   rateShow,
   updateRating,
 } from "@/utils/apis/rating";
-import { getUserRatingResponse, RateShowRequest, Rating, UpdateRateShowRequest } from "@/utils/types/rating";
+import {
+  GetRatingWithShowResponse,
+  getUserRatingResponse,
+  RateShowRequest,
+  Rating,
+  RatingWithShow,
+  UpdateRateShowRequest,
+} from "@/utils/types/rating";
 import axios from "axios";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -15,7 +22,7 @@ type RatingState = {
   loading: boolean;
   error: string;
 
-  allRatingByUser: Rating[];
+  allRatingByUser: RatingWithShow[];
 
   userRating: Rating | null;
   dadamanRating: Rating | null;
@@ -29,7 +36,7 @@ type RatingState = {
 
   updateRating: (rating: UpdateRateShowRequest) => Promise<void>;
 
-  getAllUsersRatings: () => Promise<Rating[]>;
+  getAllUsersRatings: () => Promise<GetRatingWithShowResponse>;
 };
 
 const initialState: RatingState = {
@@ -127,7 +134,7 @@ export const useRatingStore = create<RatingState>()(
             error: axios.isAxiosError(error)
               ? error.message
               : "something went wrong",
-            userRating: null
+            userRating: null,
           });
 
           return null;
@@ -175,7 +182,7 @@ export const useRatingStore = create<RatingState>()(
             error: axios.isAxiosError(error)
               ? error.message
               : "something went wrong",
-            averageRating: null
+            averageRating: null,
           });
 
           return null;
@@ -184,6 +191,7 @@ export const useRatingStore = create<RatingState>()(
     }),
     {
       name: "rating-store",
+      partialize: () => ({}), // don't persist anything for now.
     },
   ),
 );
