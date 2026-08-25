@@ -1,3 +1,5 @@
+import { Show } from "./shows";
+
 export type Rating = {
   id: string;
   userId: string;
@@ -20,3 +22,12 @@ export type UpdateRateShowRequest = {
   id: string;
   score: number;
 };
+
+export type RatingWithShow = {
+  id: string;
+  score: number;
+  show: Show;
+  updatedAt: string;
+};
+
+export type GetRatingWithShowResponse = RatingWithShow[];
