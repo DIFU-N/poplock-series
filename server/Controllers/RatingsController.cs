@@ -14,17 +14,18 @@ namespace server.Controllers;
 public class RatingController : ControllerBase
 {
     private readonly RatingRepository _rating;
+    private readonly RatingService _ratingService;
 
-    public RatingController(RatingRepository rating)
+    public RatingController(RatingRepository rating, RatingService ratingService)
     {
         _rating = rating;
+        _ratingService = ratingService;
     }
 
     [HttpPost]
     public async Task<IActionResult> RateShow([FromBody] RateShowRequest request)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
 
         if (userId == null)
         {
@@ -46,7 +47,7 @@ public class RatingController : ControllerBase
             return Unauthorized();
         }
 
-        var userRatings = await _rating.GetByUserId(userId);
+        var userRatings = await _ratingService.GetUserRatings(userId);
 
         return Ok(userRatings);
     }
@@ -64,6 +65,11 @@ public class RatingController : ControllerBase
     public async Task<IActionResult> GetAverageRating(string showId)
     {
         List<Rating> showRatings = await _rating.GetByShowId(showId);
+
+        if (!showRatings.Any())
+        {
+            return Ok(null);
+        }
 
         var allScores = showRatings.Select(r => r.Score);
 
