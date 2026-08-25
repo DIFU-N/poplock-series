@@ -1,19 +1,20 @@
+using System.Net;
 using System.Net.Http.Headers;
 
 public class TvMazeService
 {
     private readonly HttpClient _client;
 
-    private string bearerToken =
-        Environment.GetEnvironmentVariable("B_TOKEN") ?? throw new Exception("B_Token not set");
+    // private string bearerToken =
+    //     Environment.GetEnvironmentVariable("B_TOKEN") ?? throw new Exception("B_Token not set");
 
     public TvMazeService(HttpClient client)
     {
         _client = client;
-        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-            "Bearer",
-            bearerToken
-        );
+        // _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+        //     "Bearer",
+        //     bearerToken
+        // );
     }
 
     public async Task<string> SearchShow(string query)
@@ -31,6 +32,11 @@ public class TvMazeService
         var url = $"https://api.tvmaze.com/shows/{tvMazeId}";
 
         var response = await _client.GetAsync(url);
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }   
 
         response.EnsureSuccessStatusCode();
 
