@@ -1,3 +1,5 @@
+using server.Models;
+
 namespace server.DTO;
 
 public class RatingDTO
@@ -32,4 +34,12 @@ public class UpdateRateShowRequest
 public class ShowIdRatingRequest
 {
     public string ShowId { get; set; } = string.Empty;
+}
+
+public class RatingWithShow
+{
+    public string Id { get; set; } = string.Empty;
+    public int Score { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public Show Show { get; set; } = null!;
 }
