@@ -94,6 +94,7 @@ builder.Services.AddControllers();
 
 // Services
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<RatingService>();
 builder.Services.AddHttpClient<TvMazeService>(); //addscoped or addclient
 
 // Add Swagger services
@@ -131,6 +132,8 @@ builder.Services.AddScoped<ShowRankingRepository>();
 builder.Services.AddScoped<GenreRepository>();
 builder.Services.AddScoped<ShowRepository>();
 builder.Services.AddScoped<InviteRepository>();
+builder.Services.AddScoped<EpisodeRepository>();
+builder.Services.AddScoped<RatingRepository>();
 
 var app = builder.Build();
 
