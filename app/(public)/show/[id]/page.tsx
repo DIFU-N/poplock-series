@@ -2,7 +2,7 @@
 
 import SignalBars from "@/components/atoms/SignalBars";
 import RateShow from "@/components/molecules/RateShow";
-import ShowTabs from "@/components/organisms/search/ShowTabs";
+// import ShowTabs from "@/components/organisms/search/ShowTabs";
 import { useRatingStore } from "@/utils/store/zustand-hooks/useRatingStore";
 import { useShowStore } from "@/utils/store/zustand-hooks/useShowStore";
 import { stripHtml } from "@/utils/stripHtml";
@@ -68,13 +68,17 @@ const ShowPage = () => {
               </div>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-1">
-                  <span className="font-mono text-green-400 font-bold">{"Active"}</span>
+                  <span className="font-mono text-green-400 font-bold">
+                    {"Active"}
+                  </span>
                   <div
                     className={`h-5 w-5 rounded-full ${show?.status === "Running" ? "bg-green-600" : "bg-red-600"}`}
                   />
                 </div>
                 <div className="mb-4 flex flex-wrap flex-col gap-1">
-                  <span className="font-mono text-green-400 font-bold">{"Average Rating"}</span>
+                  <span className="font-mono text-green-400 font-bold">
+                    {"Average Rating"}
+                  </span>
                   {/* <span
               className={`px-[7px] py-[2px] font-mono text-[11px] tracking-[0.04em] text-ink ${genreChipClasses[show.genre]}`}
             >
@@ -82,9 +86,7 @@ const ShowPage = () => {
             </span> */}
 
                   {averageRating ? (
-                    <SignalBars
-                      signal={averageRating ? averageRating : 0}
-                    />
+                    <SignalBars signal={averageRating ? averageRating : 0} />
                   ) : (
                     <div className="font-mono text-xs text-white font-bold">
                       <div>Be the first to rate this show.</div>
@@ -93,7 +95,9 @@ const ShowPage = () => {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <span className="font-mono text-green-400 font-bold">{"Dadaman\'s Rating"}</span>
+                  <span className="font-mono text-green-400 font-bold">
+                    {"Dadaman\'s Rating"}
+                  </span>
                   {dadamanRating ? (
                     <SignalBars
                       signal={dadamanRating ? dadamanRating.score : 0}
@@ -105,15 +109,18 @@ const ShowPage = () => {
                   )}
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="font-mono text-green-400 font-bold">{"Your Rating"}</span>
-                  {userRating ? (
-                    <SignalBars signal={userRating ? userRating.score : 0} />
-                  ) : (
+                  <span className="font-mono text-green-400 font-bold">
+                    {"Your Rating"}
+                  </span>
+                  <div className="flex gap-3">
+                    {userRating && (
+                      <SignalBars signal={userRating ? userRating.score : 0} />
+                    )}
                     <RateShow
                       showId={show?.id ? show?.id : ""}
                       showName={show?.title ? show.title : ""}
                     />
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
