@@ -11,6 +11,7 @@ const RateShow = ({ showId, showName }: RateShowProps) => {
   const userRating = useRatingStore((state) => state.userRating);
   const rateShow = useRatingStore((state) => state.setRating);
   const updateRate = useRatingStore((state) => state.updateRating);
+  const getAverageRating = useRatingStore((state) => state.getAverageRating);
   const [score, setScore] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   useEffect(() => {
@@ -19,7 +20,7 @@ const RateShow = ({ showId, showName }: RateShowProps) => {
 
   const onclick = async () => {
     try {
-      if (userRating !== null) {
+      if (userRating?.id) {
         await updateRate({
           score: score,
           id: userRating.id,
@@ -31,6 +32,7 @@ const RateShow = ({ showId, showName }: RateShowProps) => {
         });
       }
       await getRating(showId);
+      await getAverageRating(showId);
       setIsOpen(false);
     } catch (error) {
       throw error;
@@ -42,7 +44,7 @@ const RateShow = ({ showId, showName }: RateShowProps) => {
         onClick={() => setIsOpen(true)}
         className="border-2 p-2 border-green-200  cursor-pointer font-mono hover:bg-green-800"
       >
-        Rate Show
+        {userRating?.id ? "Update" : "Rate Show"}
       </button>
       {isOpen && (
         <SetRating
