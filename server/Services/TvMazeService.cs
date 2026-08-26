@@ -27,7 +27,7 @@ public class TvMazeService
         return await response.Content.ReadAsStringAsync();
     }
 
-    public async Task<string> GetShow(int tvMazeId)
+    public async Task<TvMazeSlugResponse?> GetShow(int tvMazeId)
     {
         var url = $"https://api.tvmaze.com/shows/{tvMazeId}";
 
@@ -36,11 +36,11 @@ public class TvMazeService
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
             return null;
-        }   
+        }
 
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadAsStringAsync();
+        return await response.Content.ReadFromJsonAsync<TvMazeSlugResponse>();
     }
 
     public async Task<List<Episode>> GetEpisodes(int tvMazeId)

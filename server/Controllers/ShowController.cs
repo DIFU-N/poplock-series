@@ -66,20 +66,20 @@ public class ShowController : ControllerBase
 
         if (existing != null)
         {
-            Console.WriteLine(JsonSerializer.Serialize(existing));
+            // Console.WriteLine(JsonSerializer.Serialize(existing));
             return Ok(existing);
         }
 
-        var json = await _tvmaze.GetShow(tvMazeId);
+        var item = await _tvmaze.GetShow(tvMazeId);
 
         // it needs to be deserialized because cs reads json responses as strings.
 
-        var result = JsonSerializer.Deserialize<TvMazeSlugResponse>(
-            json,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-        );
+        // var result = JsonSerializer.Deserialize<TvMazeSlugResponse>(
+        //     json,
+        //     new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+        // );
 
-        var item = result;
+        // var item = result;
         if (item == null)
             return NotFound("No show found");
 
@@ -164,6 +164,7 @@ public class ShowController : ControllerBase
     }
 
     [HttpPut("featured/set")]
+    [Authorize(Roles = "admin,s.admin")]
     public async Task<IActionResult> SetFeatured([FromBody] List<string> showIds)
     {
         if (showIds.Count > 10)
