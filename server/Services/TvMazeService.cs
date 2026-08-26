@@ -43,7 +43,7 @@ public class TvMazeService
         return await response.Content.ReadFromJsonAsync<TvMazeSlugResponse>();
     }
 
-    public async Task<List<Episode>> GetEpisodes(int tvMazeId)
+    public async Task<List<TvMazeEpisode>> GetEpisodes(int tvMazeId)
     {
         var url = $"https://api.tvmaze.com/shows/{tvMazeId}/episodes";
 
@@ -51,12 +51,13 @@ public class TvMazeService
 
         response.EnsureSuccessStatusCode();
 
-        var episodes = await response.Content.ReadFromJsonAsync<List<Episode>>();
+        var episodes = await response.Content.ReadFromJsonAsync<List<TvMazeEpisode>>();
+
 
         return episodes ?? [];
     }
 
-    public async Task<Episode?> GetNextEpisode(int tvMazeId)
+    public async Task<TvMazeEpisode?> GetNextEpisode(int tvMazeId)
     {
         var episodes = await GetEpisodes(tvMazeId);
 
