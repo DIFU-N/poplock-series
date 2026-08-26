@@ -24,7 +24,7 @@ export default function SchedulePage() {
             Schedule
           </h1>
           <p className="max-w-140 text-[17px] text-[#c9c8c0]">
-            What&apos;s airing, day by day. Tap a day to jump to its page.
+            What&apos;s airing, day by day. Tap a day to jump to its page. Tap a show to find out why it&apos;s recommended.
           </p>
         </div>
       </section>
