@@ -9,11 +9,13 @@ public class EpisodeController : ControllerBase
 {
     private readonly EpisodeRepository _episodes;
     private readonly TvMazeService _tvmaze;
+    private readonly ShowRepository _shows;
 
-    public EpisodeController(EpisodeRepository episodes, TvMazeService tvMaze)
+    public EpisodeController(EpisodeRepository episodes, TvMazeService tvMaze, ShowRepository shows)
     {
         _episodes = episodes;
         _tvmaze = tvMaze;
+        _shows = shows;
     }
 
     [HttpGet]
@@ -24,5 +26,11 @@ public class EpisodeController : ControllerBase
         return Ok(new { message = "here are your episodes", episodes });
     }
 
-    
+    [HttpGet("scheduled")]
+    public async Task<IActionResult> GetScheduledEpisodes()
+    {
+        var scheduled = _episodes.GetSchedules();
+
+        return Ok(new { message = "the scheduled", scheduled });
+    }
 }
