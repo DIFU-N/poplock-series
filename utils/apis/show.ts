@@ -1,6 +1,5 @@
 import axios from "axios";
 import { api, API_BASE } from "./auth";
-import { Rating } from "../types/rating";
 import { setFeaturedInputValues } from "../types/shows";
 
 export const fetchGenres = async () => {
@@ -32,13 +31,12 @@ export const setFeaturedShows = async (showIds: setFeaturedInputValues) => {
   return response.data;
 };
 
-
 export const getShowById = async (id: string) => {
   const response = await axios.post(`${API_BASE}/show/search/in`, { id });
   return response.data;
 };
 
 export const getScheduledEpisodes = async () => {
-  const response = await axios.get(`${API_BASE}/episdoes/scheduled`);
-  return response.data;
+  const response = await axios.get(`${API_BASE}/episodes/scheduled`);
+  return response.data.scheduled.result;
 };
