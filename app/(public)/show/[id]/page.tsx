@@ -2,6 +2,7 @@
 
 import SignalBars from "@/components/atoms/SignalBars";
 import RateShow from "@/components/molecules/RateShow";
+import { useAuthStore } from "@/utils/store/zustand-hooks/useAuthStore";
 // import ShowTabs from "@/components/organisms/search/ShowTabs";
 import { useRatingStore } from "@/utils/store/zustand-hooks/useRatingStore";
 import { useShowStore } from "@/utils/store/zustand-hooks/useShowStore";
@@ -25,7 +26,20 @@ const ShowPage = () => {
   const dadamanRating = useRatingStore((state) => state.dadamanRating);
   const getAverageRating = useRatingStore((state) => state.getAverageRating);
   const averageRating = useRatingStore((state) => state.averageRating);
+
+  const featuredShows = useShowStore((state) => state.featuredShows);
+  const setLocalFeaturedShows = useShowStore(
+    (state) => state.setLocalFeaturedShows,
+  );
+  const user = useAuthStore((state) => state.user);
+  const setFeaturedShows = useShowStore((state) => state.setFeaturedShows);
+
+  const handleFeatured = () => {
+    setFeaturedShows(featuredShows);
+  };
   useEffect(() => {
+    console.log(featuredShows.length);
+
     const loadShow = async () => {
       const result = await getShow(id);
 
@@ -39,7 +53,8 @@ const ShowPage = () => {
 
     loadShow();
   }, [router, id, getShow]);
-
+  
+  {console.log(featuredShows)}
   useEffect(() => {
     if (show) {
       getUserRating(show?.id);
@@ -122,6 +137,30 @@ const ShowPage = () => {
                     />
                   </div>
                 </div>
+                {user?.role === "s.admin" ? (
+                  <div>Featured Shows: ({featuredShows.length})</div>
+                ) : null}
+                {user?.role === "s.admin" && show ? (
+                  <div>
+                    <button
+                      className="border-2 p-2 border-green-200  cursor-pointer font-mono hover:bg-green-800"
+                      onClick={() => setLocalFeaturedShows(show.id)}
+                    >
+                      Set Local
+                    </button>
+                  </div>
+                ) : null}
+                {user?.role === "s.admin" ? (
+                  <div>
+                    <button
+                      className="border-2 p-2 border-green-200  cursor-pointer font-mono hover:bg-green-800"
+                      disabled={featuredShows.length !== 10}
+                      onClick={() => setFeaturedShows(featuredShows)}
+                    >
+                      Set Featured
+                    </button>
+                  </div>
+                ) : null}
               </div>
             </div>
 
