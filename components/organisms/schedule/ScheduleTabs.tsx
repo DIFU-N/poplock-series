@@ -64,9 +64,9 @@ export default function ScheduleTabs({
           <button
             key={d.date}
             onClick={() => setActive(i)}
-            className={`border px-3.5 py-2 transition-colors ${
+            className={`border px-3.5 py-2 transition-colors cursor-pointer ${
               i === active
-                ? "border-yellow bg-yellow text-ink"
+                ? "border-green-500 text-green-500"
                 : "border-line text-dim hover:border-paper hover:text-paper"
             }`}
           >
