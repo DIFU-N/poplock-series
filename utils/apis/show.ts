@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE } from "./auth";
+import { api, API_BASE } from "./auth";
 import { Rating } from "../types/rating";
 import { setFeaturedInputValues } from "../types/shows";
 
@@ -27,13 +27,18 @@ export const getAllShows = async () => {
   return response.data;
 };
 
-export const setFeaturedShows = async ({ showIds }: setFeaturedInputValues) => {
-  const response = await axios.put(`${API_BASE}/show/featured/`, { showIds });
+export const setFeaturedShows = async (showIds: setFeaturedInputValues) => {
+  const response = await api.put(`/show/featured/set`, showIds);
   return response.data;
 };
 
 
 export const getShowById = async (id: string) => {
   const response = await axios.post(`${API_BASE}/show/search/in`, { id });
+  return response.data;
+};
+
+export const getScheduledEpisodes = async () => {
+  const response = await axios.get(`${API_BASE}/episdoes/scheduled`);
   return response.data;
 };
