@@ -1,18 +1,23 @@
 import {
   fetchGenres,
   getAllShows,
+  getScheduledEpisodes,
   getShowById,
   importShow,
   searchForShow,
+  setFeaturedShows,
 } from "@/utils/apis/show";
+import { ScheduledShow } from "@/utils/types/episodes";
 import {
   fetchGenresResponse,
   Genre,
   getAllShowsResponse,
   importShowResponse,
+  setFeaturedInputValues,
   Show,
 } from "@/utils/types/shows";
 import { searchShowResponse } from "@/utils/types/tvmaze";
+import { isAxiosError } from "axios";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -29,6 +34,14 @@ type ShowState = {
   fetchAllShows: () => Promise<void>;
   searchShow: (query: string) => Promise<searchShowResponse>;
   searchResult: searchShowResponse;
+
+  setFeaturedShows: (values: setFeaturedInputValues) => void;
+  featuredShows: string[];
+  setLocalFeaturedShows: (showId: string) => void;
+
+  getScheduledEpisodes: () => Promise<ScheduledShow[]>;
+
+  scheduledEpisodes: ScheduledShow[];
 
   getShowById: (id: string) => Promise<Show | null>;
 
@@ -50,6 +63,14 @@ const initialState: ShowState = {
 
   importShow: async () => null,
   importedShow: null,
+
+  featuredShows: [],
+  setLocalFeaturedShows: () => {},
+
+  setFeaturedShows: async () => null,
+
+  getScheduledEpisodes: async () => [],
+  scheduledEpisodes: [],
 
   loading: false,
   error: false,
@@ -83,7 +104,7 @@ export const useShowStore = create<ShowState>()(
       },
       importShow: async (tvMazeId: number) => {
         set({ loading: true });
-        
+
         try {
           const data: importShowResponse = await importShow(tvMazeId);
 
@@ -161,6 +182,58 @@ export const useShowStore = create<ShowState>()(
             loading: false,
             errorData: "some kind of error",
           });
+        }
+      },
+      setFeaturedShows: async (values) => {
+        set({ loading: true });
+
+        try {
+          await setFeaturedShows(values);
+          set({ featuredShows: [] });
+        } catch (error: unknown) {
+          set({
+            loading: false,
+            error: true,
+            errorData: isAxiosError(error)
+              ? error.message
+              : "some kind of error",
+          });
+        }
+      },
+      setLocalFeaturedShows: (showId: string) => {
+        if (showId !== "") {
+          set((state) => {
+            if (state.featuredShows.includes(showId)) {
+              return state;
+            }
+
+            if (state.featuredShows.length >= 10) {
+              return state;
+            }
+
+            return {
+              featuredShows: [...state.featuredShows, showId],
+            };
+          });
+        }
+      },
+      getScheduledEpisodes: async () => {
+        set({ loading: true });
+
+        try {
+          const data = await getScheduledEpisodes();
+
+          set({ scheduledEpisodes: [...data] });
+          return data;
+        } catch (error: unknown) {
+          set({
+            loading: false,
+            error: true,
+            errorData: isAxiosError(error)
+              ? error.message
+              : "some kind of error",
+          });
+          return [];
         }
       },
     }),
