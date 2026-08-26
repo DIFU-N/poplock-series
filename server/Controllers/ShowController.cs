@@ -141,14 +141,14 @@ public class ShowController : ControllerBase
         show.ScheduleFeatured = !show.ScheduleFeatured;
         await _repo.UpdateAsync(show);
 
-        var episodes = await _tvmaze.GetEpisodes(show.TvMazeId);
+        // var episodes = await _tvmaze.GetEpisodes(show.TvMazeId);
 
-        foreach (var episode in episodes)
-        {
-            episode.ShowId = show.Id;
+        // foreach (var episode in episodes)
+        // {
+        //     episode.ShowId = show.Id;
 
-            await _episode.UpserEpisode(episode);
-        }
+        //     await _episode.UpserEpisode(episode);
+        // }
 
         return Ok(show);
     }
@@ -186,14 +186,14 @@ public class ShowController : ControllerBase
 
         foreach (var show in featured)
         {
-            var episodes = await _tvmaze.GetEpisodes(show.TvMazeId);
+            // var episodes = await _tvmaze.GetEpisodes(show.TvMazeId);
 
-            foreach (var episode in episodes)
-            {
-                episode.ShowId = show.Id;
+            // foreach (var episode in episodes)
+            // {
+            //     episode.ShowId = show.Id;
 
-                await _episode.UpserEpisode(episode);
-            }
+            //     await _episode.UpserEpisode(episode);
+            // }
         }
 
         return Ok();
