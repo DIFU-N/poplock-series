@@ -1,3 +1,5 @@
+using server.Models;
+
 namespace server.DTO;
 
 public class EpisodeDTO
@@ -19,4 +21,11 @@ public class EpisodeDTO
     public int? Runtime { get; set; }
 
     public string? Summary { get; set; }
+}
+
+public class ScheduleShowDTO
+{
+    public Show? Show { get; set; }
+
+    public Episode? NextEpisode { get; set; }
 }
