@@ -53,7 +53,7 @@ public class Show
     public Network? Network { get; set; }
 
     [BsonElement("ScheduleFeatured")]
-    public bool ScheduleFeatured {get; set;} = false;
+    public bool ScheduleFeatured { get; set; } = false;
 }
 
 public class Network
@@ -81,4 +81,17 @@ public class Country
 
     [BsonElement("timezone")]
     public string TimeZone { get; set; } = string.Empty;
+}
+
+public class SomeOfShow
+{
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string Id { get; set; } = string.Empty;
+
+    [BsonElement("tvMazeId")]
+    public int TvMazeId { get; set; }
+
+    [BsonElement("title")]
+    public string Title { get; set; } = string.Empty;
 }
