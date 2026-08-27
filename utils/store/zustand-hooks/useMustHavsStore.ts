@@ -13,6 +13,9 @@ type MustHavState = {
   error: string | null;
   mustHavs: MustHav[];
   topTen: ShowRanking[];
+
+  setMustHavs: (mustHav: MustHav) => Promise<addMustHavResponse | null>;
+  setTopTen: (ShowRanking: ShowRanking) => Promise<void>;
 };
 
 const initialState: MustHavState = {
@@ -20,6 +23,8 @@ const initialState: MustHavState = {
   loading: false,
   mustHavs: [],
   topTen: [],
+  setMustHavs: async () => null,
+  setTopTen: async () => {},
 };
 
 export const useMustHavStore = create<MustHavState>()(
@@ -32,26 +37,33 @@ export const useMustHavStore = create<MustHavState>()(
         set({ loading: true });
 
         try {
+          console.log(mustHav);
+
           const addList: addMustHavResponse = await addMustHav(mustHav);
 
           set((state) => ({
             loading: false,
             mustHavs: [...state.mustHavs, addList.mustHav],
           }));
+          console.log(addList);
+
+          return addList;
         } catch {
           set({
             loading: false,
             error: "error adding musthave",
           });
+
+          return null;
         }
       },
-      setTopTen: async (showRanking: ShowRanking, token: string) => {
+      setTopTen: async (showRanking: ShowRanking) => {
         set({ loading: true });
 
         try {
           const addList: addTopTenResponse = await addTopTenFamFriends(
             showRanking,
-            token,
+            // token,
           );
 
           set((state) => ({
