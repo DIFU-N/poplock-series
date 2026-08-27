@@ -42,7 +42,7 @@ public class MongoDbContext
 
     public IMongoCollection<Show> Shows => _database.GetCollection<Show>("shows");
 
-    public IMongoCollection<MustHavs> MustHavs => _database.GetCollection<MustHavs>("musthavs");
+    public IMongoCollection<MustHavsShow> MustHavsShow => _database.GetCollection<MustHavsShow>("musthavs");
 
     public IMongoCollection<ShowRanking> ShowRankings =>
         _database.GetCollection<ShowRanking>("showrankings");
