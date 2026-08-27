@@ -36,23 +36,19 @@ public class MustHavsRepository
     {
         List<MustHavsShow> mustHavs = await _mustHavs.Find(_ => true).ToListAsync();
 
-        var fullShowList = new List<SomeOfShow>();
         var mustHavResponse = new List<GetMustHavsResponse>();
         foreach (var i in mustHavs)
         {
-            foreach (var it in i.ShowIds)
-            {
-                var fullShow = await _shows.GetByIdAsync(it);
+            var shows = await _shows.GetByIdsAsync(i.ShowIds);
 
-                var fullShowSingle = new SomeOfShow
+            var fullShowList = shows
+                .Select(show => new SomeOfShow
                 {
-                    Id = fullShow.Id,
-                    Title = fullShow.Title,
-                    TvMazeId = fullShow.TvMazeId,
-                };
-
-                fullShowList.Add(fullShowSingle);
-            }
+                    Id = show.Id,
+                    Title = show.Title,
+                    TvMazeId = show.TvMazeId,
+                })
+                .ToList();
 
             var singleMustHav = new GetMustHavsResponse
             {
