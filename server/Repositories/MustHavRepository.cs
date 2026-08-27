@@ -1,20 +1,70 @@
 using MongoDB.Driver;
 using server.Data;
+using server.DTO;
 using server.Models;
 
 namespace server.Repositories;
 
 public class MustHavsRepository
 {
-    private readonly IMongoCollection<MustHavs> _mustHavs;
+    private readonly IMongoCollection<MustHavsShow> _mustHavs;
 
-    public MustHavsRepository(MongoDbContext context)
+    private readonly ShowRepository _shows;
+    private readonly TvMazeService _tvMaze;
+
+    private readonly GenreRepository _genre;
+
+    public MustHavsRepository(
+        MongoDbContext context,
+        TvMazeService tvMaze,
+        ShowRepository shows,
+        GenreRepository genre
+    )
     {
-        _mustHavs = context.MustHavs;
+        _mustHavs = context.MustHavsShow;
+        _tvMaze = tvMaze;
+        _shows = shows;
+        _genre = genre;
     }
 
-    public async Task AddMustHavs(MustHavs musthav)
+    public async Task AddMustHavs(MustHavsShow musthav)
     {
         await _mustHavs.InsertOneAsync(musthav);
+    }
+
+    public async Task<List<GetMustHavsResponse>> GetAllMustHavs()
+    {
+        List<MustHavsShow> mustHavs = await _mustHavs.Find(_ => true).ToListAsync();
+
+        var fullShowList = new List<SomeOfShow>();
+        var mustHavResponse = new List<GetMustHavsResponse>();
+        foreach (var i in mustHavs)
+        {
+            foreach (var it in i.ShowIds)
+            {
+                var fullShow = await _shows.GetByIdAsync(it);
+
+                var fullShowSingle = new SomeOfShow
+                {
+                    Id = fullShow.Id,
+                    Title = fullShow.Title,
+                    TvMazeId = fullShow.TvMazeId,
+                };
+
+                fullShowList.Add(fullShowSingle);
+            }
+
+            var singleMustHav = new GetMustHavsResponse
+            {
+                Description = i.Description,
+                Id = i.Id,
+                Name = i.Name,
+                Shows = fullShowList,
+            };
+
+            mustHavResponse.Add(singleMustHav);
+        }
+
+        return mustHavResponse;
     }
 }
