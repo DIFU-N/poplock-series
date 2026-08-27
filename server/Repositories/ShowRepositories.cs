@@ -84,4 +84,11 @@ public class ShowRepository
     {
         return await _shows.Find(u => u.ScheduleFeatured == true).Limit(10).ToListAsync();
     }
+
+    public async Task<List<Show>> GetByIdsAsync(List<string> ids)
+    {
+        var filter = Builders<Show>.Filter.In(x => x.Id, ids);
+
+        return await _shows.Find(filter).ToListAsync();
+    }
 }
