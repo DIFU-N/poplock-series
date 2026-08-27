@@ -79,4 +79,9 @@ public class ShowRepository
 
         await _shows.UpdateManyAsync(filter, update);
     }
+
+    public async Task<List<Show>> GetScheduledFeaturedShows()
+    {
+        return await _shows.Find(u => u.ScheduleFeatured == true).Limit(10).ToListAsync();
+    }
 }
