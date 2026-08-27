@@ -1,10 +1,11 @@
 import { ShowRanking } from "./showRanking";
+import { someOfShow } from "./shows";
 
 export type MustHav = {
-  id: string;
+  id?: string;
   name: string;
   description: string;
-  showId: [string];
+  tvMazeIds: number[];
 };
 
 export type addMustHavResponse = {
@@ -15,4 +16,11 @@ export type addMustHavResponse = {
 export type addTopTenResponse = {
   message: string;
   showRanking: ShowRanking;
+};
+
+export type GetMustHavResponse = {
+  id?: string;
+  name: string;
+  description: string;
+  shows: someOfShow[];
 };
