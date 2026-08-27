@@ -39,3 +39,15 @@ public class SearchInDbRequest
 {
     public string Id { get; set; } = string.Empty;
 }
+
+public class ShowForSchedule
+{
+    public string Id { get; set; } = string.Empty;
+
+    public int TvMazeId { get; set; }
+}
+
+public class SetShowsForScheduling
+{
+    public List<ShowForSchedule>? Shows { get; set; }
+}
