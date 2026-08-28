@@ -4,13 +4,14 @@ import AccountMenu from "./AccountMenu";
 
 const NAV = [
   { num: "120", label: "Ratings", href: "/ratings" },
-  { num: "150", label: "For You", href: "/foryou" },
+  // { num: "150", label: "For You", href: "/foryou" },
   { num: "180", label: "Schedule", href: "/schedule" },
   { num: "199", label: "Search", href: "/search" },
+  { num: "192", label: "Must Havs", href: "/must-havs" },
 ];
 
 export default function Header() {
-  const logout = useAuthStore((state) => state.logout);
+  // const logout = useAuthStore((state) => state.logout);
   const token = useAuthStore((state) => state.token);
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-green-600 backdrop-blur-sm">
