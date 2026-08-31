@@ -1,6 +1,4 @@
-import SignalBars from "@/components/atoms/SignalBars";
-import { yourRatings } from "@/lib/data";
-import React from "react";
+
 
 const MyAccount = () => {
   return (
@@ -11,15 +9,14 @@ const MyAccount = () => {
             <span className="h-1.75 w-1.75 rounded-full bg-paper shadow-[0_0_0_3px_rgba(243,241,234,0.15)]" />
             YOUR ACCOUNT
           </div>
-          <h1 className="mb-3 font-display text-[clamp(30px,5vw,48px)] font-bold leading-[1.05] tracking-tight">
+          {/* <h1 className="mb-3 font-display text-[clamp(30px,5vw,48px)] font-bold leading-[1.05] tracking-tight">
             My ratings
           </h1>
           <p className="max-w-140 text-[17px] text-[#c9c8c0]">
-            Everything you&apos;ve rated, in one place. Click the bars to change
-            a rating.
-          </p>
+            Everything you&apos;ve rated, in one place
+          </p> */}
         </div>
-        <div className="mx-20 max-w-fit">
+        {/* <div className="mx-20 max-w-fit">
               <div className="flex gap-px overflow-x-auto border border-line bg-line">
                 {yourRatings.map((p) => (
                   <div
@@ -35,7 +32,7 @@ const MyAccount = () => {
                       )}
                     </div>
                     <h3 className="font-display text-lg">{p.title}</h3>
-                    {/* <p className="grow text-[14.5px] text-[#c9c8c0]">{review.}</p> */}
+                    <p className="grow text-[14.5px] text-[#c9c8c0]">{review.}</p>
                     <div className="flex items-center justify-between border-t border-line pt-1.5">
                       <SignalBars
                         signal={p.yourSignal ? p.yourSignal / 2 : 0}
@@ -47,7 +44,7 @@ const MyAccount = () => {
                   </div>
                 ))}
               </div>
-        </div>
+        </div> */}
       </section>
 
       <section className="border-b border-line px-6 py-16 sm:py-20">
@@ -60,7 +57,7 @@ const MyAccount = () => {
           </p>
         </div>
       </section>
-      <section className="border-b border-line px-6 py-16 sm:py-20">
+      {/* <section className="border-b border-line px-6 py-16 sm:py-20">
         <div className="mx-20 max-w-295">
           <h1 className="mb-3 font-display text-[clamp(30px,5vw,48px)] font-bold leading-[1.05] tracking-tight">
             My Must-Havs
@@ -69,7 +66,7 @@ const MyAccount = () => {
             The Must-Hav lists you have created
           </p>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 };
