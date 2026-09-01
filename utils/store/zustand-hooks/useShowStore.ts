@@ -1,14 +1,19 @@
 import {
   fetchGenres,
   getAllShows,
+  getBestPerformers,
+  getBestWeekly,
   getScheduledEpisodes,
   getShowById,
   importShow,
   searchForShow,
+  setBestPerformers,
+  setBestWeekly,
   setFeaturedShows,
 } from "@/utils/apis/show";
 import { ScheduledShow } from "@/utils/types/episodes";
 import {
+  bestPerformers,
   fetchGenresResponse,
   Genre,
   getAllShowsResponse,
@@ -49,6 +54,14 @@ type ShowState = {
   importedShow: Show | null;
 
   errorData: string | null;
+
+  bestWeekly: Show[];
+  setBestWeekly: (values: string[]) => void;
+  getBestWeekly: () => void;
+
+  bestPerformers: bestPerformers[];
+  setBestPerformers: (values: bestPerformers[]) => void;
+  getBestPerformers: () => void;
 };
 
 const initialState: ShowState = {
@@ -78,6 +91,14 @@ const initialState: ShowState = {
   genres: [],
   fetchGenre: async () => {},
   errorData: null,
+
+  bestWeekly: [],
+  setBestWeekly: async () => {},
+  getBestWeekly: async () => {},
+
+  bestPerformers: [],
+  setBestPerformers: async () => {},
+  getBestPerformers: async () => {},
 };
 
 export const useShowStore = create<ShowState>()(
@@ -232,6 +253,84 @@ export const useShowStore = create<ShowState>()(
             errorData: isAxiosError(error)
               ? error.message
               : "some kind of error",
+          });
+          return [];
+        }
+      },
+      setBestWeekly: async (ids: string[]) => {
+        set({ loading: true });
+
+        try {
+          const data = await setBestWeekly(ids);
+
+          set({
+            loading: false,
+            bestWeekly: data.results,
+          });
+          return data.results;
+        } catch (error: unknown) {
+          set({
+            loading: false,
+            error: true,
+            errorData: isAxiosError(error) ? error.message : "unkown error",
+          });
+          return [];
+        }
+      },
+      getBestWeekly: async () => {
+        set({ loading: true });
+
+        try {
+          const data = await getBestWeekly();
+
+          set({
+            loading: true,
+            bestWeekly: data.results,
+          });
+          return data.results;
+        } catch (error: unknown) {
+          set({
+            loading: false,
+            error: true,
+            errorData: isAxiosError(error) ? error.message : "unkown error",
+          });
+          return [];
+        }
+      },
+      setBestPerformers: async (performers: bestPerformers[]) => {
+        set({ loading: true });
+
+        try {
+          const data = await setBestPerformers(performers);
+
+          set({
+            loading: false,
+            bestPerformers: data.results,
+          });
+        } catch (error: unknown) {
+          set({
+            loading: false,
+            error: true,
+            errorData: isAxiosError(error) ? error.message : "unkown error",
+          });
+          return [];
+        }
+      },
+      getBestPerformers: async () => {
+        set({ loading: true });
+
+        try {
+          const data = await getBestPerformers();
+
+          set({
+            loading: false,
+            bestPerformers: data.results,
+          });
+        } catch (error: unknown) {
+          set({
+            loading: false,
+            error: true,
+            errorData: isAxiosError(error) ? error.message : "unkown error",
           });
           return [];
         }

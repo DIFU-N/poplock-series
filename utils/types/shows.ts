@@ -51,6 +51,17 @@ export type fetchGenresResponse = {
   genres: Genre[];
 };
 
-export type setFeaturedInputValues = {
-  showIds: [];
+export type setFeaturedInputValues = string[];
+
+export type someOfShow = {
+  id: string;
+  tvMazeId: number;
+  title: string;
+};
+
+export type bestPerformers = {
+  id: string;
+  realName: string;
+  character: string;
+  showId: string;
 };

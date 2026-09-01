@@ -1,6 +1,6 @@
 import axios from "axios";
 import { api, API_BASE } from "./auth";
-import { setFeaturedInputValues } from "../types/shows";
+import { bestPerformers, setFeaturedInputValues } from "../types/shows";
 
 export const fetchGenres = async () => {
   const response = await axios.get(`${API_BASE}/genres`);
@@ -39,4 +39,24 @@ export const getShowById = async (id: string) => {
 export const getScheduledEpisodes = async () => {
   const response = await axios.get(`${API_BASE}/episodes/scheduled`);
   return response.data.scheduled.result;
+};
+
+export const getBestWeekly = async () => {
+  const response = await axios.get(`${API_BASE}/show/bestweekly`);
+  return response.data;
+};
+
+export const setBestWeekly = async (ids: string[]) => {
+  const response = await axios.post(`${API_BASE}/admin/bestweekly`, { ids });
+  return response.data;
+};
+
+export const getBestPerformers = async () => {
+  const response = await axios.get(`${API_BASE}/show/bestperf`);
+  return response.data;
+};
+
+export const setBestPerformers = async (best: bestPerformers[]) => {
+  const response = await axios.post(`${API_BASE}/admin/bestperf`, { best });
+  return response.data;
 };
