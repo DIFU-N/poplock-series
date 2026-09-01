@@ -1,6 +1,15 @@
-import { forYouPicks } from "@/lib/data";
+import { useShowStore } from "@/utils/store/zustand-hooks/useShowStore";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect } from "react";
 
 export default function HotShows() {
+  const getShows = useShowStore((state) => state.getBestWeekly);
+  const bestWeekly = useShowStore((state) => state.bestWeekly);
+
+  useEffect(() => {
+    getShows();
+  }, [getShows]);
   return (
     <section id="foryou" className="border-b border-line px-6 py-14">
       <div className="mx-auto max-w-295">
@@ -20,16 +29,19 @@ export default function HotShows() {
         </p>
 
         <div className="flex gap-px overflow-x-auto border border-line bg-line">
-          {forYouPicks.map((p) => (
-            <div
-              key={p.page}
-              className="min-w-55 flex-none bg-ink p-4.5"
-            >
-              <span className="font-mono text-xs text-dim">{p.page}</span>
-              <h4 className="mb-1.5 mt-2 font-display text-base">{p.title}</h4>
-              <p className="text-[13.5px] text-[#c9c8c0]">{p.reason}</p>
-            </div>
-          ))}
+          {bestWeekly &&
+            bestWeekly.map((p) => (
+              <Link
+                href={`/show/${p.id}`}
+                key={p.id}
+                className="min-w-55 flex-none bg-ink p-4.5"
+              >
+                <Image className="font-mono text-xs text-dim" alt={p.title} src={p.image!}  />
+                <h4 className="mb-1.5 mt-2 font-display text-base">
+                  {p.title}
+                </h4>
+              </Link>
+            ))}
         </div>
       </div>
     </section>
