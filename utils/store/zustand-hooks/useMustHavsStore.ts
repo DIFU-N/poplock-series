@@ -1,7 +1,12 @@
-import { addMustHav, addTopTenFamFriends } from "@/utils/apis/musthavs";
+import {
+  addMustHav,
+  addTopTenFamFriends,
+  getMustHavs,
+} from "@/utils/apis/musthavs";
 import {
   addMustHavResponse,
   addTopTenResponse,
+  GetMustHavResponse,
   MustHav,
 } from "@/utils/types/musthavs";
 import { ShowRanking } from "@/utils/types/showRanking";
@@ -11,11 +16,12 @@ import { persist } from "zustand/middleware";
 type MustHavState = {
   loading: boolean;
   error: string | null;
-  mustHavs: MustHav[];
+  mustHavs: GetMustHavResponse[];
   topTen: ShowRanking[];
 
   setMustHavs: (mustHav: MustHav) => Promise<addMustHavResponse | null>;
   setTopTen: (ShowRanking: ShowRanking) => Promise<void>;
+  getAll: () => Promise<void>;
 };
 
 const initialState: MustHavState = {
@@ -25,6 +31,7 @@ const initialState: MustHavState = {
   topTen: [],
   setMustHavs: async () => null,
   setTopTen: async () => {},
+  getAll: async () => {},
 };
 
 export const useMustHavStore = create<MustHavState>()(
@@ -43,9 +50,9 @@ export const useMustHavStore = create<MustHavState>()(
 
           set((state) => ({
             loading: false,
-            mustHavs: [...state.mustHavs, addList.mustHav],
+            // mustHavs: [...state.mustHavs, addList.mustHav],
           }));
-          console.log(addList);
+          // console.log(addList);
 
           return addList;
         } catch {
@@ -74,6 +81,25 @@ export const useMustHavStore = create<MustHavState>()(
           set({
             loading: false,
             error: "error adding top ten",
+          });
+        }
+      },
+      getAll: async () => {
+        set({ loading: true });
+
+        const all = await getMustHavs();
+
+        // console.log(all.all);
+
+        try {
+          set((state) => ({
+            loading: false,
+            mustHavs: [...all.all],
+          }));
+        } catch {
+          set({
+            loading: false,
+            error: "error getting all",
           });
         }
       },
