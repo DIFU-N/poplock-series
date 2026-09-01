@@ -1,4 +1,4 @@
-import { forYouPicks } from "@/lib/data";
+import Link from "next/link";
 
 export default function BestWeekly() {
   return (
@@ -20,13 +20,15 @@ export default function BestWeekly() {
         </p>
 
         <div className="flex gap-px overflow-x-auto border border-line bg-line">
-          {forYouPicks.map((p) => (
-            <div key={p.page} className="min-w-55 flex-none bg-ink p-4.5">
-              <span className="font-mono text-xs text-dim">{p.page}</span>
-              <h4 className="mb-1.5 mt-2 font-display text-base">{p.title}</h4>
-              <p className="text-[13.5px] text-[#c9c8c0]">{p.reason}</p>
-            </div>
-          ))}
+          {/* {forYouPicks.map((p) => ( */}
+          <div className="min-w-55 flex-none bg-ink p-4.5">
+            <span className="font-mono text-xs text-dim">Lucy Freyer</span>
+            <h4>plays This</h4>
+            <Link href={`/show/`}>
+              <h4 className="mb-1.5 mt-2 font-display text-base">in Show</h4>
+            </Link>
+          </div>
+          {/* ))} */}
         </div>
       </div>
     </section>
