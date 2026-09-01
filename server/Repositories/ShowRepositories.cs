@@ -98,7 +98,7 @@ public class ShowRepository
     {
         if (ids.Count != 3 || ids == null)
         {
-            throw new InvalidOperationException("Has to be only 3");    
+            throw new InvalidOperationException("Has to be only 3");
         }
         var filter = Builders<Show>.Filter.In(x => x.Id, ids);
 
@@ -112,5 +112,10 @@ public class ShowRepository
         await _bestWeekly.InsertManyAsync(shows);
 
         return shows;
+    }
+
+    public async Task<List<Show>> GetBestWeekly()
+    {
+        return await _bestWeekly.Find(_ => true).ToListAsync();
     }
 }

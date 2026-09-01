@@ -207,6 +207,14 @@ public class ShowController : ControllerBase
         return Ok(best);
     }
 
+    [HttpGet("bestweekly")]
+    public async Task<IActionResult> GetBestWeekly()
+    {
+        var all = await _repo.GetBestWeekly();
+
+        return Ok(all);
+    }
+
     // [HttpDelete("{id}")]
     // public async Task<IActionResult> DeleteShow(string id)
     // {
