@@ -1,18 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { showsInList } from "@/lib/data";
 import { useAuthStore } from "@/utils/store/zustand-hooks/useAuthStore";
 import ListAccordion from "@/components/molecules/ListAccordion";
-import { useListsStore } from "@/utils/store/zustand-hooks/useListsStore";
 import { useEffect, useState } from "react";
 import { useMustHavStore } from "@/utils/store/zustand-hooks/useMustHavsStore";
 
 export default function MustHavesPage() {
-  //   const token = useAuthStore((s) => s.token);
-  //   const userLists = useListsStore((s) => s.userLists);
-  //   const mine = userLists.filter((l) => l.isMine);
-
   const getAll = useMustHavStore((state) => state.getAll);
 
   const mustHavs = useMustHavStore((state) => state.mustHavs);
