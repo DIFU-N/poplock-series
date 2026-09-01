@@ -7,25 +7,25 @@ const KEYS = [
 
 export default function Footer() {
   return (
-    <footer className="lg:py-20 md:pb-20 w-full py-7 px-5 lg:px-20 text-white">
+    <footer className="lg:py-20 md:pb-20 w-full py-7 px-5 lg:px-20 text-white bg-green-800">
       <div className="w-full flex flex-col md:flex-row md:justify-between">
         <div className="flex flex-col gap-y-7 items-start">
           {/* <img src="/images/svg/stryda-logo-main-white.svg" 
               className='w-auto h-9 lg:h-10'
               alt=""/> */}
           <div className="lg:text-sm text-sm flex flex-col gap-y-1 py-1">
-            <span>© G-Loot Global Esports AB.</span>
+            <span>© Poplock in collab with dadaman industries.</span>
             <div className="flex flex-row gap-x-1 lg:gap-x-3">
               <span className="text-[#828387] font-semibold">
-                All rights reserved. Made in Stockholm, Sweden
+                All rights reserved. Made with love.
               </span>
               {/* <img src="/images/svg/sweden.svg" className='w-3 lg:w-auto' alt="" /> */}
             </div>
           </div>
           <div className="flex gap-y-1 flex-col">
-            <span className="text-xs lg:text-xs text-[#828387] font-semibold py-1">
+            {/* <span className="text-xs lg:text-xs text-[#828387] font-semibold py-1">
               Secure payment methods with
-            </span>
+            </span> */}
             {/* <img src="/images/payment-providers@2x.png" 
                 className='w-72 lg:w-[288px] h-10 lg:h-10'
                 alt="" /> */}
@@ -47,7 +47,7 @@ export default function Footer() {
                     </li>
                   </ul>
                 </li> */}
-            <li className="flex flex-col gap-y-4">
+            {/* <li className="flex flex-col gap-y-4">
               <strong className="flex gap-x-[2px] lg:gap-x-1 text-white text-[16px] md:text-[15px]">
                 <span className="bg-[#f3c351] block flex-shrink-0 mr-2 w-1 h-6 bg-main"></span>
                 Further Information
@@ -69,12 +69,12 @@ export default function Footer() {
                   <a href="">How it works</a>
                 </li>
               </ul>
-            </li>
+            </li> */}
             <li className="flex flex-col gap-y-4">
-              <strong className="flex gap-x-[2px] lg:gap-x-1 text-white text-[16px] md:text-[15px]">
+              {/* <strong className="flex gap-x-[2px] lg:gap-x-1 text-white text-[16px] md:text-[15px]">
                 <span className="bg-[#f3c351] block flex-shrink-0 mr-2 w-1 h-6 bg-main"></span>
                 Social
-              </strong>
+              </strong> */}
               <ul className="md:grid flex gap-x-3 md:gap-x-0 md:gap-y-3 pl-3 items-center">
                 {/* <li>
                       <a href=""><FontAwesomeIcon icon={faDiscord} className='w-[22px] h-[22px]'/></a>
