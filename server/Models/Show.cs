@@ -95,3 +95,19 @@ public class SomeOfShow
     [BsonElement("title")]
     public string Title { get; set; } = string.Empty;
 }
+
+public class BestPerformer
+{
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string Id { get; set; } = string.Empty;
+
+    [BsonElement("realName")]
+    public string RealName { get; set; } = string.Empty;
+
+    [BsonElement("character")]
+    public string Character { get; set; } = string.Empty;
+
+    [BsonElement("showId")]
+    public string ShowId { get; set; } = string.Empty;
+}

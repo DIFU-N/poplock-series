@@ -18,18 +18,21 @@ public class AdminController : ControllerBase
 
     private readonly InviteRepository _invites;
     private readonly InviteTokenService _tokenService;
+    private readonly ShowRepository _shows;
 
     public AdminController(
         UserRepository users,
         JwtService jwt,
         InviteRepository invites,
-        InviteTokenService tokenService
+        InviteTokenService tokenService,
+        ShowRepository shows
     )
     {
         _users = users;
         _jwt = jwt;
         _invites = invites;
         _tokenService = tokenService;
+        _shows = shows;
     }
 
     [HttpPost("make-admin")]
@@ -112,5 +115,20 @@ public class AdminController : ControllerBase
         await _invites.CreateAsync(invite);
 
         return Ok(new { link = $"http://localhost:3000/invite/{token}" });
+    }
+
+    [HttpPost("bestperf")]
+    public async Task<IActionResult> SetBestPerformers([FromBody] List<BestPerformer> performers)
+    {
+        var okay = await _shows.SetBestPerformer(performers);
+        return Ok(okay);
+    }
+
+     [HttpPost("bestweekly")]
+    public async Task<IActionResult> SetBestWeekly([FromBody] List<string> ids)
+    {
+        var best = await _shows.SetBestWeekly(ids);
+
+        return Ok(best);
     }
 }

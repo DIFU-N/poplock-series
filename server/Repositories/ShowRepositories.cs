@@ -9,11 +9,13 @@ public class ShowRepository
 {
     private readonly IMongoCollection<Show> _shows;
     private readonly IMongoCollection<Show> _bestWeekly;
+    private readonly IMongoCollection<BestPerformer> _bestPerformer;
 
     public ShowRepository(MongoDbContext context)
     {
         _shows = context.Shows;
         _bestWeekly = context.BestWeekly;
+        _bestPerformer = context.BestPerformers;
     }
 
     public async Task<Show?> GetByTitleAsync(string title)
@@ -117,5 +119,22 @@ public class ShowRepository
     public async Task<List<Show>> GetBestWeekly()
     {
         return await _bestWeekly.Find(_ => true).ToListAsync();
+    }
+
+    public async Task<List<BestPerformer>> SetBestPerformer(List<BestPerformer> performers)
+    {
+        if (performers == null)
+        {
+            throw new InvalidDataException("cannot be null");
+        }
+
+        await _bestPerformer.DeleteManyAsync(Builders<BestPerformer>.Filter.Empty);
+        await _bestPerformer.InsertManyAsync(performers);
+        return performers;
+    }
+
+    public async Task<List<BestPerformer>> GetBestPerformersAsync()
+    {
+        return await _bestPerformer.Find(_ => true).ToListAsync();
     }
 }

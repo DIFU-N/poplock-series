@@ -42,7 +42,8 @@ public class MongoDbContext
 
     public IMongoCollection<Show> Shows => _database.GetCollection<Show>("shows");
 
-    public IMongoCollection<MustHavsShow> MustHavsShow => _database.GetCollection<MustHavsShow>("musthavs");
+    public IMongoCollection<MustHavsShow> MustHavsShow =>
+        _database.GetCollection<MustHavsShow>("musthavs");
 
     public IMongoCollection<ShowRanking> ShowRankings =>
         _database.GetCollection<ShowRanking>("showrankings");
@@ -56,6 +57,9 @@ public class MongoDbContext
     public IMongoCollection<Rating> Rating => _database.GetCollection<Rating>("ratings");
 
     public IMongoCollection<Show> BestWeekly => _database.GetCollection<Show>("best-weekly");
+
+    public IMongoCollection<BestPerformer> BestPerformers =>
+        _database.GetCollection<BestPerformer>("best-performers");
 
     // Console.WriteLine($"Collection: users");
 }
