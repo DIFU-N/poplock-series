@@ -55,5 +55,7 @@ public class MongoDbContext
 
     public IMongoCollection<Rating> Rating => _database.GetCollection<Rating>("ratings");
 
+    public IMongoCollection<Show> BestWeekly => _database.GetCollection<Show>("best-weekly");
+
     // Console.WriteLine($"Collection: users");
 }

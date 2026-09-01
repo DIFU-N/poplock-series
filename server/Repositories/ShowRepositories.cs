@@ -8,10 +8,12 @@ namespace server.Repositories;
 public class ShowRepository
 {
     private readonly IMongoCollection<Show> _shows;
+    private readonly IMongoCollection<Show> _bestWeekly;
 
     public ShowRepository(MongoDbContext context)
     {
         _shows = context.Shows;
+        _bestWeekly = context.BestWeekly;
     }
 
     public async Task<Show?> GetByTitleAsync(string title)
@@ -90,5 +92,25 @@ public class ShowRepository
         var filter = Builders<Show>.Filter.In(x => x.Id, ids);
 
         return await _shows.Find(filter).ToListAsync();
+    }
+
+    public async Task<List<Show>> SetBestWeekly(List<string> ids)
+    {
+        if (ids.Count != 3 || ids == null)
+        {
+            throw new InvalidOperationException("Has to be only 3");    
+        }
+        var filter = Builders<Show>.Filter.In(x => x.Id, ids);
+
+        List<Show>? shows = await _shows.Find(filter).ToListAsync();
+
+        if (shows.Equals(null))
+        {
+            throw new InvalidDataException("cannot find the shows");
+        }
+        await _bestWeekly.DeleteManyAsync(Builders<Show>.Filter.Empty);
+        await _bestWeekly.InsertManyAsync(shows);
+
+        return shows;
     }
 }

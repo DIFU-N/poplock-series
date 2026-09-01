@@ -199,6 +199,14 @@ public class ShowController : ControllerBase
         return Ok();
     }
 
+    [HttpPost("bestweekly")]
+    public async Task<IActionResult> SetBestWeekly([FromBody] List<string> ids)
+    {
+        var best = await _repo.SetBestWeekly(ids);
+
+        return Ok(best);
+    }
+
     // [HttpDelete("{id}")]
     // public async Task<IActionResult> DeleteShow(string id)
     // {
