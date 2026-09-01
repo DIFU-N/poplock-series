@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useFormik } from "formik";
 import Image from "next/image";
 
 import { useAuthStore } from "@/utils/store/zustand-hooks/useAuthStore";
-import { useListsStore } from "@/utils/store/zustand-hooks/useListsStore";
 import { useMustHavStore } from "@/utils/store/zustand-hooks/useMustHavsStore";
 import { useShowStore } from "@/utils/store/zustand-hooks/useShowStore";
 import { searchForShowSchema } from "@/utils/yup";
@@ -27,11 +25,7 @@ export default function NewMustHavForm() {
   const searchResult = useShowStore((state) => state.searchResult);
 
   const token = useAuthStore((state) => state.token);
-
-  const createList = useListsStore((state) => state.createList);
   const addMustHav = useMustHavStore((s) => s.setMustHavs);
-
-  const router = useRouter();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -327,7 +321,7 @@ export default function NewMustHavForm() {
                               height={30}
                             />
                           ) : (
-                            <div className="h-[30px] w-[30px] border border-line" />
+                            <div className="h-7.5 w-7.5 border border-line" />
                           )}
                           <span className="block font-display text-[15px]">
                             {show.name}
