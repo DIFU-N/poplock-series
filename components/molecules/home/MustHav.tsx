@@ -1,4 +1,3 @@
-import { forYouPicks } from "@/lib/data";
 
 export default function MustHavs() {
   return (
@@ -20,13 +19,13 @@ export default function MustHavs() {
         </p>
 
         <div className="flex gap-px overflow-x-auto border border-line bg-line">
-          {forYouPicks.map((p) => (
+          {/* {forYouPicks.map((p) => (
             <div key={p.page} className="min-w-55 flex-none bg-ink p-4.5">
               <span className="font-mono text-xs text-dim">{p.page}</span>
               <h4 className="mb-1.5 mt-2 font-display text-base">{p.title}</h4>
               <p className="text-[13.5px] text-[#c9c8c0]">{p.reason}</p>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </section>
