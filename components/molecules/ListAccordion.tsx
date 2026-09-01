@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ShowList, Review, genreChipClasses, genreLabels } from "@/lib/data";
-import SignalBars from "../atoms/SignalBars";
 import { GetMustHavResponse } from "@/utils/types/musthavs";
 import { someOfShow } from "@/utils/types/shows";
 
@@ -17,11 +15,11 @@ export default function ListAccordion({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border border-line">
+    <div className="border border-line cursor-pointer ">
       <button
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-ink-2"
+        className="flex w-full items-center cursor-pointer justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-green-700"
       >
         <div>
           <h3 className="mt-0.5 font-display text-lg">{list.name}</h3>
@@ -44,7 +42,7 @@ export default function ListAccordion({
               <Link
                 key={show.id}
                 href={`/show/${show.id}`}
-                className={`flex items-center justify-between gap-4 px-5 py-3 transition-colors hover:bg-ink-2 ${
+                className={`flex items-center justify-between gap-4 px-5 py-3 transition-colors hover:bg-green-700 ${
                   i !== shows.length - 1 ? "border-b border-line" : ""
                 }`}
               >
