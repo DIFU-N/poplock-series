@@ -18,6 +18,8 @@ RUN dotnet publish -c Release -o /app/out
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-preview
 WORKDIR /app
 
+ENV ASPNETCORE_URLS=http://+:10000
+
 # Copy published output from build stage
 COPY --from=build /app/out ./
 
