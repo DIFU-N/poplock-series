@@ -15,4 +15,4 @@ jobs:
     steps:
       - name: Ping backend
         run: |
-          curl -f https://port-port.onrender.com/api/secure/health
+          curl -f https://poplock-series.onrender.com/api/secure/health
