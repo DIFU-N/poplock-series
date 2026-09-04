@@ -1,0 +1,18 @@
+name: Keep Render Backend Alive
+
+on:
+  schedule:
+    # Every 5 minutes
+    - cron: "*/5 * * * *"
+
+  # Allows you to run it manually
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping backend
+        run: |
+          curl -f https://port-port.onrender.com/api/secure/health
