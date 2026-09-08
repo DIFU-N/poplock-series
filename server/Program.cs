@@ -18,9 +18,9 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 // Add CORS
-// string? frontendUrl =
-//     Environment.GetEnvironmentVariable("FRONTEND_URL")
-//     ?? throw new Exception("FRONTEND_URL not set");
+string? frontendUrl =
+    Environment.GetEnvironmentVariable("FRONTEND_URL")
+    ?? throw new Exception("FRONTEND_URL not set");
 
 // string? thoughtUrl =
 //     Environment.GetEnvironmentVariable("THOUGHT_URL")
@@ -31,14 +31,14 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy
-            // .WithOrigins([frontendUrl, thoughtUrl])
-            .WithOrigins([
-                // "https://localhost:5270",
-                // "https://localhost:7064",
-                "http://localhost:3000",
-                "http://localhost:3001",
-                // "${FRONTEND_URL}"
-            ]) // URL where your Blazor app runs
+            .WithOrigins([frontendUrl])
+            // .WithOrigins([
+            //     // "https://localhost:5270",
+            //     // "https://localhost:7064",
+            //     "http://localhost:3000",
+            //     "http://localhost:3001",
+            //     // "${FRONTEND_URL}"
+            // ]) // URL where your Blazor app runs
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
