@@ -31,7 +31,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy
-            .WithOrigins(frontendUrl)
+            .WithOrigins([frontendUrl])
             // .WithOrigins([
             //     // "https://localhost:5270",
             //     // "https://localhost:7064",
