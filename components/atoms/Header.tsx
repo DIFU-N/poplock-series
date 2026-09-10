@@ -20,7 +20,9 @@ export default function Header() {
           {/* <span className="bg-cyan text-ink px-2 py-[3px] text-[13px] font-bold">
             100
           </span> */}
-          <span className="text-lg">POPLOCK TV</span>
+          <Link href={"/"} className="cursor-pointer">
+            <span className="text-lg">POPLOCK TV</span>
+          </Link>
         </div>
         <nav className="hidden sm:flex flex-wrap gap-1.5 font-mono text-[13px]">
           {NAV.map((item) => (
