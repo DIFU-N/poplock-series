@@ -7,9 +7,9 @@ public class InviteTokenService
 {
     public string GenerateToken()
     {
-        var bytes = RandomNumberGenerator.GetBytes(32);
+        var bytes = RandomNumberGenerator.GetBytes(16);
 
-        return Convert.ToBase64String(bytes);
+        return Convert.ToBase64String(bytes).Replace("+", "-").Replace("/", "_").Replace("=", "");
     }
 
     public string HashToken(string token)
