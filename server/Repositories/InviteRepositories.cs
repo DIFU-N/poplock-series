@@ -17,20 +17,17 @@ public class InviteRepository
         await _invites.InsertOneAsync(invite);
     }
 
-    public async Task<Invite?> UseInviteAsync(string tokenHash)
+    public async Task<Invite?> GetValidInviteAsync(string tokenHash)
     {
-        var filter = Builders<Invite>.Filter.And(
-            Builders<Invite>.Filter.Eq(x => x.TokenHash, tokenHash),
-            Builders<Invite>.Filter.Eq(x => x.Used, false),
-            Builders<Invite>.Filter.Gt(x => x.ExpiresAt, DateTime.UtcNow)
-        );
+        return await _invites
+            .Find(x => x.TokenHash == tokenHash && !x.Used && x.ExpiresAt > DateTime.UtcNow)
+            .FirstOrDefaultAsync();
+    }
 
+    public async Task MarkInviteUsedAsync(string id)
+    {
         var update = Builders<Invite>.Update.Set(x => x.Used, true);
 
-        return await _invites.FindOneAndUpdateAsync(
-            filter,
-            update,
-            new FindOneAndUpdateOptions<Invite> { ReturnDocument = ReturnDocument.Before }
-        );
+        await _invites.UpdateOneAsync(x => x.Id == id, update);
     }
 }
