@@ -128,7 +128,7 @@ builder.Services.AddSingleton<InviteTokenService>();
 builder.Services.AddScoped<UserRepository>();
 
 builder.Services.AddScoped<MustHavsRepository>();
-builder.Services.AddScoped<ShowRankingRepository>();
+builder.Services.AddScoped<FFShowRankingRepository>();
 builder.Services.AddScoped<GenreRepository>();
 builder.Services.AddScoped<ShowRepository>();
 builder.Services.AddScoped<InviteRepository>();
