@@ -18,8 +18,6 @@ public class MustHavsController : ControllerBase
 
     private readonly InviteRepository _invites;
 
-    private readonly ShowRankingRepository _showRankings;
-
     private readonly TvMazeService _tvmaze;
 
     private readonly GenreRepository _genre;
@@ -29,7 +27,6 @@ public class MustHavsController : ControllerBase
         ShowRepository show,
         InviteTokenService tokenService,
         InviteRepository invites,
-        ShowRankingRepository showRanking,
         TvMazeService tvmaze,
         GenreRepository genre
     )
@@ -38,7 +35,6 @@ public class MustHavsController : ControllerBase
         _show = show;
         _tokenService = tokenService;
         _invites = invites;
-        _showRankings = showRanking;
         _tvmaze = tvmaze;
         _genre = genre;
     }
@@ -113,24 +109,6 @@ public class MustHavsController : ControllerBase
         await _musthavs.AddMustHavs(mustHavDK);
 
         return Ok(new { message = "Added Must Hav List", mustHavs });
-    }
-
-    [HttpPost("add/top10")]
-    public async Task<IActionResult> AddTop10FamFriends(string token, ShowRanking showRanking)
-    {
-        var tokenHash = _tokenService.HashToken(token);
-
-        var invite = await _invites.UseInviteAsync(tokenHash);
-
-        if (invite == null)
-        {
-            return Unauthorized("invalid, expired, or already used invite");
-        }
-        showRanking.ParticipantsName = invite.RecipientName;
-
-        await _showRankings.CreateAsync(showRanking);
-
-        return Ok(new { message = "Ranking submitted successfully", showRanking });
     }
 
     [HttpGet("all")]
