@@ -10,3 +10,9 @@ public class FFRankDTO
 
     public int Points { get; set; }
 }
+
+public class AdminRankingRequest
+{
+    public string? Name { get; set; }
+    public List<string> ShowIds { get; set; } = new();
+}
