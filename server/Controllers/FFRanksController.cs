@@ -16,6 +16,13 @@ public class FFRanksController : ControllerBase
     private readonly ShowRepository _showRepository;
     private readonly InviteTokenService _tokenService;
 
+    private List<ShowRanks> MapToRanks(List<string> showIds)
+    {
+        return showIds
+            .Select((id, index) => new ShowRanks { ShowId = id, Rank = index + 1 })
+            .ToList();
+    }
+
     public FFRanksController(
         InviteRepository inviteRepository,
         FFShowRankingRepository rankingRepository,
@@ -97,12 +104,32 @@ public class FFRanksController : ControllerBase
         return Ok(result);
     }
 
-    [HttpDelete("$id")]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "admin,s.admin")]
     public async Task<IActionResult> DeleteFriend(string id)
     {
         await _ffRanking.DeleteRanking(id);
 
         return Ok("Friend deleted");
+    }
+
+    [HttpPost("ranking/admin")]
+    [Authorize(Roles = "admin,s.admin")]
+    public async Task<IActionResult> CreateAdminRanking(AdminRankingRequest request)
+    {
+        if (request.ShowIds.Count != 10)
+        {
+            return BadRequest("Ranking must contain exactly 10 shows.");
+        }
+
+        var ranking = new FFRanking
+        {
+            ParticipantsName = "Dadaman",
+            RankingList = MapToRanks(request.ShowIds),
+        };
+
+        await _ffRanking.CreateAsync(ranking);
+
+        return Ok(ranking);
     }
 }
