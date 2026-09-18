@@ -30,4 +30,14 @@ public class InviteRepository
 
         await _invites.UpdateOneAsync(x => x.Id == id, update);
     }
+
+    public async Task<Invite?> GetByRecipientNameAsync(string normalizedName)
+    {
+        return await _invites.Find(x => x.RecipientName == normalizedName).FirstOrDefaultAsync();
+    }
+
+    public async Task<Invite?> GetByParentInviteIdAsync(string parentId)
+    {
+        return await _invites.Find(x => x.CreatedFromInviteId == parentId).FirstOrDefaultAsync();
+    }
 }
