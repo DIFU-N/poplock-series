@@ -93,7 +93,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost("create-invite")]
-    public async Task<IActionResult> CreateInvite(string name)
+    public async Task<IActionResult> CreateInvite([FromBody] string name)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null)
@@ -107,15 +107,17 @@ public class AdminController : ControllerBase
         {
             TokenHash = _tokenService.HashToken(token),
             CreatedBy = userId,
-            ExpiresAt = DateTime.UtcNow.AddDays(1),
+            ExpiresAt = DateTime.UtcNow.AddDays(10),
             Used = false,
-            RecipientName = name,
+            RecipientName = name.ToLower().Trim(),
         };
 
         await _invites.CreateAsync(invite);
 
-        return Ok(new { link = $"http://localhost:3000/invite/{token}" });
+        return Ok(new { link = $"https://poplockseries.netlify.app/invite/{token}" });
     }
+
+
 
     [HttpPost("bestperf")]
     public async Task<IActionResult> SetBestPerformers([FromBody] List<BestPerformer> performers)
