@@ -32,7 +32,7 @@ public class InviteController : ControllerBase
         return Ok(invite);
     }
 
-    [HttpPost("create-invite")]
+    [HttpPost("create")]
     public async Task<IActionResult> CreateInvite([FromBody] CreateInviteRequest request)
     {
         var tokenHash = _tokenService.HashToken(request.Token);
