@@ -22,4 +22,13 @@ public class Invite
 
     [BsonElement("recipientName")]
     public string RecipientName { get; set; } = string.Empty;
+
+    [BsonElement("CreatedFromInviteId")]
+    public string? CreatedFromInviteId { get; set; }
+}
+
+public class CreateInviteRequest
+{
+    public string Token { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 }
