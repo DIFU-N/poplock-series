@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -87,6 +88,14 @@ builder
         };
     });
 
+// return json in camelCase instead of PascalCase
+builder
+    .Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    });
+
 builder.Services.AddAuthorization();
 
 // Add Controllers
@@ -126,6 +135,7 @@ builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("Mo
 builder.Services.AddSingleton<MongoDbContext>();
 builder.Services.AddSingleton<InviteTokenService>();
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<ShowService>();
 
 builder.Services.AddScoped<MustHavsRepository>();
 builder.Services.AddScoped<FFShowRankingRepository>();
