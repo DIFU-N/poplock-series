@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using server.Repositories;
 using server.Services;
@@ -28,5 +29,49 @@ public class InviteController : ControllerBase
         }
 
         return Ok(invite);
+    }
+
+    [HttpPost("create-invite")]
+    public async Task<IActionResult> CreateInvite([FromBody] CreateInviteRequest request)
+    {
+        var tokenHash = _tokenService.HashToken(request.Token);
+
+        var currentInvite = await _invite.GetValidInviteAsync(tokenHash);
+        if (currentInvite == null)
+            return Unauthorized("Invalid invite");
+
+        var alreadyCreated = await _invite.GetByParentInviteIdAsync(currentInvite.Id);
+
+        if (alreadyCreated != null)
+        {
+            return BadRequest("You already invited someone.");
+        }
+
+        var normalized = request.Name.ToLower().Trim();
+
+        var nameExists = await _invite.GetByRecipientNameAsync(normalized);
+
+        if (nameExists != null)
+        {
+            return BadRequest(
+                "Person with this name has been invited already. Invite someone else."
+            );
+        }
+
+        var newToken = _tokenService.GenerateToken();
+
+        var invite = new Invite
+        {
+            TokenHash = _tokenService.HashToken(newToken),
+            CreatedFromInviteId = currentInvite.Id,
+            CreatedBy = currentInvite.RecipientName,
+            ExpiresAt = DateTime.UtcNow.AddDays(10),
+            Used = false,
+            RecipientName = normalized,
+        };
+
+        await _invite.CreateAsync(invite);
+
+        return Ok(new { link = $"https://poplockseries.netlify.app/invite/{newToken}" });
     }
 }
