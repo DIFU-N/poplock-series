@@ -1,3 +1,4 @@
+import AdminCreateInvite from "@/app/components/molecules/AdminCreateInvite";
 
 
 const MyAccount = () => {
@@ -56,6 +57,11 @@ const MyAccount = () => {
             The Must-Hav lists you have created
           </p>
         </div>
+      </section>
+
+
+      <section>
+        <AdminCreateInvite />
       </section>
       {/* <section className="border-b border-line px-6 py-16 sm:py-20">
         <div className="mx-20 max-w-295">
