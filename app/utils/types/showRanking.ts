@@ -1,12 +1,22 @@
-export type ShowRanking = {
+export type FFRanking = {
   id: string;
-  userId?: string;
-  showId: string;
-  rank: number;
-  participantsName?: string;
+  participantsName: string;
+  rankingList: ShowRanks[];
 };
 
-export type ShowRankingType = {
+export type ShowRanks = {
   showId: string;
+  rank: number;
+};
+
+export type RankingResult = {
+  showId: string;
+  points: number;
+};
+
+export type FFRankResponse = {
+  showId: string;
+  showName: string;
+  showImage: string;
   points: number;
 };

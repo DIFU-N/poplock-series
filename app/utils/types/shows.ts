@@ -65,3 +65,10 @@ export type bestPerformers = {
   character: string;
   showId: string;
 };
+
+export type RankedShow = {
+  id?: string;
+  tvMazeId: number;
+  title: string;
+  image: string | undefined;
+};
