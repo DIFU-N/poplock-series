@@ -11,3 +11,13 @@ export type CreateInviteRequest = {
   token: string;
   name: string;
 };
+
+export interface CreateInviteValues {
+  name: string;
+  token: string | null;
+}
+
+
+export interface AdminCreateInviteValues {
+  name: string;
+}
