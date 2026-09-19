@@ -52,7 +52,7 @@ public class InviteController : ControllerBase
 
         var nameExists = await _invite.GetByRecipientNameAsync(normalized);
 
-        if (nameExists != null)
+        if (nameExists != null && !nameExists.Used && nameExists.ExpiresAt > DateTime.UtcNow)
         {
             return BadRequest(
                 "Person with this name has been invited already. Invite someone else."
