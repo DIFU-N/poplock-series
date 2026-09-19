@@ -93,7 +93,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost("create-invite")]
-    public async Task<IActionResult> CreateInvite([FromBody] string name)
+    public async Task<IActionResult> CreateInvite([FromBody] AdminCreateInviteRequest request)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null)
@@ -102,6 +102,8 @@ public class AdminController : ControllerBase
         }
 
         var token = _tokenService.GenerateToken();
+
+         var name = request.Name.ToLower().Trim();
 
         var invite = new Invite
         {
