@@ -17,3 +17,9 @@ export const signUpFormSchema = Yup.object().shape({
 export const searchForShowSchema = Yup.object().shape({
   query: Yup.string().required("Input the name of a show"),
 });
+
+export const CreateInviteSchema = Yup.object().shape({
+  name: Yup.string()
+    .required("First name required.")
+    .matches(/^[\p{L}]+$/u, "Only letters allowed.")
+});
