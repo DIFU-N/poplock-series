@@ -2,6 +2,7 @@ import axios from "axios";
 import { create } from "zustand";
 import { adminCreateInvite, createInvite, fetchInvite } from "../../apis/invite";
 import { CreateInviteRequest } from "../../types/invite";
+import { FFRankDTO } from "../../types/ffranks";
 
 export interface InviteShow {
   id: number; // TVMaze show id
@@ -15,7 +16,7 @@ export interface InviteData {
   createdByName?: string;
   expiresAt: string;
   used: boolean;
-  shows: InviteShow[]; // the inviter's Top 10, in rank order
+  shows: FFRankDTO[];
 }
 
 interface InviteState {

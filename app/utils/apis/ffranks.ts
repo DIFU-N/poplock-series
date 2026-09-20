@@ -38,7 +38,7 @@ export const CreateAdminRanking = async (
   return response.data;
 };
 
-export const GetDadamansRanking = async (): Promise<FFRanking> => {
-  const response = await api.get<FFRanking>(`/fnfranks/dadaman`);
+export const GetDadamansRanking = async (): Promise<FFRankDTO[]> => {
+  const response = await api.get<FFRankDTO[]>(`/fnfranks/dadaman`);
   return response.data;
 };
