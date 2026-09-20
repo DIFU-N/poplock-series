@@ -22,6 +22,7 @@ public class AdminRankingRequest
 public class FFRankDTO
 {
     public string ShowId { get; set; } = string.Empty;
+    public int TvMazeId { get; set; }
 
     public string ShowName { get; set; } = string.Empty;
 

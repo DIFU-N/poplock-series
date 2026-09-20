@@ -202,7 +202,7 @@ public class FFRanksController : ControllerBase
     }
 
     [HttpGet("dadaman")]
-    public async Task<ActionResult<FFRankDTO>> GetDadamans()
+    public async Task<ActionResult<List<FFRankDTO>>> GetDadamans()
     {
         var data = await _ffRanking.GetDadamanRanking();
 
@@ -220,6 +220,7 @@ public class FFRanksController : ControllerBase
                 ShowName = show?.Title ?? "",
                 ShowImage = show?.Image ?? "",
                 Rank = rank.Rank,
+                TvMazeId = show?.TvMazeId ?? 0
             };
         });
 
