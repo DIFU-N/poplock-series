@@ -1,11 +1,8 @@
-import { AdminRankingRequest, FFRankDTO, FFRanking } from "../types/ffranks";
+import { AdminRankingRequest, FFRankDTO, FFRanking, UserRankingRequest } from "../types/ffranks";
 import { api } from "./auth";
 
-export const SubmitRanking = async (token: string, tvmazeIds: number[]) => {
-  const response = await api.post(`/fnfranks/`, {
-    token,
-    tvmazeIds,
-  });
+export const SubmitRanking = async (  request: UserRankingRequest ): Promise<string> => {
+  const response = await api.post(`/fnfranks/`, request);
   return response.data;
 };
 
