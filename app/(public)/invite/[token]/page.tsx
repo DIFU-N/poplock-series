@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useInviteStore } from "@/app/utils/store/zustand-hooks/useInviteStore";
-import InviteListRow from "@/app/components/molecules/InviteListRow";
-import SwapShowModal from "@/app/components/molecules/SwapShowModal";
+import InviteListRow from "@/app/components/molecules/invite/InviteListRow";
+import SwapShowModal from "@/app/components/molecules/invite/SwapShowModal";
 import { useFFRankingStore } from "@/app/utils/store/zustand-hooks/useFFRankingStore";
 import { FFRankDTO } from "@/app/utils/types/ffranks";
 
