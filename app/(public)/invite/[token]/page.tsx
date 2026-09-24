@@ -7,6 +7,8 @@ import InviteListRow from "@/app/components/molecules/invite/InviteListRow";
 import SwapShowModal from "@/app/components/molecules/invite/SwapShowModal";
 import { useFFRankingStore } from "@/app/utils/store/zustand-hooks/useFFRankingStore";
 import { FFRankDTO } from "@/app/utils/types/ffranks";
+import DummyInviteListRow from "@/app/components/molecules/invite/DummyInviteListRow";
+import Toast from "@/app/components/atoms/Toast";
 
 export default function InvitePage() {
   const params = useParams<{ token: string }>();
@@ -35,7 +37,11 @@ export default function InvitePage() {
   // Seed the editable list from the inviter's list once it loads —
   // this is what makes "the first thing they see is my list" true.
   // if (invite) setShows(invite.shows);
-  const displayShows = shows ?? dadamansRanking ?? [];
+  const displayShows = shows?.slice(1) ?? dadamansRanking?.slice(1) ?? [];
+  if (dadamansRanking == null) {
+    throw new Error("No shows available");
+  }
+  const friendsIsTop = dadamansRanking[0];
 
   function moveShow(index: number, direction: -1 | 1) {
     setShows((prev) => {
@@ -79,8 +85,19 @@ export default function InvitePage() {
     );
   }
 
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (message: string) => {
+    setToast(message);
+
+    // auto hide after 2s
+    setTimeout(() => {
+      setToast(null);
+    }, 2000);
+  };
+
   return (
-    <main>
+    <main className="relative overflow-hidden">
       <section className="border-b border-line px-6 py-16 sm:py-20">
         <div className="mx-auto max-w-295">
           <div className="mb-4.5 font-mono text-[13px] text-dim">
@@ -143,11 +160,23 @@ export default function InvitePage() {
                 </div>
 
                 <ol className="mb-6 border border-line">
+                  {
+                    <DummyInviteListRow
+                      key={friendsIsTop.showId}
+                      show={friendsIsTop}
+                      rank={1}
+                      isFirst={true}
+                      isLast={false}
+                      onSwap={() => setSwapIndex(1)}
+                      onMove={(direction) => moveShow(0, direction)}
+                      onTriggerToast={showToast}
+                    />
+                  }
                   {displayShows.map((show, i) => (
                     <InviteListRow
                       key={show.showId}
                       show={show}
-                      rank={i + 1}
+                      rank={i + 2}
                       isFirst={i === 0}
                       isLast={i === displayShows.length - 1}
                       onSwap={() => setSwapIndex(i)}
@@ -199,6 +228,8 @@ export default function InvitePage() {
           onClose={() => setSwapIndex(null)}
         />
       )}
+
+      {toast && <Toast text={toast} />}
     </main>
   );
 }
