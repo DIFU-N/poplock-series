@@ -213,6 +213,7 @@ public class FFRanksController : ControllerBase
         var result = data.RankingList.Select(rank =>
         {
             showMap.TryGetValue(rank.ShowId, out var show);
+            var tvMazeId = show?.TvMazeId ?? 0;
 
             return new FFRankDTO
             {
@@ -220,7 +221,7 @@ public class FFRanksController : ControllerBase
                 ShowName = show?.Title ?? "",
                 ShowImage = show?.Image ?? "",
                 Rank = rank.Rank,
-                TvMazeId = show?.TvMazeId ?? 0
+                TvMazeId = tvMazeId
             };
         });
 
