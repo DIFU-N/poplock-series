@@ -34,9 +34,13 @@ const ShowPage = () => {
   const user = useAuthStore((state) => state.user);
   const setFeaturedShows = useShowStore((state) => state.setFeaturedShows);
 
-  const handleFeatured = () => {
-    setFeaturedShows(featuredShows);
-  };
+  const bestWeeklyIds = useShowStore((state) => state.bestWeeklyIds);
+  const setBestWeekly = useShowStore((state) => state.setBestWeekly);
+  const setLocalBestWeekly = useShowStore((state) => state.setLocalBestWeekly);
+
+  // const handleFeatured = () => {
+  //   setFeaturedShows(featuredShows);
+  // };
   useEffect(() => {
     console.log(featuredShows.length);
 
@@ -52,9 +56,8 @@ const ShowPage = () => {
     };
 
     loadShow();
-  }, [router, id, getShow]);
-  
-  {console.log(featuredShows)}
+  }, [router, id, getShow, featuredShows.length]);
+
   useEffect(() => {
     if (show) {
       getUserRating(show?.id);
@@ -140,26 +143,50 @@ const ShowPage = () => {
                 {user?.role === "s.admin" ? (
                   <div>Featured Shows: ({featuredShows.length})</div>
                 ) : null}
+                {user?.role === "s.admin" ? (
+                  <div>Best Weekly: ({bestWeeklyIds.length})</div>
+                ) : null}
                 {user?.role === "s.admin" && show ? (
                   <div>
                     <button
                       className="border-2 p-2 border-green-200  cursor-pointer font-mono hover:bg-green-800"
                       onClick={() => setLocalFeaturedShows(show.id)}
                     >
-                      Set Local
+                      Set Local Featured
                     </button>
                   </div>
                 ) : null}
+                {user?.role === "s.admin" && show ? (
+                  <div>
+                    <button
+                      className="border-2 p-2 border-green-200  cursor-pointer font-mono hover:bg-green-800"
+                      onClick={() => setLocalBestWeekly(show.id)}
+                    >
+                      Set Local Best Weekly
+                    </button>
+                  </div>
+                ) : null}
+
                 {user?.role === "s.admin" ? (
                   <div>
                     <button
                       className="border-2 p-2 border-green-200  cursor-pointer font-mono hover:bg-green-800"
-                      disabled={featuredShows.length !== 10}
+                      disabled={featuredShows.length !== 20}
                       onClick={() => setFeaturedShows(featuredShows)}
                     >
                       Set Featured
                     </button>
                   </div>
+                ) : null}
+
+                {user?.role === "s.admin" ? (
+                  <button
+                    className="border-2 p-2 border-green-200  cursor-pointer font-mono hover:bg-green-800"
+                    disabled={bestWeeklyIds.length !== 5}
+                    onClick={() => setBestWeekly(bestWeeklyIds)}
+                  >
+                    Set Best Weekly
+                  </button>
                 ) : null}
               </div>
             </div>
