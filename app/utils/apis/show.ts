@@ -47,7 +47,7 @@ export const getBestWeekly = async () => {
 };
 
 export const setBestWeekly = async (ids: string[]) => {
-  const response = await axios.post(`${API_BASE}/admin/bestweekly`, { ids });
+  const response = await api.post(`/admin/bestweekly`, ids);
   return response.data;
 };
 
@@ -57,6 +57,6 @@ export const getBestPerformers = async () => {
 };
 
 export const setBestPerformers = async (best: bestPerformers[]) => {
-  const response = await axios.post(`${API_BASE}/admin/bestperf`, { best });
+  const response = await api.post(`/admin/bestperf`, best);
   return response.data;
 };
