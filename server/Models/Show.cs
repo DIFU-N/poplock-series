@@ -94,6 +94,9 @@ public class SomeOfShow
 
     [BsonElement("title")]
     public string Title { get; set; } = string.Empty;
+
+    [BsonElement("image")]
+    public string? Image { get; set; } = string.Empty;
 }
 
 public class BestPerformer

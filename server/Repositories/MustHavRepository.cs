@@ -47,6 +47,7 @@ public class MustHavsRepository
                     Id = show.Id,
                     Title = show.Title,
                     TvMazeId = show.TvMazeId,
+                    Image = show.Image,
                 })
                 .ToList();
 

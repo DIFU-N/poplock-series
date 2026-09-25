@@ -57,6 +57,7 @@ export type someOfShow = {
   id: string;
   tvMazeId: number;
   title: string;
+  image: string;
 };
 
 export type bestPerformers = {
