@@ -40,11 +40,7 @@ body {
   background: #6fcf7a;
 }
 .signal-bars i.half {
-  background: linear-gradient(
-    to right,
-    #6fcf7a 50%,
-    #2a2a33 50%
-  );
+  background: linear-gradient(to right, #6fcf7a 50%, #2a2a33 50%);
 }
 .signal-bars i:nth-child(1) {
   height: 8px;
@@ -62,3 +58,15 @@ body {
   height: 24px;
 }
 
+@layer utilities {
+  /* For Webkit-based browsers (Chrome, Safari and Opera) */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* For IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
