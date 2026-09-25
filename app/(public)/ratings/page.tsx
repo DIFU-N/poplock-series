@@ -1,7 +1,7 @@
 "use client";
-import RatingsList from "@/components/organisms/ratings/RatingsList";
-import { useAuthStore } from "@/utils/store/zustand-hooks/useAuthStore";
-import { useRatingStore } from "@/utils/store/zustand-hooks/useRatingStore";
+import RatingsList from "@/app/components/organisms/ratings/RatingsList";
+import { useAuthStore } from "@/app/utils/store/zustand-hooks/useAuthStore";
+import { useRatingStore } from "@/app/utils/store/zustand-hooks/useRatingStore";
 import { useEffect } from "react";
 
 export default function RatingsPage() {
