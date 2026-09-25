@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { ScheduledShow } from "@/app/utils/types/episodes";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function ScheduleTabs({
   schedules,
@@ -10,24 +11,30 @@ export default function ScheduleTabs({
   schedules: ScheduledShow[];
 }) {
   const router = useRouter();
-  const onClick = async (id: string) => {
+  const onClick = (id: string) => {
     if (id) {
       router.push(`/show/${id}`);
-    } else {
-      return;
     }
   };
 
   const week = useMemo(() => {
-    const grouped = new Map<string, ScheduledShow[]>(); //what does this mean?
+    // A Map is the right tool here because the keys (dates) aren't known
+    // ahead of time — we discover them as we loop through `schedules` —
+    // and we need fast "does this date already have a bucket?" lookups.
+    const grouped = new Map<string, ScheduledShow[]>();
 
     schedules.forEach((schedule) => {
       if (!schedule.nextEpisode.airDate) return;
 
-      const date = schedule.nextEpisode.airDate.split("T")[0]; //what does this mean?
+      // airDate arrives as a full ISO timestamp, e.g. "2026-09-25T20:00:00Z".
+      // Splitting on "T" gives ["2026-09-25", "20:00:00Z"] — [0] is just
+      // the date, which is what we group episodes by (ignoring the time).
+      const date = schedule.nextEpisode.airDate.split("T")[0];
 
+      // First episode we've seen for this date — create its bucket
+      // before we try to push into it below.
       if (!grouped.has(date)) {
-        grouped.set(date, []); // what does this mean?
+        grouped.set(date, []);
       }
 
       grouped.get(date)!.push(schedule);
@@ -57,6 +64,7 @@ export default function ScheduleTabs({
       </div>
     );
   }
+
   return (
     <div>
       <div className="mb-6 flex flex-wrap gap-1.5 font-mono text-[13px]">
@@ -64,47 +72,61 @@ export default function ScheduleTabs({
           <button
             key={d.date}
             onClick={() => setActive(i)}
-            className={`border px-3.5 py-2 transition-colors cursor-pointer ${
+            className={`cursor-pointer border px-3.5 py-2 transition-colors ${
               i === active
                 ? "border-green-500 text-green-500"
                 : "border-line text-dim hover:border-paper hover:text-paper"
             }`}
           >
-            {/* <span className={i === active ? "opacity-70" : "mr-1.5 text-cyan"}>
-              {i === active ? "" : d.pageNo.replace("P.", "") + " "}
-            </span> */}
             {d.label}
           </button>
         ))}
       </div>
 
-      {/* <div className="mb-3 font-mono text-[13px] text-dim">{day.pageNo}</div> */}
-
       <div className="border border-line font-mono text-sm">
         {day.shows.map((schedule) => (
           <div
-          onClick={() => onClick(schedule.show.id)}
+            onClick={() => onClick(schedule.show.id)}
             key={schedule.show.id}
-            className={`grid grid-cols-[70px_1fr_auto] items-center cursor-pointer gap-3 px-4 py-3 sm:grid-cols-[90px_1fr_auto]`}
+            className="grid cursor-pointer grid-cols-[56px_48px_1fr_auto] items-center gap-3 border-b border-line px-4 py-3 transition-colors last:border-b-0 hover:bg-ink-2 sm:grid-cols-[72px_56px_1fr_auto]"
           >
-            <span className={"text-dim"}>
+            {/* Not every episode has a confirmed air time yet — fall
+                back to a plain label instead of rendering nothing. */}
+            <span className="text-xs text-dim sm:text-sm">
               {schedule.nextEpisode.airTime
                 ? `${schedule.nextEpisode.airTime} ET`
-                : ""}
+                : "Time TBA"}
             </span>
 
-            {/* <span className="text-xs text-dim">{row.badge}</span> */}
-            <div className="flex flex-col">
-              <span className="text-paper">{schedule.show.title}</span>
-              <span className="text-dim text-xs">
+            {schedule.show.image ? (
+              <Image
+                alt={schedule.show.title}
+                src={schedule.show.image}
+                width={100}
+                height={100}
+                className="h-full w-full shrink-0 rounded-sm object-cover"
+              />
+            ) : (
+              <div className="h-12 w-12 shrink-0 rounded-sm border border-line" />
+            )}
+
+            <div className="flex min-w-0 flex-col">
+              <span className="truncate text-paper">
+                {schedule.show.title}
+              </span>
+              <span className="truncate text-xs text-dim">
                 S{schedule.nextEpisode.season} E{schedule.nextEpisode.number}
                 {schedule.nextEpisode.title &&
                   ` - ${schedule.nextEpisode.title}`}
               </span>
             </div>
 
-            <span className="text-xs text-dim">
-              {schedule.nextEpisode.runtime} min
+            {/* Runtime is also sometimes missing (e.g. unaired episodes) —
+                show a dash instead of "undefined min". */}
+            <span className="whitespace-nowrap text-xs text-dim">
+              {schedule.nextEpisode.runtime
+                ? `${schedule.nextEpisode.runtime} min`
+                : "—"}
             </span>
           </div>
         ))}
