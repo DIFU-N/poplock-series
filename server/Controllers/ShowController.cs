@@ -167,8 +167,8 @@ public class ShowController : ControllerBase
     [Authorize(Roles = "admin,s.admin")]
     public async Task<IActionResult> SetFeatured([FromBody] List<string> showIds)
     {
-        if (showIds.Count > 10)
-            return BadRequest("Max 3 featured shows allowed");
+        if (showIds.Count > 20)
+            return BadRequest("Max 20 featured shows allowed");
 
         await _repo.ClearAllFeatured();
 
