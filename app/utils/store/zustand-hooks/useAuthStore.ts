@@ -17,6 +17,9 @@ interface AuthStore {
   login: (formValues: LoginFormInitialValues) => Promise<void>;
   register: (formValues: RegisterFormInitialValues) => Promise<void>;
   logout: () => void;
+  hasHydrated: boolean;
+
+  setHasHydrated: (state: boolean) => void;
 }
 
 const initialState: AuthStore = {
@@ -28,12 +31,19 @@ const initialState: AuthStore = {
   login: async () => {},
   register: async () => {},
   logout() {},
+  hasHydrated: false,
+
+  setHasHydrated: () => {},
 };
 
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
       ...initialState,
+
+      hasHydrated: false,
+      setHasHydrated: (state) => set({ hasHydrated: state }),
+
       login: async (formValues: LoginFormInitialValues) => {
         set({ loading: true, error: null });
 
@@ -76,6 +86,9 @@ export const useAuthStore = create<AuthStore>()(
     }),
     {
       name: "auth-storage",
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );
