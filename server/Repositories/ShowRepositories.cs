@@ -98,9 +98,9 @@ public class ShowRepository
 
     public async Task<List<Show>> SetBestWeekly(List<string> ids)
     {
-        if (ids.Count != 3 || ids == null)
+        if (ids.Count != 5 || ids == null)
         {
-            throw new InvalidOperationException("Has to be only 3");
+            throw new InvalidOperationException("Has to be only 5");
         }
         var filter = Builders<Show>.Filter.In(x => x.Id, ids);
 
