@@ -55,8 +55,10 @@ type ShowState = {
 
   errorData: string | null;
 
+  bestWeeklyIds: string[];
   bestWeekly: Show[];
-  setBestWeekly: (values: string[]) => void;
+  setBestWeekly: (showId: string[]) => void;
+  setLocalBestWeekly: (showId: string) => void;
   getBestWeekly: () => void;
 
   bestPerformers: bestPerformers[];
@@ -93,7 +95,9 @@ const initialState: ShowState = {
   errorData: null,
 
   bestWeekly: [],
+  bestWeeklyIds: [],
   setBestWeekly: async () => {},
+  setLocalBestWeekly: () => {},
   getBestWeekly: async () => {},
 
   bestPerformers: [],
@@ -103,7 +107,7 @@ const initialState: ShowState = {
 
 export const useShowStore = create<ShowState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       ...initialState,
       shows: [],
       fetchAllShows: async () => {
@@ -228,7 +232,7 @@ export const useShowStore = create<ShowState>()(
               return state;
             }
 
-            if (state.featuredShows.length >= 10) {
+            if (state.featuredShows.length >= 20) {
               return state;
             }
 
@@ -266,6 +270,7 @@ export const useShowStore = create<ShowState>()(
           set({
             loading: false,
             bestWeekly: data.results,
+            bestWeeklyIds: [],
           });
           return data.results;
         } catch (error: unknown) {
@@ -275,6 +280,23 @@ export const useShowStore = create<ShowState>()(
             errorData: isAxiosError(error) ? error.message : "unkown error",
           });
           return [];
+        }
+      },
+      setLocalBestWeekly: (showId: string) => {
+        if (showId !== "") {
+          set((state) => {
+            if (state.bestWeeklyIds.includes(showId)) {
+              return state;
+            }
+
+            if (state.bestWeeklyIds.length >= 5) {
+              return state;
+            }
+
+            return {
+              bestWeeklyIds: [...state.bestWeeklyIds, showId],
+            };
+          });
         }
       },
       getBestWeekly: async () => {
