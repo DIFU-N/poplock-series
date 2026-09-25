@@ -1,4 +1,4 @@
-import NewListForm from "@/components/molecules/NewListForm";
+import NewListForm from "@/app/components/molecules/NewListForm";
 import { Suspense } from "react";
 
 export default function NewListPage() {
