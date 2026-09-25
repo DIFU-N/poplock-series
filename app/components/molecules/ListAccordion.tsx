@@ -24,9 +24,6 @@ export default function ListAccordion({
   const handleMouseLeave = () => {
     setHoveredIndex(-1);
   };
-
-  console.log(shows);
-
   return (
     <div className="border border-line cursor-pointer ">
       <button
