@@ -307,9 +307,9 @@ export const useShowStore = create<ShowState>()(
 
           set({
             loading: true,
-            bestWeekly: data.results,
+            bestWeekly: data,
           });
-          return data.results;
+          return data;
         } catch (error: unknown) {
           set({
             loading: false,
