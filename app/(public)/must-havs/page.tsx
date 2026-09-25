@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useAuthStore } from "@/utils/store/zustand-hooks/useAuthStore";
-import ListAccordion from "@/components/molecules/ListAccordion";
+import { useAuthStore } from "@/app/utils/store/zustand-hooks/useAuthStore";
+import ListAccordion from "@/app/components/molecules/ListAccordion";
 import { useEffect, useState } from "react";
-import { useMustHavStore } from "@/utils/store/zustand-hooks/useMustHavsStore";
+import { useMustHavStore } from "@/app/utils/store/zustand-hooks/useMustHavsStore";
 
 export default function MustHavesPage() {
   const getAll = useMustHavStore((state) => state.getAll);
@@ -17,6 +17,12 @@ export default function MustHavesPage() {
 
   const user = useAuthStore((state) => state.user);
   const [gotyou, setGotyou] = useState(false);
+
+  const [openId, setOpenId] = useState<string | null>();
+
+  const firstId = mustHavs?.[0]?.id;
+
+  const effectiveOpenId = openId ?? firstId;
 
   return (
     <main>
@@ -81,7 +87,15 @@ export default function MustHavesPage() {
             {mustHavs.length > 0 ? (
               <div className="flex flex-col gap-4">
                 {mustHavs.map((i) => (
-                  <ListAccordion key={i.id} list={i} shows={i.shows} />
+                  <ListAccordion
+                    key={i.id}
+                    list={i}
+                    shows={i.shows}
+                    open={effectiveOpenId == i.id}
+                    onToggle={() =>
+                      setOpenId((prev) => (prev === i.id! ? null : i.id!))
+                    }
+                  />
                 ))}
               </div>
             ) : (
