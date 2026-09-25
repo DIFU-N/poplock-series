@@ -1,8 +1,8 @@
 "use client";
 
-import Footer from "@/components/atoms/Footer";
-import Header from "@/components/atoms/Header";
-import { useAuthStore } from "@/utils/store/zustand-hooks/useAuthStore";
+import Footer from "@/app/components/atoms/Footer";
+import Header from "@/app/components/atoms/Header";
+import { useAuthStore } from "@/app/utils/store/zustand-hooks/useAuthStore";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -16,7 +16,7 @@ export default function PrivateLayout({
 
   useEffect(() => {
     if (!token) {
-      router.push("/")      
+      router.push("/login")      
     }
   }, [router, token])
 
