@@ -1,15 +1,9 @@
-import {
-  addMustHav,
-  addTopTenFamFriends,
-  getMustHavs,
-} from "@/app/utils/apis/musthavs";
+import { addMustHav, getMustHavs } from "@/app/utils/apis/musthavs";
 import {
   addMustHavResponse,
-  addTopTenResponse,
   GetMustHavResponse,
   MustHav,
 } from "@/app/utils/types/musthavs";
-import { ShowRanking } from "@/app/utils/types/showRanking";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -17,10 +11,8 @@ type MustHavState = {
   loading: boolean;
   error: string | null;
   mustHavs: GetMustHavResponse[];
-  topTen: ShowRanking[];
 
   setMustHavs: (mustHav: MustHav) => Promise<addMustHavResponse | null>;
-  setTopTen: (ShowRanking: ShowRanking) => Promise<void>;
   getAll: () => Promise<void>;
 };
 
@@ -28,31 +20,23 @@ const initialState: MustHavState = {
   error: null,
   loading: false,
   mustHavs: [],
-  topTen: [],
   setMustHavs: async () => null,
-  setTopTen: async () => {},
   getAll: async () => {},
 };
 
 export const useMustHavStore = create<MustHavState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       ...initialState,
-      mustHavs: [],
-      topTen: [],
       setMustHavs: async (mustHav: MustHav) => {
         set({ loading: true });
 
         try {
-          console.log(mustHav);
-
           const addList: addMustHavResponse = await addMustHav(mustHav);
 
-          set((state) => ({
+          set(() => ({
             loading: false,
-            // mustHavs: [...state.mustHavs, addList.mustHav],
           }));
-          // console.log(addList);
 
           return addList;
         } catch {
@@ -64,35 +48,13 @@ export const useMustHavStore = create<MustHavState>()(
           return null;
         }
       },
-      setTopTen: async (showRanking: ShowRanking) => {
-        set({ loading: true });
-
-        try {
-          const addList: addTopTenResponse = await addTopTenFamFriends(
-            showRanking,
-            // token,
-          );
-
-          set((state) => ({
-            loading: false,
-            topTen: [...state.topTen, addList.showRanking],
-          }));
-        } catch {
-          set({
-            loading: false,
-            error: "error adding top ten",
-          });
-        }
-      },
       getAll: async () => {
         set({ loading: true });
 
         const all = await getMustHavs();
 
-        // console.log(all.all);
-
         try {
-          set((state) => ({
+          set(() => ({
             loading: false,
             mustHavs: [...all.all],
           }));
