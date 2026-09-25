@@ -1,8 +1,10 @@
 "use client";
-
 import Link from "next/link";
 import { GetMustHavResponse } from "@/app/utils/types/musthavs";
 import { someOfShow } from "@/app/utils/types/shows";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function ListAccordion({
   list,
@@ -15,6 +17,16 @@ export default function ListAccordion({
   open: boolean;
   onToggle: () => void;
 }) {
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
+  const handleMouseEnter = (index: number) => {
+    setHoveredIndex(index);
+  };
+  const handleMouseLeave = () => {
+    setHoveredIndex(-1);
+  };
+
+  console.log(shows);
+
   return (
     <div className="border border-line cursor-pointer ">
       <button
@@ -35,30 +47,50 @@ export default function ListAccordion({
           <span className="text-cyan">{open ? "▲" : "▼"}</span>
         </div>
       </button>
-
       {open && (
-        <div className="border-t border-line">
+        // <div className="border-t border-line">
+        <div className="flex overflow-x-auto w-full justify-start scrollbar-hide items-start p-4 gap-4 h-full">
           {shows.length > 0 ? (
             shows.map((show, i) => (
               <Link
                 key={show.id}
                 href={`/show/${show.id}`}
-                className={`flex items-center justify-between gap-4 px-5 py-3 transition-colors hover:bg-green-700 ${
-                  i !== shows.length - 1 ? "border-b border-line" : ""
+                className={`flex items-center justify-between gap-4 px-5 py-3 transition-colors ${
+                  i !== shows.length - 1 ? "" : ""
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  {/* <span className="font-mono text-xs text-dim">
-                    {show.page}
-                  </span> */}
-                  {/* <span
-                    className={`px-1.75 py-0.5 font-mono text-[11px] tracking-[0.04em] text-ink ${genreChipClasses[show.genre]}`}
-                  >
-                    {genreLabels[show.genre]}
-                  </span> */}
-                  <span className="font-display text-sm">{show.title}</span>
-                </div>
-                {/* <SignalBars signal={show.signal} /> */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <div className="w-32 h-50 relative group">
+                    <Image
+                      src={show.image}
+                      title={show.title}
+                      // width={100}
+                      // height={100}
+                      fill
+                      // className='rounded-lg'
+                      // className={`rounded-lg ${hoveredIndex !== image.id ? 'brightness-50' : ''}`}
+                      className={`rounded-lg object-cover aos-animate ${
+                        hoveredIndex !== -1 && hoveredIndex !== i
+                          ? "brightness-50"
+                          : ""
+                      }`}
+                      alt={show.title}
+                      onMouseOver={() => handleMouseEnter(i)}
+                      onMouseOut={() => handleMouseLeave()}
+                      // data-aos="fade-left"
+                      // data-aos-duration={image.id*350}
+                      // data-aos-once="false"
+                    />
+                    {/* <div className="absolute bottom-2 right-0 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition bg-amber-400/70 text-white text-xs py-1 px-2 text-center">
+                    {show.title}
+                  </div> */}
+                  </div>
+                </motion.div>
               </Link>
             ))
           ) : (
