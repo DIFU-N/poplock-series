@@ -3,7 +3,7 @@ import { ReactNode, Suspense, useEffect } from "react";
 // import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/utils/store/zustand-hooks/useAuthStore";
+import { useAuthStore } from "@/app/utils/store/zustand-hooks/useAuthStore";
 
 function AuthLayoutClient({ children }: { children: ReactNode }) {
   const token = useAuthStore((state) => state.token);

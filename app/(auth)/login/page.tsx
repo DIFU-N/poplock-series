@@ -1,8 +1,8 @@
 "use client";
-import Footer from "@/components/atoms/Footer";
-import Header from "@/components/atoms/Header";
-import LoginForm from "@/components/organisms/auth/LoginForm";
-import SignUpForm from "@/components/organisms/auth/SignUpForm";
+import Footer from "@/app/components/atoms/Footer";
+import Header from "@/app/components/atoms/Header";
+import LoginForm from "@/app/components/organisms/auth/LoginForm";
+import SignUpForm from "@/app/components/organisms/auth/SignUpForm";
 import React, { useState } from "react";
 
 enum Page {
