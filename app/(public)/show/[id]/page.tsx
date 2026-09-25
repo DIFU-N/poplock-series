@@ -1,13 +1,13 @@
 "use client";
 
-import SignalBars from "@/components/atoms/SignalBars";
-import RateShow from "@/components/molecules/RateShow";
-import { useAuthStore } from "@/utils/store/zustand-hooks/useAuthStore";
+import SignalBars from "@/app/components/atoms/SignalBars";
+import RateShow from "@/app/components/molecules/RateShow";
+import { useAuthStore } from "@/app/utils/store/zustand-hooks/useAuthStore";
 // import ShowTabs from "@/components/organisms/search/ShowTabs";
-import { useRatingStore } from "@/utils/store/zustand-hooks/useRatingStore";
-import { useShowStore } from "@/utils/store/zustand-hooks/useShowStore";
-import { stripHtml } from "@/utils/stripHtml";
-import { Show } from "@/utils/types/shows";
+import { useRatingStore } from "@/app/utils/store/zustand-hooks/useRatingStore";
+import { useShowStore } from "@/app/utils/store/zustand-hooks/useShowStore";
+import { stripHtml } from "@/app/utils/stripHtml";
+import { Show } from "@/app/utils/types/shows";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

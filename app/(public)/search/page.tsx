@@ -1,4 +1,4 @@
-import SearchClient from "@/components/organisms/search/SearchClient";
+import SearchClient from "@/app/components/organisms/search/SearchClient";
 
 export default function SearchPage() {
   return (
