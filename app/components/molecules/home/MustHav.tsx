@@ -1,31 +1,57 @@
+import { useMustHavStore } from "@/app/utils/store/zustand-hooks/useMustHavsStore";
+import { useEffect, useMemo, useState } from "react";
+import ListAccordion from "../ListAccordion";
+import { shuffle } from "@/app/utils/shuffleArr";
 
 export default function MustHavs() {
+  const getAll = useMustHavStore((state) => state.getAll);
+
+  const mustHavs = useMustHavStore((state) => state.mustHavs);
+
+  const mcut = useMemo(() => {
+    return shuffle(mustHavs).slice(0, 3);
+  }, [mustHavs]);
+
+  useEffect(() => {
+    getAll();
+  }, [getAll]);
+
+  const [openId, setOpenId] = useState<string | null>();
+
+  const firstId = mcut?.[0]?.id;
+
+  const effectiveOpenId = openId ?? firstId;
+
   return (
     <section id="foryou" className="border-b border-line px-6 py-14">
       <div className="mx-auto max-w-295">
         <div className="mb-7">
-          <div className="font-mono text-[13px] text-dim">
-            {/* <span className="text-cyan">P.150</span> —  */}
-            Must Hav Groups.
+          <div className="font-mono text-4xl font-bold">
+            Must Hav Previews.
           </div>
           {/* <h2 className="mt-1.5 font-display text-2xl">
             Because you watched Static Bloom
           </h2> */}
         </div>
 
-        <p className="mb-5 font-mono text-[13px] text-dim">
-          Check out these shows, specifically chosen by dadaman. —{" "}
-          <b className="font-medium text-paper">3 picks</b>, scroll to see more.
-        </p>
-
-        <div className="flex gap-px overflow-x-auto border border-line bg-line">
-          {/* {forYouPicks.map((p) => (
-            <div key={p.page} className="min-w-55 flex-none bg-ink p-4.5">
-              <span className="font-mono text-xs text-dim">{p.page}</span>
-              <h4 className="mb-1.5 mt-2 font-display text-base">{p.title}</h4>
-              <p className="text-[13.5px] text-[#c9c8c0]">{p.reason}</p>
+        <div className="mx-auto max-w-295">
+          {mcut.length > 0 ? (
+            <div className="flex flex-col gap-4">
+              {mcut.map((i) => (
+                <ListAccordion
+                  key={i.id}
+                  list={i}
+                  shows={i.shows}
+                  open={effectiveOpenId == i.id}
+                  onToggle={() =>
+                    setOpenId((prev) => (prev === i.id! ? null : i.id!))
+                  }
+                />
+              ))}
             </div>
-          ))} */}
+          ) : (
+            <div>Not working.</div>
+          )}
         </div>
       </div>
     </section>
