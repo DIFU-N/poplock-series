@@ -98,12 +98,8 @@ export default function InvitePage() {
 
   return (
     <main className="relative overflow-hidden">
-      <section className="border-b border-line px-6 py-16 sm:py-20">
+      <section className="border-b px-6 py-12">
         <div className="mx-auto max-w-295">
-          <div className="mb-4.5 font-mono text-[13px] text-dim">
-            PAGE 210 — INVITE
-          </div>
-
           {loading && (
             <p className="font-mono text-sm text-dim">Loading your invite…</p>
           )}
@@ -113,19 +109,23 @@ export default function InvitePage() {
               <h1 className="mb-3 font-display text-2xl">
                 We couldn&apos;t open this invite
               </h1>
-              <p className="max-w-140 text-[#c9c8c0]">{error}</p>
             </>
           )}
 
           {!loading && !error && invite && !submitted && (
             <>
-              <h1 className="mb-3 font-display text-[clamp(28px,5vw,44px)] font-bold leading-[1.05] tracking-tight">
-                {invite?.recipientName}, build your Top 10
+              <h1 className="mb-3 text-[clamp(28px,5vw,44px)] font-bold leading-[1.05] tracking-tight">
+                {invite?.recipientName.toUpperCase()}, build your Top 10
               </h1>
               <p className="max-w-140 text-[17px] text-[#c9c8c0]">
-                {invite?.createdByName ?? "Someone"} shared their Top 10 with
+                {invite?.createdByName ?? "Someone "} shared their Top 10 with
                 you. Swap out anything that&apos;s not you, and reorder the rest
-                until it&apos;s yours.
+                until it&apos;s yours. {"[Less one ;)]"}
+              </p>
+
+              <p>
+                You represent all {invite?.recipientName}
+                {"'s"} around the world. Make it count.
               </p>
             </>
           )}
@@ -136,7 +136,8 @@ export default function InvitePage() {
                 Your Top 10 is saved
               </h1>
               <p className="max-w-140 text-[#c9c8c0]">
-                Thanks — your list has been submitted.
+                Thanks. your list has been submitted. View the Top 10 list to
+                see how your shit has affected the world.
               </p>
             </>
           )}
@@ -149,7 +150,7 @@ export default function InvitePage() {
             {!submitted ? (
               <>
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3 font-mono text-[13px] text-dim">
-                  <span>{displayShows.length} shows</span>
+                  <span>10 shows</span>
                   <button
                     type="button"
                     onClick={resetToOriginal}

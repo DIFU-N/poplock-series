@@ -68,7 +68,7 @@ const ShowPage = () => {
 
   return (
     <main>
-      <section className="border-b border-line px-6 py-16 sm:py-20">
+      <section className="border-b px-6 py-12">
         <div className="mx-auto max-w-295 flex gap-4">
           <div className="mx-auto flex flex-col gap-7">
             <div className="flex gap-5">

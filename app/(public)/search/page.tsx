@@ -3,13 +3,13 @@ import SearchClient from "@/app/components/organisms/search/SearchClient";
 export default function SearchPage() {
   return (
     <main>
-      <section className="border-b border-line px-6 py-16 sm:py-20">
+      <section className="border-b px-6 py-12">
         <div className="mx-auto max-w-295">
-          <h1 className="mb-3 font-display text-[clamp(30px,5vw,48px)] font-bold leading-[1.05] tracking-tight">
+          <h1 className="mb-3 text-[clamp(30px,5vw,48px)] font-bold leading-[1.05] tracking-tight">
             Look something up
           </h1>
           <p className="max-w-140 text-[17px] text-[#c9c8c0]">
-            Search by title, mood, or genre. Filters narrow it further.
+            Search by title.
           </p>
         </div>
       </section>
