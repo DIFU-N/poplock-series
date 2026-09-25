@@ -52,4 +52,11 @@ public class FFShowRankingRepository
     {
         await _ffRanking.DeleteOneAsync(x => x.Id == id);
     }
+
+    public async Task<FFRanking> GetDadamanRanking()
+    {
+        return await _ffRanking
+            .Find(x => x.ParticipantsName.ToLower() == "dadaman")
+            .FirstOrDefaultAsync();
+    }
 }
