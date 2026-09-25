@@ -1,6 +1,7 @@
 import { getRandomPosition } from "@/app/utils/getRandomPosition";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { shuffle } from "@/app/utils/shuffleArr";
 
 type props = {
   onTriggerToast: (msg: string) => void;
@@ -24,17 +25,6 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
   ];
 
   const [pool, setPool] = useState<string[]>([]);
-
-  const shuffle = (arr: string[]) => {
-    const copy = [...arr];
-
-    for (let i = copy.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-
-    return copy;
-  };
 
   const getNextMessage = () => {
     let currentPool = pool;
