@@ -200,6 +200,7 @@ public class ShowController : ControllerBase
     }
 
     [HttpGet("bestweekly")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetBestWeekly()
     {
         var all = await _repo.GetBestWeekly();
@@ -208,6 +209,7 @@ public class ShowController : ControllerBase
     }
 
     [HttpGet("bestperf")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetPerformers()
     {
         var best = await _repo.GetBestPerformersAsync();
