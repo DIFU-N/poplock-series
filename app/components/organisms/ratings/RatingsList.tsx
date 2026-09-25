@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { RatingWithShow } from "@/app/utils/types/rating";
+import Image from "next/image";
 
 export default function RatingsList({
   initial,
@@ -28,13 +29,29 @@ export default function RatingsList({
           }`}
         >
           <div className="flex items-start gap-3 sm:items-center">
+            <div className="h-24 w-20 shrink-0 relative rounded-md">
+              {show.show.image ? (
+                <Image
+                  alt={show.show.title}
+                  src={show.show.image}
+                  // width={100}
+                  // height={100}
+                  fill
+                  className="rounded-md object-contain"
+                />
+              ) : (
+                <div className="h-12 w-12 shrink-0 rounded-sm border border-line" />
+              )}
+            </div>
+
             <div>
               <h3 className="font-display text-base">{show.show.title}</h3>
               <p className="font-mono text-xs text-dim">
-                Rated {new Date(show.updatedAt).toLocaleString("en-GB", {
+                Rated{" "}
+                {new Date(show.updatedAt).toLocaleString("en-GB", {
                   day: "numeric",
                   month: "long",
-                  year: "numeric"
+                  year: "numeric",
                 })}
               </p>
             </div>
