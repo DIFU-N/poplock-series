@@ -1,4 +1,4 @@
-import { ShowRanking } from "./showRanking";
+// import { ShowRanking } from "./showRanking";
 import { someOfShow } from "./shows";
 
 export type MustHav = {
@@ -15,7 +15,7 @@ export type addMustHavResponse = {
 
 export type addTopTenResponse = {
   message: string;
-  showRanking: ShowRanking;
+  // showRanking: ShowRanking;
 };
 
 export type GetMustHavResponse = {
