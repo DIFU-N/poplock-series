@@ -62,7 +62,7 @@ public class AuthController : ControllerBase
             new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true, // true in production (HTTPS)
+                Secure = false, // true in production (HTTPS)
                 SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddDays(1000),
             }
@@ -94,7 +94,7 @@ public class AuthController : ControllerBase
             new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true, // true in production (HTTPS)
+                Secure = false, // true in production (HTTPS)
                 SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddDays(1000),
             }
