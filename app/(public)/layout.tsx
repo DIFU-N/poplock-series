@@ -1,7 +1,7 @@
 "use client";
 
-import Footer from "@/components/atoms/Footer";
-import Header from "@/components/atoms/Header";
+import Footer from "@/app/components/atoms/Footer";
+import Header from "@/app/components/atoms/Header";
 
 export default function PublicLayout({
   children,
