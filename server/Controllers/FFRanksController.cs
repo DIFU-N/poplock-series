@@ -221,9 +221,53 @@ public class FFRanksController : ControllerBase
                 ShowName = show?.Title ?? "",
                 ShowImage = show?.Image ?? "",
                 Rank = rank.Rank,
-                TvMazeId = tvMazeId
+                TvMazeId = tvMazeId,
             };
         });
+
+        return Ok(result);
+    }
+
+    [HttpGet("all/grouped")]
+    public async Task<ActionResult<List<FFParticipantRankingDTO>>> GetAllRankings()
+    {
+        var allRankings = await _ffRanking.GetAllAsync();
+
+        var allShowIds = allRankings
+            .SelectMany(r => r.RankingList)
+            .Select(x => x.ShowId)
+            .Distinct()
+            .ToList();
+
+        var shows = await _showRepository.GetByIdsAsync(allShowIds);
+        var showMap = shows.ToDictionary(x => x.Id);
+
+        var result = allRankings
+            .Select(participant =>
+            {
+                var rankings = participant
+                    .RankingList.Select(rank =>
+                    {
+                        showMap.TryGetValue(rank.ShowId, out var show);
+
+                        return new FFRankDTO
+                        {
+                            ShowId = rank.ShowId,
+                            ShowName = show?.Title ?? "",
+                            ShowImage = show?.Image ?? "",
+                            Rank = rank.Rank,
+                        };
+                    })
+                    .OrderBy(r => r.Rank)
+                    .ToList();
+
+                return new FFParticipantRankingDTO
+                {
+                    Name = participant.ParticipantsName,
+                    Rankings = rankings,
+                };
+            })
+            .ToList();
 
         return Ok(result);
     }
