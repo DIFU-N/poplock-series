@@ -39,3 +39,8 @@ export type UserRankingRequest = {
   name: string;
   tvmazeIds: number[];
 };
+
+export type FFParticipantRanking = {
+  name: string;
+  rankings: FFRankDTO[];
+};
