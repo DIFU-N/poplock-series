@@ -9,10 +9,12 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <div className="bg-black">{children}</div>
+
+      <main className="flex-1 bg-black">{children}</main>
+
       <Footer />
-    </>
+    </div>
   );
 }
