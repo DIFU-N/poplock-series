@@ -36,16 +36,16 @@ public class FFShowRankingRepository
 
     public async Task<List<RankingResult>> GetTopTenAsync()
     {
-        return await _ffRanking
-            .Aggregate()
-            .Unwind<FFRanking, ShowRanks>(x => x.RankingList)
-            .Group(
-                x => x.ShowId,
-                g => new RankingResult { ShowId = g.Key, Points = g.Sum(x => 11 - x.Rank) }
-            )
-            .SortByDescending(x => x.Points)
-            .Limit(10)
-            .ToListAsync();
+        var data = await _ffRanking.Find(_ => true).ToListAsync();
+
+        var result = data.SelectMany(x => x.RankingList)
+            .GroupBy(x => x.ShowId)
+            .Select(g => new RankingResult { ShowId = g.Key, Points = g.Sum(x => 11 - x.Rank) })
+            .OrderByDescending(x => x.Points)
+            .Take(10)
+            .ToList();
+
+        return result;
     }
 
     public async Task DeleteRanking(string id)
