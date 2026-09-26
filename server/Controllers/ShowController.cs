@@ -210,11 +210,33 @@ public class ShowController : ControllerBase
 
     [HttpGet("bestperf")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetPerformers()
+    public async Task<ActionResult<List<BestPerformerDTO>>> GetPerformers()
     {
-        var best = await _repo.GetBestPerformersAsync();
+        var performers = await _repo.GetBestPerformersAsync();
 
-        return Ok(best);
+        var showIds = performers.Select(p => p.ShowId).Distinct().ToList();
+
+        var shows = await _showRepository.GetByIdsAsync(showIds);
+        var showMap = shows.ToDictionary(x => x.Id);
+
+        var result = performers
+            .Select(p =>
+            {
+                showMap.TryGetValue(p.ShowId, out var show);
+
+                return new BestPerformerDTO
+                {
+                    Id = p.Id,
+                    RealName = p.RealName,
+                    Character = p.Character,
+                    ShowId = p.ShowId,
+                    ShowName = show?.Title ?? "",
+                    ShowImage = show?.Image ?? "",
+                };
+            })
+            .ToList();
+
+        return Ok(result);
     }
 
     // [HttpDelete("{id}")]
