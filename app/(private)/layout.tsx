@@ -11,21 +11,22 @@ export default function PrivateLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const {token} = useAuthStore()
-  const router = useRouter()
+  const { token } = useAuthStore();
+  const router = useRouter();
 
   useEffect(() => {
     if (!token) {
-      router.push("/login")      
+      router.push("/login");
     }
-  }, [router, token])
-
+  }, [router, token]);
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <div className="bg-black">{children}</div>
+
+      <main className="flex-1">{children}</main>
+
       <Footer />
-    </>
+    </div>
   );
 }
