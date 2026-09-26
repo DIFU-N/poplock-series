@@ -61,9 +61,18 @@ export type someOfShow = {
 };
 
 export type bestPerformers = {
+  id?: string;
+  realName: string;
+  character: string;
+  showId: string;
+};
+
+export type bestPerformersResponse = {
   id: string;
   realName: string;
   character: string;
+  showName: string;
+  showImage: string;
   showId: string;
 };
 
