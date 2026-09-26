@@ -1,13 +1,23 @@
-import { AdminRankingRequest, FFRankDTO, FFRanking, UserRankingRequest } from "../types/ffranks";
+import {
+  AdminRankingRequest,
+  FFParticipantRanking,
+  FFRankDTO,
+  FFRanking,
+  UserRankingRequest,
+} from "../types/ffranks";
 import { api } from "./auth";
 
-export const SubmitRanking = async (  request: UserRankingRequest ): Promise<string> => {
+export const SubmitRanking = async (
+  request: UserRankingRequest,
+): Promise<string> => {
   const response = await api.post(`/fnfranks/`, request);
   return response.data;
 };
 
-export const GetAllRankings = async (): Promise<FFRanking[]> => {
-  const response = await api.get<FFRanking[]>(`/fnfranks/`);
+export const GetAllRankings = async (): Promise<FFParticipantRanking[]> => {
+  const response = await api.get<FFParticipantRanking[]>(
+    `/fnfranks/all/grouped`,
+  );
   return response.data;
 };
 
