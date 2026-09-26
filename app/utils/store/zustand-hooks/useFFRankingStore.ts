@@ -1,10 +1,16 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { FFRankDTO, FFRanking, UserRankingRequest } from "../../types/ffranks";
+import {
+  FFParticipantRanking,
+  FFRankDTO,
+  FFRanking,
+  UserRankingRequest,
+} from "../../types/ffranks";
 import {
   CreateAdminRanking,
   GetAllRankings,
   GetDadamansRanking,
+  GetTopTen,
   SubmitRanking,
 } from "../../apis/ffranks";
 import { isAxiosError } from "axios";
@@ -14,7 +20,8 @@ interface FFRankingState {
   submitted: boolean;
   error: string | null;
   dadamansRanking: FFRankDTO[] | null;
-  allFFRanks: FFRanking[];
+  allFFRanks: FFParticipantRanking[];
+  topTen: FFRankDTO[];
 
   createUserRanking: (request: UserRankingRequest) => Promise<void>;
 
@@ -22,6 +29,8 @@ interface FFRankingState {
   getAllRanks: () => Promise<void>;
 
   getDadamansRanking: () => Promise<void>;
+
+  getTopTen: () => Promise<void>;
   reset: () => void;
 }
 
@@ -31,6 +40,7 @@ const initialState: FFRankingState = {
   error: null,
   dadamansRanking: null,
   allFFRanks: [],
+  topTen: [],
 
   reset: () => {},
 
@@ -39,6 +49,7 @@ const initialState: FFRankingState = {
 
   getAllRanks: async () => {},
   getDadamansRanking: async () => {},
+  getTopTen: async () => {},
 };
 
 export const useFFRankingStore = create<FFRankingState>()(
@@ -66,7 +77,7 @@ export const useFFRankingStore = create<FFRankingState>()(
         set({ loading: true, error: null });
 
         try {
-          const data = await GetAllRankings();
+          const data: FFParticipantRanking[] = await GetAllRankings();
 
           set({ loading: false, allFFRanks: data });
         } catch (error: unknown) {
@@ -96,7 +107,22 @@ export const useFFRankingStore = create<FFRankingState>()(
         try {
           await SubmitRanking(request);
 
-          set({ submitted: true, loading: false,});
+          set({ submitted: true, loading: false });
+        } catch (error: unknown) {
+          set({
+            loading: false,
+            error: isAxiosError(error) ? error.message : "some kind of error",
+          });
+        }
+      },
+
+      getTopTen: async () => {
+        set({ loading: true, error: null });
+
+        try {
+          const data = await GetTopTen();
+
+          set({ loading: false, topTen: data });
         } catch (error: unknown) {
           set({
             loading: false,
