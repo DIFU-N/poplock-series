@@ -8,6 +8,7 @@ const NAV = [
   { num: "180", label: "Schedule", href: "/schedule" },
   { num: "199", label: "Search", href: "/search" },
   { num: "192", label: "Must Havs", href: "/must-havs" },
+  { num: "178", label: "Top Shows", href: "/topshows" },
 ];
 
 export default function Header() {
