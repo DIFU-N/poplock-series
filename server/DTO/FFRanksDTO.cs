@@ -37,3 +37,9 @@ public class CreateRankingDTO
     // public required FFRanking Submission { get; set; }
      public List<int> TvMazeIds { get; set; } = new();
 }
+
+public class FFParticipantRankingDTO
+{
+    public string Name { get; set; } = string.Empty;
+    public List<FFRankDTO> Rankings { get; set; } = new();
+}
