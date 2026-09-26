@@ -29,13 +29,15 @@ public class FFRankDTO
     public string ShowImage { get; set; } = string.Empty;
 
     public int Rank { get; set; }
+    public int Points { get; set; }
 }
 
 public class CreateRankingDTO
 {
     public string Token { get; set; } = string.Empty;
+
     // public required FFRanking Submission { get; set; }
-     public List<int> TvMazeIds { get; set; } = new();
+    public List<int> TvMazeIds { get; set; } = new();
 }
 
 public class FFParticipantRankingDTO

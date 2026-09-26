@@ -242,6 +242,11 @@ public class FFRanksController : ControllerBase
         var shows = await _showRepository.GetByIdsAsync(allShowIds);
         var showMap = shows.ToDictionary(x => x.Id);
 
+        var allRanks = allRankings
+            .SelectMany(r => r.RankingList)
+            .GroupBy(r => r.ShowId)
+            .ToDictionary(g => g.Key, g => g.Sum(x => allRankings.Count + 1 - x.Rank));
+
         var result = allRankings
             .Select(participant =>
             {
@@ -256,6 +261,7 @@ public class FFRanksController : ControllerBase
                             ShowName = show?.Title ?? "",
                             ShowImage = show?.Image ?? "",
                             Rank = rank.Rank,
+                            Points = allRanks.TryGetValue(rank.ShowId, out var pts) ? pts : 0,
                         };
                     })
                     .OrderBy(r => r.Rank)
