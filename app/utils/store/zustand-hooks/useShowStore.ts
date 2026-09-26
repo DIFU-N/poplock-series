@@ -14,6 +14,7 @@ import {
 import { ScheduledShow } from "@/app/utils/types/episodes";
 import {
   bestPerformers,
+  bestPerformersResponse,
   fetchGenresResponse,
   Genre,
   getAllShowsResponse,
@@ -61,7 +62,7 @@ type ShowState = {
   setLocalBestWeekly: (showId: string) => void;
   getBestWeekly: () => void;
 
-  bestPerformers: bestPerformers[];
+  bestPerformers: bestPerformersResponse[];
   setBestPerformers: (values: bestPerformers[]) => void;
   getBestPerformers: () => void;
 };
@@ -323,11 +324,10 @@ export const useShowStore = create<ShowState>()(
         set({ loading: true });
 
         try {
-          const data = await setBestPerformers(performers);
+          await setBestPerformers(performers);
 
           set({
             loading: false,
-            bestPerformers: data.results,
           });
         } catch (error: unknown) {
           set({
