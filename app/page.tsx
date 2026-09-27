@@ -12,7 +12,7 @@ export default function Home() {
         <Header />
         {/* <ForYou /> */}
         <HotShows />
-        <BestWeekly />
+        <BestWeekly curatorHandle="tvline" />
         <MustHavs />
         <Footer />
       </div>
