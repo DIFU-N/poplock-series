@@ -40,9 +40,9 @@ public class FFShowRankingRepository
 
         var result = data.SelectMany(x => x.RankingList)
             .GroupBy(x => x.ShowId)
-            .Select(g => new RankingResult { ShowId = g.Key, Points = g.Sum(x => 11 - x.Rank) })
+            .Select(g => new RankingResult { ShowId = g.Key, Points = g.Sum(x => 51 - x.Rank) })
             .OrderByDescending(x => x.Points)
-            .Take(10)
+            .Take(50)
             .ToList();
 
         return result;
