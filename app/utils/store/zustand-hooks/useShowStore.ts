@@ -346,7 +346,7 @@ export const useShowStore = create<ShowState>()(
 
           set({
             loading: false,
-            bestPerformers: data.results,
+            bestPerformers: data,
           });
         } catch (error: unknown) {
           set({
