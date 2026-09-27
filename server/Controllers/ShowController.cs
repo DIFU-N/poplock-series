@@ -216,7 +216,7 @@ public class ShowController : ControllerBase
 
         var showIds = performers.Select(p => p.ShowId).Distinct().ToList();
 
-        var shows = await _showRepository.GetByIdsAsync(showIds);
+        var shows = await _repo.GetByIdsAsync(showIds);
         var showMap = shows.ToDictionary(x => x.Id);
 
         var result = performers
