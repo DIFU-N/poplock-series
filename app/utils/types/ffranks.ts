@@ -27,6 +27,7 @@ export type FFRankDTO = {
   showImage: string;
   rank: number;
   tvMazeId: number;
+  points: number;
 };
 
 export type AdminRankingRequest = {

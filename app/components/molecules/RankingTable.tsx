@@ -1,21 +1,10 @@
 "use client";
 
+import { FFRankDTO } from "@/app/utils/types/ffranks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-export type FFRankDTO = {
-  showId: string;
-  showName: string;
-  showImage: string;
-  rank: number;
-  tvMazeId: number;
-};
-
-export default function RankingTable({
-  rankings,
-}: {
-  rankings: FFRankDTO[];
-}) {
+export default function RankingTable({ rankings }: { rankings: FFRankDTO[] }) {
   const router = useRouter();
 
   if (rankings.length === 0) {
@@ -52,7 +41,7 @@ export default function RankingTable({
             key={entry.showId}
             onClick={() => router.push(`/show/${entry.showId}`)}
             className="grid cursor-pointer grid-cols-[40px_48px_1fr_auto] items-center gap-3 border-b border-line px-4 py-3 transition-colors last:border-b-0 hover:bg-ink-2 sm:grid-cols-[48px_56px_1fr_auto]"
-          > 
+          >
             <span className={`text-xs font-bold ${podium}`}>
               {String(position).padStart(2, "0")}
             </span>
@@ -69,10 +58,12 @@ export default function RankingTable({
               <div className="h-10 w-10 shrink-0 rounded-sm border border-line" />
             )}
 
-            <span className="text-xs hover:text-gray-700">{entry.showName}</span>
+            <span className="text-xs hover:text-gray-700">
+              {entry.showName}
+            </span>
 
             <span className="whitespace-nowrap text-right text-paper">
-              {entry.rank}
+              {entry.points}
               <span className="ml-1 text-xs text-dim">pts</span>
             </span>
           </div>
