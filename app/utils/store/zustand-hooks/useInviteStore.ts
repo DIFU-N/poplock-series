@@ -110,7 +110,7 @@ export const useInviteStore = create<InviteState>((set) => ({
       const data = await createInvite({ name, token });
 
       set({
-        inviteLink: data,
+        inviteLink: data.link,
         loading: false,
       });
     } catch (error: unknown) {
