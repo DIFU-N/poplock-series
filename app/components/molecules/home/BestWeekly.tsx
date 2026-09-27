@@ -30,11 +30,11 @@ export default function BestWeekly({
   return (
     <section className="px-6 py-14">
       <div className="mx-auto max-w-295">
-        <div className="mb-7">
+        {/* <div className="mb-7">
           <div className="font-mono text-4xl font-extrabold">
             Best TV performances of the week.
           </div>
-        </div>
+        </div> */}
 
         <p className="mb-5 font-mono text-[13px] text-dim">
           Specifically chosen by{" "}

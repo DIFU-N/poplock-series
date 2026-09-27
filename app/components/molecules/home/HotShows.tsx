@@ -24,14 +24,14 @@ export default function HotShows() {
   return (
     <section id="foryou" className="border-b border-line px-6 py-14">
       <div className="mx-auto max-w-295">
-        <div className="mb-7">
+        {/* <div className="mb-7">
           <div className="font-mono text-4xl font-extrabold">
             Hot Shows
           </div>
-          {/* <h2 className="mt-1.5 font-display text-2xl">
+          <h2 className="mt-1.5 font-display text-2xl">
             Because you watched Static Bloom
-          </h2> */}
-        </div>
+          </h2>
+        </div> */}
 
         <p className="mb-5 font-mono text-[13px] text-dim">
           Check out these shows, specifically chosen by dadaman.

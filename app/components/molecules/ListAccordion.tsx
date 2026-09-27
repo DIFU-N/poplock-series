@@ -25,15 +25,17 @@ export default function ListAccordion({
     setHoveredIndex(-1);
   };
   return (
-    <div className="border border-line cursor-pointer ">
+    <div className="border border-line rounded-lg cursor-pointer ">
       <button
         onClick={onToggle}
         aria-expanded={open}
-        className="flex w-full items-center cursor-pointer justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-green-700"
+        className={`flex w-full items-center justify-between gap-4 px-5 py-4 text-left cursor-pointer transition-colors ${
+          open ? "bg-green-200 rounded-t-lg" : "hover:bg-green-200 rounded-lg"
+        }`}
       >
         <div>
-          <h3 className="mt-0.5 font-display text-lg">{list.name}</h3>
-          <p className="mt-1 max-w-[60ch] text-sm text-[#c9c8c0]">
+          <h3 className="mt-0.5 font-display text-lg font-black">{list.name}</h3>
+          <p className="mt-1 max-w-[60ch] text-sm text-black">
             {list.description}
           </p>
         </div>

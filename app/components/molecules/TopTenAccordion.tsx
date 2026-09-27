@@ -24,11 +24,13 @@ export default function TopTenAccordion({
     setHoveredIndex(-1);
   };
   return (
-    <div className="border border-line cursor-pointer ">
+    <div className="border border-line cursor-pointer rounded-lg">
       <button
         onClick={onToggle}
         aria-expanded={open}
-        className="flex w-full items-center cursor-pointer justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-green-700"
+        className={`flex w-full items-center justify-between gap-4 px-5 py-4 text-left cursor-pointer transition-colors ${
+          open ? "bg-purple-200 rounded-t-lg" : "hover:bg-purple-200 rounded-lg"
+        }`}
       >
         <div>
           <h3 className="mt-0.5 font-display text-lg">{list.name}</h3>

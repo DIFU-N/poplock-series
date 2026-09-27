@@ -24,16 +24,18 @@ const TopTen = () => {
   //   const effectiveOpenId = openId ?? firstId;
 
   return (
-    <main className="mb-10">
-      <section className="border-b px-6 py-12">
-        <div className="mx-auto max-w-295">
-          <h1 className="mb-3 font-display flex gap-2 text-[clamp(30px,5vw,48px)] font-bold leading-[1.05] tracking-tight">
-            Top FIFTY
-            {/* <span className="bg-yellow-400">havs</span> */}
+    <main className="mb-10 b">
+      <section className="bg-purple-500 px-6 py-16 sm:py-24">
+        <div className="mx-auto flex max-w-295 flex-col items-start gap-6">
+          <span className="rounded-full bg-white px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-wide text-gray-900">
+            Rank. Repeat.
+          </span>
+          <h1 className="font-display text-4xl font-black leading-[1.05] tracking-tight sm:text-6xl gap-2 flex">
+            Top
+            <span className="text-yellow-300">Fifty</span>
           </h1>
-          <p className="max-w-140 text-[17px] text-[#c9c8c0]">
-            1 name per ranking. Get your invited friends to invite you too or
-            stick with your name being represented by someone else.
+          <p className="max-w-140 text-lg text-gray-800">
+            Each name becomes one voice. Ratings represent everyone in the world who shares that name, gathered into a single identity. Get your invited friends to invite you, step forward, and claim your name’s place in the rankings.
           </p>
         </div>
       </section>

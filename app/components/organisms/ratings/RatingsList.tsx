@@ -19,12 +19,12 @@ export default function RatingsList({
   };
 
   return (
-    <div className="border border-line text-white">
+    <div className="border border-line text-black">
       {initial.map((show, i) => (
         <div
           onClick={() => onClick(show.show.id)}
           key={show.id}
-          className={`flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center cursor-pointer sm:justify-between ${
+          className={`flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center hover:bg-pink-300 cursor-pointer sm:justify-between ${
             i !== initial.length - 1 ? "border-b border-line" : ""
           }`}
         >

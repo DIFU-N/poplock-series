@@ -18,7 +18,7 @@ export default function RankingTable({ rankings }: { rankings: FFRankDTO[] }) {
   return (
     <div className="border border-line font-mono text-sm">
       {/* header row */}
-      <div className="grid grid-cols-[40px_48px_1fr_auto] items-center gap-3 border-b border-line px-4 py-2.5 text-xs uppercase tracking-wide text-dim sm:grid-cols-[48px_56px_1fr_auto]">
+      <div className="grid grid-cols-[40px_48px_1fr_auto] items-center gap-3 border-b border-line px-4 py-2.5 text-xs uppercase tracking-wide text-dim sm:grid-cols-[48px_56px_1fr_auto] bg-purple-200">
         <span>#</span>
         <span />
         <span>Show</span>
@@ -40,7 +40,7 @@ export default function RankingTable({ rankings }: { rankings: FFRankDTO[] }) {
           <div
             key={entry.showId}
             onClick={() => router.push(`/show/${entry.showId}`)}
-            className="grid cursor-pointer grid-cols-[40px_48px_1fr_auto] items-center gap-3 border-b border-line px-4 py-3 transition-colors last:border-b-0 hover:bg-ink-2 sm:grid-cols-[48px_56px_1fr_auto]"
+            className="grid cursor-pointer grid-cols-[40px_48px_1fr_auto] items-center gap-3 border-b border-line px-4 py-3 transition-colors last:border-b-0 hover:bg-ink-2 sm:grid-cols-[48px_56px_1fr_auto] hover:bg-purple-100"
           >
             <span className={`text-xs font-bold ${podium}`}>
               {String(position).padStart(2, "0")}

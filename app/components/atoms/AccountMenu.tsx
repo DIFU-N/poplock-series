@@ -55,7 +55,7 @@ export default function AccountMenu() {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 top-[calc(100%+6px)] w-52 border border-line bg-black font-mono text-[13px] shadow-lg"
+          className="absolute right-0 top-[calc(100%+6px)] w-52 border border-line bg-[#f3f1ea] font-mono text-[13px] shadow-lg"
         >
           {MENU_ITEMS.map((item) => (
             <Link
@@ -63,7 +63,7 @@ export default function AccountMenu() {
               href={item.href}
               role="menuitem"
               onClick={() => setOpen(false)}
-              className="flex items-center border-b border-line px-3.5 py-2.5 text-dim transition-colors last:border-b-0 hover:bg-ink-2 hover:text-paper"
+              className="flex items-center border-b border-line px-3.5 py-2.5 text-dim transition-colors last:border-b-0 hover:bg-amber-200"
             >
               {/* <span className="mr-2 text-yellow">{item.num}</span> */}
               {item.label}
@@ -75,7 +75,7 @@ export default function AccountMenu() {
               logout();
               setOpen(false);
             }}
-            className="block w-full border-t border-line px-3.5 py-2.5 text-left text-magenta transition-colors hover:bg-ink-2 cursor-pointer"
+            className="block w-full border-t border-line px-3.5 py-2.5 text-left text-magenta transition-colors cursor-pointer hover:bg-gray-400"
           >
             Logout
           </button>

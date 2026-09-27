@@ -42,7 +42,7 @@ const RateShow = ({ showId, showName }: RateShowProps) => {
     <div className="">
       <button
         onClick={() => setIsOpen(true)}
-        className="border-2 p-2 border-green-200  cursor-pointer font-mono hover:bg-green-800"
+        className="border-2 p-2 border-teal-700  cursor-pointer font-mono hover:bg-teal-400"
       >
         {userRating?.id ? "Update" : "Rate Show"}
       </button>
@@ -75,9 +75,9 @@ const SetRating = ({
 }: SetRatingProps) => {
   return (
     <div className="z-40 flex bg-black/80 fixed inset-0 w-full h-full  items-center justify-center">
-      <div className="w-[30%] h-[40%] p-10 flex flex-col gap-10 bg-black border-green-400 border-2 text-black text-center">
+      <div className="w-[30%] h-[40%] p-10 flex flex-col gap-10 bg-black border-teal-400 border-2 rounded-lg text-black text-center">
         <div className="flex flex-col gap-2">
-          <div className="text-green-400 text-sm font-mono flex gap-2 mx-auto">
+          <div className="text-teal-400 text-sm font-mono flex gap-2 mx-auto">
             {"what's your rating?"}
           </div>
           <div className="text-white font-serif text-2xl flex gap-2 mx-auto">
@@ -101,8 +101,8 @@ const SetRating = ({
               className={`flex font-mono h-8 w-8 justify-center items-center cursor-pointer border text-center text-sm 
                 ${
                   score === v
-                    ? "border-green-800 bg-green-400 text-black"
-                    : "border-gray-600 hover:border-green-400 hover:bg-green-800 text-white"
+                    ? "border-green-800 bg-teal-400 text-black"
+                    : "border-gray-600 hover:border-teal-400 hover:bg-teal-800 text-white"
                 }`}
             >
               {v}
@@ -112,14 +112,14 @@ const SetRating = ({
         <div className="flex justify-between">
           <button
             onClick={onClose}
-            className="cursor-pointer font-mono border-2 p-2 border-white text-white hover:bg-green-900 bg-green-500"
+            className="cursor-pointer font-mono border-2 p-2 border-white text-white hover:bg-teal-900 bg-teal-400"
           >
             Cancel
           </button>
 
           <button
             onClick={onSubmit}
-            className="cursor-pointer font-mono border-2 p-2 border-white text-white hover:bg-green-900 bg-green-500"
+            className="cursor-pointer font-mono border-2 p-2 border-white text-white hover:bg-teal-900 bg-teal-400"
           >
             Rate
           </button>

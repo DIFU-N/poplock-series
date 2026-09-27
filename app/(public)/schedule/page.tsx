@@ -14,17 +14,20 @@ export default function SchedulePage() {
   }, [getScheduledEpisodes]);
   return (
     <main>
-      <section className="border-b px-6 py-12">
-        <div className="mx-auto max-w-295">
-          {/* <div className="mb-4.5 flex items-center gap-2.5 font-mono text-[13px] text-dim">
-            <span className="h-1.75 w-1.75 rounded-full bg-yellow shadow-[0_0_0_3px_rgba(242,201,76,0.15)]" />
-            PAGE 180 — THIS WEEK
-          </div> */}
-          <h1 className="mb-3 font-display text-[clamp(30px,5vw,48px)] font-bold leading-[1.05] tracking-tight">
+       <section className="bg-yellow-400 px-6 py-16 sm:py-24">
+        <div className="mx-auto flex max-w-295 flex-col items-start gap-6">
+          <span className="rounded-full bg-white px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-wide text-gray-900">
+            Watch. Repeat.
+          </span>
+          <h1 className="font-display text-4xl font-black leading-[1.05] tracking-tight sm:text-6xl gap-2 flex">
             Schedule
+            {/* <span className="text-yellow-300">Rates</span> */}
           </h1>
-          <p className="max-w-140 text-[17px] text-[#c9c8c0]">
-            What&apos;s airing this week, day by day. Tap a day to jump to its page. Tap a show to find out why it&apos;s recommended.
+          <p className="max-w-140 text-lg text-gray-800">
+            A week of television, mapped day by day. Step into each day and explore what’s airing, and why dadaman suggests you watch it. 
+          </p>
+          <p className="max-w-140 text-base text-gray-600">
+            Just trust dadaman 
           </p>
         </div>
       </section>

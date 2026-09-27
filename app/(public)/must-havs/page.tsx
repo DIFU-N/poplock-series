@@ -25,17 +25,22 @@ export default function MustHavesPage() {
   const effectiveOpenId = openId ?? firstId;
 
   return (
-    <main>
-      <section className="border-b px-6 py-12">
-        <div className="mx-auto max-w-295">
-          <h1 className="mb-3 font-display flex gap-2 text-[clamp(30px,5vw,48px)] font-bold leading-[1.05] tracking-tight">
+    <main className="text-gray-900">
+      <section className="bg-green-400 px-6 py-16 sm:py-24">
+        <div className="mx-auto flex max-w-295 flex-col items-start gap-6">
+          <span className="rounded-full bg-white px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-wide text-gray-900">
+            Rank. Repeat.
+          </span>
+          <h1 className="font-display text-4xl font-black leading-[1.05] tracking-tight sm:text-6xl gap-2 flex">
             Must
-            <span className="bg-yellow-400">havs</span>
+            <span className="text-purple-500">Havs</span>
           </h1>
-          <p className="max-w-140 text-[17px] text-[#c9c8c0]">
-            Every ranked list made by dadaman. Tap a list to see what&apos;s
-            recommended under it.
+          <p className="max-w-140 text-lg text-gray-800">
+            Every ranked list created by Dadaman. Curated selections built from
+            His real viewing choices. Tap into each list to explore the shows
+            and performances behind the rankings.
           </p>
+
           <span className={`${gotyou ? "flex text-red-600" : "hidden"}`}>
             {
               "Sorry but you cannot do that, but you can talk about my must havs on twitter :)"
@@ -67,9 +72,10 @@ export default function MustHavesPage() {
                 <Link
                   href="/new"
                   // passHref={false}
-                  className="border border-paper px-3.5 py-2 text-paper transition-colors hover:border-cyan hover:text-cyan"
                 >
-                  + New list
+                  <button className="border border-paper px-3.5 py-2 text-paper transition-colors hover:border-cyan hover:bg-green-200 rounded-md cursor-pointer">
+                    + New list
+                  </button>
                 </Link>
               ) : (
                 <button
