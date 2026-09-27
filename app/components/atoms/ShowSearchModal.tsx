@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useFormik } from "formik";
 import { useShowStore } from "@/app/utils/store/zustand-hooks/useShowStore";
 import { searchForShowSchema } from "@/app/utils/yup";
+import { importShow } from "@/app/utils/apis/show";
 
 export interface PickedShow {
   id: number; // TVMaze show id
@@ -97,13 +98,19 @@ export default function ShowSearchModal({
                   >
                     <button
                       type="button"
-                      onClick={() =>
+                      onClick={async () => {
+                        const importedShow = await importShow(show.id);
+
+                        if (!importedShow) return;
+
                         onSelect({
-                          id: show.id,
-                          name: show.name,
-                          image: show.image,
-                        })
-                      }
+                          id: importedShow.id,
+                          name: importedShow.title,
+                          image: importedShow.image
+                            ? { original: importedShow.image }
+                            : null,
+                        });
+                      }}
                       className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-ink-2"
                     >
                       {show.image ? (
@@ -117,9 +124,7 @@ export default function ShowSearchModal({
                       ) : (
                         <div className="h-8 w-8 shrink-0 border border-line" />
                       )}
-                      <span className="font-display text-sm">
-                        {show.name}
-                      </span>
+                      <span className="font-display text-sm">{show.name}</span>
                     </button>
                   </li>
                 );
