@@ -1,8 +1,13 @@
 import axios from "axios";
 import { create } from "zustand";
-import { adminCreateInvite, createInvite, fetchInvite } from "../../apis/invite";
+import {
+  adminCreateInvite,
+  createInvite,
+  fetchInvite,
+} from "../../apis/invite";
 import { CreateInviteRequest } from "../../types/invite";
 import { FFRankDTO } from "../../types/ffranks";
+import { API_BASE } from "../../apis/auth";
 
 export interface InviteShow {
   id: number; // TVMaze show id
@@ -34,8 +39,6 @@ interface InviteState {
   adminCreateInvite: (name: string) => Promise<void>;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
-
 export const useInviteStore = create<InviteState>((set) => ({
   invite: null,
   loading: false,
@@ -54,7 +57,7 @@ export const useInviteStore = create<InviteState>((set) => ({
       set({
         invite: data,
         loading: false,
-        token: token
+        token: token,
       });
     } catch (error: unknown) {
       set({
@@ -111,21 +114,29 @@ export const useInviteStore = create<InviteState>((set) => ({
         loading: false,
       });
     } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+
+        set({
+          loading: false,
+          error:
+            typeof error.response?.data === "string"
+              ? error.response.data
+              : (error.response?.data?.message ?? error.message),
+        });
+
+        return;
+      }
+
       set({
         loading: false,
-        error: axios.isAxiosError(error)
-          ? error.message
-          : "something went wrong",
+        error: "something went wrong",
       });
     }
   },
-  adminCreateInvite: async (name ) => {
+  adminCreateInvite: async (name) => {
     set({ loading: true, error: null });
     try {
       const data = await adminCreateInvite(name);
-
-      console.log(data);
-      
 
       set({
         inviteLink: data.link,
