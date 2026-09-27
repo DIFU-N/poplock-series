@@ -86,7 +86,7 @@ const ShowPage = () => {
               </div>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-1">
-                  <span className="font-mono text-green-400 font-bold">
+                  <span className="font-mono text-gray-800 font-bold">
                     {"Active"}
                   </span>
                   <div
@@ -94,7 +94,7 @@ const ShowPage = () => {
                   />
                 </div>
                 <div className="mb-4 flex flex-wrap flex-col gap-1">
-                  <span className="font-mono text-green-400 font-bold">
+                  <span className="font-mono text-gray-800 font-bold">
                     {"Average Rating"}
                   </span>
                   {/* <span
@@ -106,14 +106,14 @@ const ShowPage = () => {
                   {averageRating ? (
                     <SignalBars signal={averageRating ? averageRating : 0} />
                   ) : (
-                    <div className="font-mono text-xs text-white font-bold">
+                    <div className="font-mono text-xs text-gray-600 font-bold">
                       <div>Be the first to rate this show.</div>
                     </div>
                   )}
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <span className="font-mono text-green-400 font-bold">
+                  <span className="font-mono text-gray-800 font-bold">
                     {"Dadaman\'s Rating"}
                   </span>
                   {dadamanRating ? (
@@ -121,13 +121,13 @@ const ShowPage = () => {
                       signal={dadamanRating ? dadamanRating.score : 0}
                     />
                   ) : (
-                    <div className="font-mono text-xs text-white font-bold">
+                    <div className="font-mono text-xs text-gray-600 font-bold">
                       Dadaman has not rated this show yet.
                     </div>
                   )}
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="font-mono text-green-400 font-bold">
+                  <span className="font-mono text-gray-800 font-bold">
                     {"Your Rating"}
                   </span>
                   <div className="flex gap-3">
@@ -149,7 +149,7 @@ const ShowPage = () => {
                 {user?.role === "s.admin" && show ? (
                   <div>
                     <button
-                      className="border-2 p-2 border-green-200  cursor-pointer font-mono hover:bg-green-800"
+                      className="border-2 p-2 border-teal-500  cursor-pointer font-mono hover:bg-green-800"
                       onClick={() => setLocalFeaturedShows(show.id)}
                     >
                       Set Local Featured
@@ -159,7 +159,7 @@ const ShowPage = () => {
                 {user?.role === "s.admin" && show ? (
                   <div>
                     <button
-                      className="border-2 p-2 border-green-200  cursor-pointer font-mono hover:bg-green-800"
+                      className="border-2 p-2 border-teal-200  cursor-pointer font-mono hover:bg-teal-800"
                       onClick={() => setLocalBestWeekly(show.id)}
                     >
                       Set Local Best Weekly
@@ -170,7 +170,7 @@ const ShowPage = () => {
                 {user?.role === "s.admin" ? (
                   <div>
                     <button
-                      className="border-2 p-2 border-green-200  cursor-pointer font-mono hover:bg-green-800"
+                      className="border-2 p-2 border-teal-200  cursor-pointer font-mono hover:bg-teal-800"
                       disabled={featuredShows.length !== 20}
                       onClick={() => setFeaturedShows(featuredShows)}
                     >
@@ -181,7 +181,7 @@ const ShowPage = () => {
 
                 {user?.role === "s.admin" ? (
                   <button
-                    className="border-2 p-2 border-green-200  cursor-pointer font-mono hover:bg-green-800"
+                    className="border-2 p-2 border-teal-200  cursor-pointer font-mono hover:bg-teal-800"
                     disabled={bestWeeklyIds.length !== 5}
                     onClick={() => setBestWeekly(bestWeeklyIds)}
                   >
