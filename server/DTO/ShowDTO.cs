@@ -51,3 +51,18 @@ public class SetShowsForScheduling
 {
     public List<ShowForSchedule>? Shows { get; set; }
 }
+
+public class BestPerformerDTO
+{
+    public string Id { get; set; } = string.Empty;
+
+    public string RealName { get; set; } = string.Empty;
+
+    public string Character { get; set; } = string.Empty;
+
+    public string ShowId { get; set; } = string.Empty;
+
+    public string ShowName { get; set; } = string.Empty;
+
+    public string ShowImage { get; set; } = string.Empty;
+}
