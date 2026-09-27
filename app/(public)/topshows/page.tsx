@@ -35,7 +35,10 @@ const TopTen = () => {
             <span className="text-yellow-300">Fifty</span>
           </h1>
           <p className="max-w-140 text-lg text-gray-800">
-            Each name becomes one voice. Ratings represent everyone in the world who shares that name, gathered into a single identity. Get your invited friends to invite you, step forward, and claim your name’s place in the rankings.
+            Each name becomes a single voice. Ratings reflect everyone in the world who shares that name, gathered into one identity. Invite others, step forward, and claim your name’s place in the rankings.
+          </p>
+          <p className="max-w-140 text-base font-light">
+            Whoever receives the invite represents that name for all who carry it. Move quickly if you want to be the one who speaks for it.
           </p>
         </div>
       </section>
