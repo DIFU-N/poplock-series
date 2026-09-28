@@ -58,17 +58,17 @@ export default function InvitePage() {
     FFRankDTO[] | null
   >(null);
 
-  if (inviteeRanking && inviteeRanking !== lastLoadedRanking) {
-    setLastLoadedRanking(inviteeRanking);
-    setShows(inviteeRanking);
-  } else if (
-    dadamansRanking &&
-    dadamansRanking !== lastLoadedRanking &&
-    !inviteeRanking?.length
-  ) {
-    setLastLoadedRanking(dadamansRanking);
-    setShows(dadamansRanking);
-  }
+  const source = inviteeRanking?.length ? inviteeRanking : dadamansRanking;
+
+  useEffect(() => {
+    if (!source?.length) return;
+
+    setShows((prev) => {
+      // only initialize once
+      if (prev) return prev;
+      return source;
+    });
+  }, [source]);
 
   function showToast(message: string) {
     setToast(message);
@@ -149,7 +149,7 @@ export default function InvitePage() {
                 {invite?.recipientName.toUpperCase()}, build your Top 10
               </h1>
               <p className="max-w-140 text-[17px] text-gray-800">
-                {invite?.createdByName?.toLocaleUpperCase() ?? "Dadaman"} {" "} shared
+                {invite?.createdByName?.toLocaleUpperCase() ?? "Dadaman"} shared
                 their Top 50 with you. Swap out anything that&apos;s not you,
                 and reorder the rest until it&apos;s yours. {"[Less one ;)]"}
               </p>
