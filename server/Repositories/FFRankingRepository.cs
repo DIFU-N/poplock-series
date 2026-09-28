@@ -26,12 +26,12 @@ public class FFShowRankingRepository
 
     public async Task<FFRanking> GetByName(string name)
     {
-        return await _ffRanking.Find(x => x.ParticipantsName == name).FirstOrDefaultAsync();
+        return await _ffRanking.Find(x => x.ParticipantsName.ToLower() == name).FirstOrDefaultAsync();
     }
 
     public async Task<bool> ExistsByParticipant(string participantsName)
     {
-        return await _ffRanking.Find(x => x.ParticipantsName == participantsName).AnyAsync();
+        return await _ffRanking.Find(x => x.ParticipantsName.ToLower() == participantsName).AnyAsync();
     }
 
     public async Task<List<RankingResult>> GetTopTenAsync()
