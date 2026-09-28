@@ -17,23 +17,21 @@ const MyAccount = () => {
   }, [user, getAllUserRatings]);
   return (
     <main>
+      <section className="bg-pink-500 px-6 py-16 sm:py-24">
+        <div className="mx-auto flex max-w-295 flex-col items-start gap-6">
+          <span className="rounded-full bg-white px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-wide text-gray-900">
+            Rate. Rank. Suggest. Repeat.
+          </span>
+          <h1 className="font-display text-4xl font-black leading-[1.05] tracking-tight sm:text-6xl gap-2 flex">
+            {user?.username}
+            <span className="text-yellow-300">rates</span>
+          </h1>
+          <p className="max-w-140 text-lg text-gray-800">
+            All your ratings. Done out of love, I hope.
+          </p>
+        </div>
+      </section>
       <section className="border-b border-line px-6 py-16 sm:py-20 gap-10 flex flex-col">
-        <section className="border-b border-line px-6 py-16 sm:py-20">
-          <div className="mx-auto max-w-295">
-            <div className="mb-4.5 flex items-center gap-2.5 font-mono text-[13px] text-dim">
-              <span className="h-1.75 w-1.75 rounded-full bg-paper shadow-[0_0_0_3px_rgba(243,241,234,0.15)]" />
-              YOUR ACCOUNT
-            </div>
-            <h1 className="mb-3 font-display text-[clamp(30px,5vw,48px)] font-bold leading-[1.05] tracking-tight">
-              My ratings
-            </h1>
-            <p className="max-w-140 text-[17px] text-[#c9c8c0]">
-              Everything you&apos;ve rated, in one place. Click the bars to
-              change a rating.
-            </p>
-          </div>
-        </section>
-
         <section className="px-6 py-14">
           <div className="mx-auto max-w-295">
             <div className="mb-6 font-mono text-[13px] text-dim">
@@ -44,20 +42,6 @@ const MyAccount = () => {
         </section>
       </section>
 
-      <section className="border-b border-line px-6 py-16 sm:py-20">
-        <div className="mx-20 max-w-295">
-          <h1 className="mb-3 font-display text-[clamp(30px,5vw,48px)] font-bold leading-[1.05] tracking-tight">
-            My Must-Havs
-          </h1>
-          <p className="max-w-140 text-[17px] text-[#c9c8c0]">
-            The Must-Hav lists you have created
-          </p>
-        </div>
-      </section>
-
-      <section>
-        <AdminCreateInvite />
-      </section>
       {/* <section className="border-b border-line px-6 py-16 sm:py-20">
         <div className="mx-20 max-w-295">
           <h1 className="mb-3 font-display text-[clamp(30px,5vw,48px)] font-bold leading-[1.05] tracking-tight">
