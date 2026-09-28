@@ -48,7 +48,9 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
 
       if (next % 5 === 0) {
         const message = getNextMessage();
-        onTriggerToast(message);
+        setTimeout(() => {
+          onTriggerToast(message);
+        }, 0);
       }
 
       return next;
