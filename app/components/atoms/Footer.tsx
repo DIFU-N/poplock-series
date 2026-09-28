@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FaTwitter } from "react-icons/fa";
 
 // Mirrors the Header's current nav — same routes, same idea of a
 // colored "key" per section, so there's a second way to get around
@@ -27,6 +28,11 @@ export default function Footer() {
             <span className="font-semibold text-[#c9c8c0]">
               All rights reserved. Made with love.
             </span>
+          </div>
+          <div className="text-lg text-blue-500">
+            <Link href={"www.twitter.com/rashadbirmingh1"}>
+              <FaTwitter />
+            </Link>
           </div>
         </div>
 
