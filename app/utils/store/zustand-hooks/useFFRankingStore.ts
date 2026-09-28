@@ -98,7 +98,7 @@ export const useFFRankingStore = create<FFRankingState>()(
         try {
           const data = await GetDadamansRanking();
 
-          set({ loading: false, dadamansRanking: data });
+          set({ loading: false, dadamansRanking: data, submitted: false });
         } catch (error: unknown) {
           set({
             loading: false,
@@ -142,7 +142,7 @@ export const useFFRankingStore = create<FFRankingState>()(
         try {
           const data = await GetRankingByName(name);
 
-          set({ loading: false, inviteeRanking: data });
+          set({ loading: false, inviteeRanking: data, submitted: false });
         } catch (error: unknown) {
           if (axios.isAxiosError(error)) {
             set({
