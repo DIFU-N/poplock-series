@@ -103,12 +103,12 @@ public class AdminController : ControllerBase
 
         var token = _tokenService.GenerateToken();
 
-         var name = request.Name.ToLower().Trim();
+        var name = request.Name.ToLower().Trim();
 
         var invite = new Invite
         {
             TokenHash = _tokenService.HashToken(token),
-            CreatedBy = userId,
+            CreatedByUserId = userId,
             ExpiresAt = DateTime.UtcNow.AddDays(10),
             Used = false,
             RecipientName = name.ToLower().Trim(),
@@ -119,8 +119,6 @@ public class AdminController : ControllerBase
         return Ok(new { link = $"https://poplockseries.netlify.app/invite/{token}" });
     }
 
-
-
     [HttpPost("bestperf")]
     public async Task<IActionResult> SetBestPerformers([FromBody] List<BestPerformer> performers)
     {
@@ -128,7 +126,7 @@ public class AdminController : ControllerBase
         return Ok(okay);
     }
 
-     [HttpPost("bestweekly")]
+    [HttpPost("bestweekly")]
     public async Task<IActionResult> SetBestWeekly([FromBody] List<string> ids)
     {
         var best = await _shows.SetBestWeekly(ids);
