@@ -21,8 +21,8 @@ export const GetAllRankings = async (): Promise<FFParticipantRanking[]> => {
   return response.data;
 };
 
-export const GetRankingByName = async (name: string): Promise<FFRanking> => {
-  const response = await api.get<FFRanking>(`/fnfranks/name`, {
+export const GetRankingByName = async (name: string): Promise<FFRankDTO[]> => {
+  const response = await api.get<FFRankDTO[]>(`/fnfranks/name`, {
     params: { name },
   });
   return response.data;
