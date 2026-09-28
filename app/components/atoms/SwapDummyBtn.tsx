@@ -58,7 +58,11 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
   return (
     <motion.button
       onClick={() => handleClick()}
-      onHoverStart={() => handleClick()}
+      onHoverStart={() => {
+        requestAnimationFrame(() => {
+          handleClick();
+        });
+      }}
       animate={{ x: position.x, y: position.y }}
       transition={{ type: "spring", stiffness: 200, damping: 20 }}
       //   style={{ position: "fixed" }} // key for screen confinement
