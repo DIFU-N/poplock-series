@@ -25,6 +25,8 @@ export default function InvitePage() {
 
   const dadamansRanking = useFFRankingStore((s) => s.dadamansRanking);
   const getDadamansRanking = useFFRankingStore((s) => s.getDadamansRanking);
+  const inviteeRanking = useFFRankingStore((s) => s.inviteeRanking);
+  const getRankingByName = useFFRankingStore((s) => s.getRankingByName);
 
   const [shows, setShows] = useState<FFRankDTO[] | null>(null);
   const [swapIndex, setSwapIndex] = useState<number | null>(null);
@@ -35,11 +37,28 @@ export default function InvitePage() {
     getDadamansRanking();
   }, [token, fetchInvite, getDadamansRanking]);
 
+  useEffect(() => {
+    if (!invite) return;
+
+    const isFromDadaman = invite.createdByName?.toLowerCase() === "dadaman";
+
+    if (!isFromDadaman && invite.recipientName) {
+      getRankingByName(invite.recipientName.toLowerCase());
+    }
+  }, [invite, getRankingByName]);
+
   const [lastLoadedRanking, setLastLoadedRanking] = useState<
     FFRankDTO[] | null
   >(null);
 
-  if (dadamansRanking && dadamansRanking !== lastLoadedRanking) {
+  if (inviteeRanking && inviteeRanking !== lastLoadedRanking) {
+    setLastLoadedRanking(inviteeRanking);
+    setShows(inviteeRanking);
+  } else if (
+    dadamansRanking &&
+    dadamansRanking !== lastLoadedRanking &&
+    !inviteeRanking?.length
+  ) {
     setLastLoadedRanking(dadamansRanking);
     setShows(dadamansRanking);
   }
@@ -120,15 +139,18 @@ export default function InvitePage() {
               <h1 className="mb-3 text-[clamp(28px,5vw,44px)] font-bold leading-[1.05] tracking-tight">
                 {invite?.recipientName.toUpperCase()}, build your Top 10
               </h1>
-              <p className="max-w-140 text-[17px] text-[#c9c8c0]">
-                {invite?.createdByName ?? "Someone "} shared txheir Top 10 with
-                you. Swap out anything that&apos;s not you, and reorder the rest
-                until it&apos;s yours. {"[Less one ;)]"}
+              <p className="max-w-140 text-[17px] text-gray-800">
+                {invite?.createdByName?.toLocaleUpperCase() ?? "Dadaman"} shared
+                their Top 50 with you. Swap out anything that&apos;s not you,
+                and reorder the rest until it&apos;s yours. {"[Less one ;)]"}
               </p>
-
-              <p>
+              <br />
+              <p className="text-xs font-bold">
                 You represent all {invite?.recipientName}
                 {"'s"} around the world. Make it count.
+              </p>
+              <p className="text-xs font-bold">
+                Have fun with it. Make it yours. Serious business though
               </p>
             </>
           )}
