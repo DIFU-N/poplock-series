@@ -52,7 +52,6 @@ export const useInviteStore = create<InviteState>((set) => ({
     set({ loading: true, error: null });
     try {
       const data = await fetchInvite(token);
-      console.log("store", data);
 
       set({
         invite: data,
@@ -115,7 +114,6 @@ export const useInviteStore = create<InviteState>((set) => ({
       });
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-
         set({
           loading: false,
           error:

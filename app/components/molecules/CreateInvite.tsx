@@ -66,21 +66,21 @@ export default function CreateInvite({ token }: { token: string }) {
         </div>
 
         <div className="flex justify-between">
-        <button
-          onClick={handleCopy}
-          className={`border px-4 w-[40%] py-2 text-sm rounded-sm transition-colors cursor-pointer ${
-            copied ? "bg-green-300" : " hover:bg-fuchsia-300"
-          }`}
-        >
-          {copied ? "Copied!" : "Copy Link"}
-        </button>
+          <button
+            onClick={handleCopy}
+            className={`border px-4 w-[40%] py-2 text-sm rounded-sm transition-colors cursor-pointer ${
+              copied ? "bg-green-300" : " hover:bg-fuchsia-300"
+            }`}
+          >
+            {copied ? "Copied!" : "Copy Link"}
+          </button>
 
-        <button
-          onClick={handleShare}
-          className="border w-[40%] px-4 py-3 rounded-sm hover:bg-fuchsia-300 cursor-pointer"
-        >
-          Share & Continue
-        </button>
+          <button
+            onClick={handleShare}
+            className="border w-[40%] px-4 py-3 rounded-sm hover:bg-fuchsia-300 cursor-pointer"
+          >
+            Share & Continue
+          </button>
         </div>
       </div>
     );
