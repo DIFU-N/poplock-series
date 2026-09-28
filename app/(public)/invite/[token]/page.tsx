@@ -18,8 +18,8 @@ export default function InvitePage() {
   const invite = useInviteStore((s) => s.invite);
   const loading = useInviteStore((s) => s.loading);
   const error = useInviteStore((s) => s.error);
-  const submitting = useInviteStore((s) => s.submitting);
-  const submitted = useInviteStore((s) => s.submitted);
+  const submitting = useFFRankingStore((s) => s.loading);
+  const submitted = useFFRankingStore((s) => s.submitted);
   const fetchInvite = useInviteStore((s) => s.fetchInvite);
   const submitList = useFFRankingStore((s) => s.createUserRanking);
 
@@ -139,7 +139,7 @@ export default function InvitePage() {
 
           {!loading && error && (
             <h1 className="mb-3 font-display text-2xl">
-              {error} We couldn&apos;t open this invite
+              We couldn&apos;t open this invite
             </h1>
           )}
 
@@ -149,7 +149,7 @@ export default function InvitePage() {
                 {invite?.recipientName.toUpperCase()}, build your Top 10
               </h1>
               <p className="max-w-140 text-[17px] text-gray-800">
-                {invite?.createdByName?.toLocaleUpperCase() ?? "Dadaman"} shared
+                {invite?.createdByName?.toLocaleUpperCase() ?? "Dadaman"} {" "} shared
                 their Top 50 with you. Swap out anything that&apos;s not you,
                 and reorder the rest until it&apos;s yours. {"[Less one ;)]"}
               </p>
@@ -268,7 +268,7 @@ export default function InvitePage() {
                   type="button"
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className="w-full border border-paper bg-paper px-4.5 py-3.25 font-mono text-[13px] text-ink transition-colors hover:border-cyan hover:bg-cyan disabled:opacity-60 sm:w-auto"
+                  className="w-full border border-paper bg-paper px-4.5 py-3.25 font-mono text-[13px] text-ink transition-colors hover:border-cyan hover:bg-fuchsia-200 disabled:opacity-60 sm:w-auto cursor-pointer"
                 >
                   {submitting ? "Saving…" : "Save my Top 10"}
                 </button>
