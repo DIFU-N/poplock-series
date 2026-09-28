@@ -3,7 +3,6 @@ import { persist } from "zustand/middleware";
 import {
   FFParticipantRanking,
   FFRankDTO,
-  FFRanking,
   UserRankingRequest,
 } from "../../types/ffranks";
 import {
