@@ -41,12 +41,12 @@ export default function PickShowModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black px-6 py-16"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-white px-6 py-16"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-140 border border-line bg-black"
+        className="w-full max-w-140 border border-line bg-white"
       >
         <div className="flex items-center justify-between border-b border-line px-5 py-4">
           <div>
