@@ -1,5 +1,4 @@
 "use client";
-import AdminCreateInvite from "@/app/components/molecules/AdminCreateInvite";
 import RatingsList from "@/app/components/organisms/ratings/RatingsList";
 import { useAuthStore } from "@/app/utils/store/zustand-hooks/useAuthStore";
 import { useRatingStore } from "@/app/utils/store/zustand-hooks/useRatingStore";
