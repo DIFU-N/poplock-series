@@ -1,6 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
+[BsonIgnoreExtraElements]
 public class Invite
 {
     [BsonId]
@@ -16,13 +17,17 @@ public class Invite
     [BsonElement("expiresAt")]
     public DateTime ExpiresAt { get; set; }
 
-    [BsonElement("createdBy")]
+    [BsonElement("createdByName")]
+    public string? CreatedByName { get; set; }
+
+    [BsonElement("createdByUserId")]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string CreatedBy { get; set; } = string.Empty;
+    public string? CreatedByUserId { get; set; }
 
     [BsonElement("recipientName")]
     public string RecipientName { get; set; } = string.Empty;
 
     [BsonElement("CreatedFromInviteId")]
+    [BsonRepresentation(BsonType.ObjectId)]
     public string? CreatedFromInviteId { get; set; }
 }
