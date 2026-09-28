@@ -37,16 +37,25 @@ public class InviteController : ControllerBase
     {
         var tokenHash = _tokenService.HashToken(request.Token);
 
-        var currentInvite = await _invite.GetValidInviteAsync(tokenHash);
+        var currentInvite = await _invite.GetByTokenHashAsync(tokenHash);
         if (currentInvite == null)
             return Unauthorized("Invalid invite");
 
         var alreadyCreated = await _invite.GetByParentInviteIdAsync(currentInvite.Id);
 
+        // if (alreadyCreated != null)
+        // {
+        //     return BadRequest("You already invited someone.");
+        // }
+        Console.WriteLine("ENTER CreateInvite");
+
         if (alreadyCreated != null)
         {
+            Console.WriteLine("RETURNING BAD REQUEST");
             return BadRequest("You already invited someone.");
         }
+
+        Console.WriteLine("CREATING INVITE");
 
         var normalized = request.Name.ToLower().Trim();
 

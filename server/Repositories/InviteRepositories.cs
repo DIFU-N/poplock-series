@@ -17,6 +17,11 @@ public class InviteRepository
         await _invites.InsertOneAsync(invite);
     }
 
+    public async Task<Invite?> GetByTokenHashAsync(string tokenHash)
+    {
+        return await _invites.Find(x => x.TokenHash == tokenHash).FirstOrDefaultAsync();
+    }
+
     public async Task<Invite?> GetValidInviteAsync(string tokenHash)
     {
         return await _invites
