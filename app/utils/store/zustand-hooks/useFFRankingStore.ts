@@ -9,16 +9,18 @@ import {
   CreateAdminRanking,
   GetAllRankings,
   GetDadamansRanking,
+  GetRankingByName,
   GetTopTen,
   SubmitRanking,
 } from "../../apis/ffranks";
-import { isAxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 
 interface FFRankingState {
   loading: boolean;
   submitted: boolean;
   error: string | null;
   dadamansRanking: FFRankDTO[] | null;
+  inviteeRanking: FFRankDTO[] | null;
   allFFRanks: FFParticipantRanking[];
   topTen: FFRankDTO[];
 
@@ -28,6 +30,7 @@ interface FFRankingState {
   getAllRanks: () => Promise<void>;
 
   getDadamansRanking: () => Promise<void>;
+  getRankingByName: (name: string) => Promise<void>;
 
   getTopTen: () => Promise<void>;
   reset: () => void;
@@ -38,6 +41,7 @@ const initialState: FFRankingState = {
   loading: false,
   error: null,
   dadamansRanking: null,
+  inviteeRanking: null,
   allFFRanks: [],
   topTen: [],
 
@@ -48,6 +52,8 @@ const initialState: FFRankingState = {
 
   getAllRanks: async () => {},
   getDadamansRanking: async () => {},
+  getRankingByName: async () => {},
+
   getTopTen: async () => {},
 };
 
@@ -126,6 +132,33 @@ export const useFFRankingStore = create<FFRankingState>()(
           set({
             loading: false,
             error: isAxiosError(error) ? error.message : "some kind of error",
+          });
+        }
+      },
+
+      getRankingByName: async (name: string) => {
+        set({ loading: true, error: null });
+
+        try {
+          const data = await GetRankingByName(name);
+
+          set({ loading: false, inviteeRanking: data });
+        } catch (error: unknown) {
+          if (axios.isAxiosError(error)) {
+            set({
+              loading: false,
+              error:
+                typeof error.response?.data === "string"
+                  ? error.response.data
+                  : (error.response?.data?.message ?? error.message),
+            });
+
+            return;
+          }
+
+          set({
+            loading: false,
+            error: "something went wrong",
           });
         }
       },
