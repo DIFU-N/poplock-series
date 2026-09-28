@@ -65,7 +65,7 @@ public class InviteController : ControllerBase
         {
             TokenHash = _tokenService.HashToken(newToken),
             CreatedFromInviteId = currentInvite.Id,
-            CreatedBy = currentInvite.RecipientName,
+            CreatedByName = currentInvite.RecipientName,
             ExpiresAt = DateTime.UtcNow.AddDays(10),
             Used = false,
             RecipientName = normalized,
