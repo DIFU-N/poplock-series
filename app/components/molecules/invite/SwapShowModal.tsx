@@ -1,23 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useFormik } from "formik";
 import { useShowStore } from "@/app/utils/store/zustand-hooks/useShowStore";
 import { searchForShowSchema } from "@/app/utils/yup";
 import { FFRankDTO } from "@/app/utils/types/ffranks";
+import Toast from "../../atoms/Toast";
 
 export default function SwapShowModal({
   currentShow,
   onSelect,
   onClose,
+  existingShows,
 }: {
   currentShow: FFRankDTO;
   onSelect: (show: FFRankDTO) => void;
   onClose: () => void;
+  existingShows: FFRankDTO[] | null;
 }) {
   const search = useShowStore((s) => s.searchShow);
   const searchResult = useShowStore((s) => s.searchResult);
+  const [toast, setToast] = useState<string | null>(null);
 
   const formik = useFormik({
     initialValues: { query: "" },
@@ -38,12 +42,12 @@ export default function SwapShowModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black px-6 py-16"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-fuchsia-200 px-6 py-16"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-140 border border-line bg-ink"
+        className="w-full max-w-140 border border-line bg-fuchsia-900 text-white"
       >
         <div className="flex items-center justify-between border-b border-line px-5 py-4">
           <div>
@@ -54,7 +58,7 @@ export default function SwapShowModal({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="border border-line px-2.5 py-1.5 font-mono text-xs text-dim transition-colors hover:border-paper hover:text-paper"
+            className="border border-line px-2.5 py-1.5 font-mono text-xs transition-colors cursor-pointer border-black text-black font-bold hover:bg-fuchsia-200"
           >
             ×
           </button>
@@ -63,7 +67,7 @@ export default function SwapShowModal({
         <div className="px-5 py-5">
           <form
             onSubmit={formik.handleSubmit}
-            className="mb-4 flex border border-line"
+            className="mb-4 flex border border-line border-black"
           >
             <input
               type="text"
@@ -75,7 +79,7 @@ export default function SwapShowModal({
             />
             <button
               type="submit"
-              className="border-l border-line bg-paper px-5 font-mono text-[13px] text-ink transition-colors hover:bg-cyan"
+              className="border-l border-line border-black bg-paper px-5 font-mono text-[13px] text-white hover:text-black transition-colors hover:bg-fuchsia-200 cursor-pointer"
             >
               Go
             </button>
@@ -96,16 +100,25 @@ export default function SwapShowModal({
                   >
                     <button
                       type="button"
-                      onClick={() =>
+                      onClick={() => {
+                        if (
+                          existingShows?.some((s) => s.tvMazeId === show.id)
+                        ) {
+                          setToast("Already in the list");
+                          setTimeout(() => setToast(null), 2000);
+                          return;
+                        }
+
                         onSelect({
-                          tvMazeId: show.tvMazeId,
+                          tvMazeId: show.id,
                           showName: show.name,
                           showImage: show.image?.original ?? "",
                           showId: "",
                           rank: 0,
-                        })
-                      }
-                      className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-ink-2"
+                          points: 0,
+                        });
+                      }}
+                      className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-fuchsia-200 cursor-pointer hover:text-black"
                     >
                       {show.image ? (
                         <Image
@@ -131,6 +144,7 @@ export default function SwapShowModal({
           )}
         </div>
       </div>
+      {toast && <Toast text={toast} />}
     </div>
   );
 }
