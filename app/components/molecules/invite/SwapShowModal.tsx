@@ -51,8 +51,8 @@ export default function SwapShowModal({
       >
         <div className="flex items-center justify-between border-b border-line px-5 py-4">
           <div>
-            <div className="font-mono text-xs text-dim">SWAP OUT</div>
-            <div className="font-display text-lg">{currentShow.showName}</div>
+            <div className="font-mono text-[10px] lg:text-xs text-dim">SWAP OUT</div>
+            <div className="font-display text-xs font-bold md:text-lg">{currentShow.showName}</div>
           </div>
           <button
             type="button"
@@ -64,7 +64,7 @@ export default function SwapShowModal({
           </button>
         </div>
 
-        <div className="px-5 py-5">
+        <div className="px-2 lg:px-5 py-5">
           <form
             onSubmit={formik.handleSubmit}
             className="mb-4 flex border border-line border-black"
@@ -75,11 +75,11 @@ export default function SwapShowModal({
               {...formik.getFieldProps("query")}
               placeholder="Search for a replacement…"
               autoFocus
-              className="flex-1 bg-transparent px-4 py-3 font-mono text-sm text-paper outline-none placeholder:text-dim focus:border-cyan"
+              className="flex-1 bg-transparent px-2 md:px-4 py-3 font-mono text-[10px] md:text-sm text-paper outline-none placeholder:text-[10px] focus:border-cyan"
             />
             <button
               type="submit"
-              className="border-l border-line border-black bg-paper px-5 font-mono text-[13px] text-white hover:text-black transition-colors hover:bg-fuchsia-200 cursor-pointer"
+              className="border-l border-line border-black px-3 md:px-5 font-mono text-[10px] md:text-[13px] text-white hover:text-black transition-colors hover:bg-fuchsia-200 cursor-pointer"
             >
               Go
             </button>
@@ -118,7 +118,7 @@ export default function SwapShowModal({
                           points: 0,
                         });
                       }}
-                      className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-fuchsia-200 cursor-pointer hover:text-black"
+                      className="flex w-full items-center gap-3 px-2 py-1 md:px-4 md:py-3 text-left transition-colors hover:bg-fuchsia-200 cursor-pointer hover:text-black"
                     >
                       {show.image ? (
                         <Image
@@ -131,7 +131,7 @@ export default function SwapShowModal({
                       ) : (
                         <div className="h-8 w-8 shrink-0 border border-line" />
                       )}
-                      <span className="font-display text-sm">{show.name}</span>
+                      <span className="font-display text-[11px] md:text-sm">{show.name}</span>
                     </button>
                   </li>
                 );
