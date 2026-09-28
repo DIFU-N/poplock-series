@@ -21,7 +21,7 @@ export default function InvitePage() {
   const submitting = useInviteStore((s) => s.submitting);
   const submitted = useInviteStore((s) => s.submitted);
   const fetchInvite = useInviteStore((s) => s.fetchInvite);
-  const submitList = useInviteStore((s) => s.submitList);
+  const submitList = useFFRankingStore((s) => s.createUserRanking);
 
   const dadamansRanking = useFFRankingStore((s) => s.dadamansRanking);
   const getDadamansRanking = useFFRankingStore((s) => s.getDadamansRanking);
@@ -114,10 +114,10 @@ export default function InvitePage() {
   function handleSubmit() {
     if (!token || !shows) return;
 
-    submitList(
+    submitList({
       token,
-      shows.map((s) => s.tvMazeId),
-    );
+      tvmazeIds: shows.map((s) => s.tvMazeId),
+    });
   }
 
   return (
