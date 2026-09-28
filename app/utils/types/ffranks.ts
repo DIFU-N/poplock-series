@@ -37,7 +37,7 @@ export type AdminRankingRequest = {
 
 
 export type UserRankingRequest = {
-  name: string;
+  token: string;
   tvmazeIds: number[];
 };
 
