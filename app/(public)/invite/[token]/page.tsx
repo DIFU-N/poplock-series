@@ -32,6 +32,13 @@ export default function InvitePage() {
   const [swapIndex, setSwapIndex] = useState<number | null>(null);
   const [toast, setToast] = useState<string | null>(null);
 
+  const [flashId, setFlashId] = useState<string | null>(null);
+
+  function triggerFlash(id: string) {
+    setFlashId(id);
+    setTimeout(() => setFlashId(null), 300);
+  }
+
   useEffect(() => {
     if (token) fetchInvite(token);
     getDadamansRanking();
@@ -106,7 +113,9 @@ export default function InvitePage() {
   }
 
   function resetToOriginal() {
-    if (dadamansRanking) {
+    if (inviteeRanking) {
+      setShows(inviteeRanking);
+    } else if (dadamansRanking && !inviteeRanking) {
       setShows(dadamansRanking);
     }
   }
@@ -231,13 +240,20 @@ export default function InvitePage() {
                   )}
                   {displayShows.map((show, i) => (
                     <InviteListRow
-                      key={show.showId}
+                      key={show.tvMazeId}
                       show={show}
                       rank={i + 2}
                       isFirst={i === 0}
                       isLast={i === displayShows.length - 1}
-                      onSwap={() => setSwapIndex(i)}
-                      onMove={(direction) => moveShow(i, direction)}
+                      onSwap={() => {
+                        setSwapIndex(i);
+                        triggerFlash(show.showId);
+                      }}
+                      onMove={(dir) => {
+                        moveShow(i, dir);
+                        triggerFlash(show.showId);
+                      }}
+                      flash={flashId === show.showId}
                     />
                   ))}
                 </ol>
@@ -285,6 +301,7 @@ export default function InvitePage() {
           currentShow={displayShows[swapIndex]}
           onSelect={handleSwapSelect}
           onClose={() => setSwapIndex(null)}
+          existingShows={shows}
         />
       )}
 
