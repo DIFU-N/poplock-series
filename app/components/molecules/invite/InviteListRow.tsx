@@ -9,6 +9,7 @@ export default function InviteListRow({
   isLast,
   onSwap,
   onMove,
+  flash,
 }: {
   show: FFRankDTO;
   rank: number;
@@ -16,9 +17,14 @@ export default function InviteListRow({
   isLast: boolean;
   onSwap: () => void;
   onMove: (direction: -1 | 1) => void;
+  flash?: boolean;
 }) {
   return (
-    <li className="flex items-center gap-2 md:gap-4 border-b border-line px-4 py-3.5 last:border-b-0">
+    <li
+      className={`flex items-center gap-2 md:gap-4 border-b border-line px-4 py-3.5 last:border-b-0 transition-colors duration-300
+        ${flash ? "bg-fuchsia-700/20" : ""}
+      `}
+    >
       <span className="w-7 shrink-0 font-mono md:text-sm text-[10px]">
         {String(rank).padStart(2, "0")}
       </span>
@@ -44,24 +50,24 @@ export default function InviteListRow({
           type="button"
           onClick={() => onMove(-1)}
           disabled={isFirst}
-          aria-label={`Move ${show.showName} up`}
-          className="border border-line px-1.5 py-1 transition-colors hover:border-paper hover:text-paper disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-line"
+          className="border border-line px-1.5 py-1 transition-colors disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-line cursor-pointer bg-green-400"
         >
           ▲
         </button>
+
         <button
           type="button"
           onClick={() => onMove(1)}
           disabled={isLast}
-          aria-label={`Move ${show.showName} down`}
-          className="border border-line px-1.5 py-1 text-dim transition-colors hover:border-paper hover:text-paper disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-line disabled:hover:text-dim"
+          className="border border-line px-1.5 py-1 transition-colors disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-line cursor-pointer bg-red-400"
         >
           ▼
         </button>
+
         <button
           type="button"
           onClick={onSwap}
-          className="border border-paper px-2.5 py-1 text-paper transition-colors hover:border-cyan hover:text-cyan"
+          className="border border-paper px-2.5 py-1 cursor-pointer hover:bg-fuchsia-200"
         >
           Swap
         </button>
