@@ -40,7 +40,12 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
     return nextMessage;
   };
 
+  const [isMoving, setIsMoving] = useState(false);
+
   const handleClick = () => {
+    if (isMoving) return;
+
+    setIsMoving(true);
     setPosition(getRandomPosition());
 
     setHoverCount((c) => {
@@ -55,18 +60,22 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
 
       return next;
     });
+
+    setTimeout(() => setIsMoving(false), 300);
   };
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   return (
     <motion.button
       onClick={() => handleClick()}
-      onHoverStart={() => {
-        requestAnimationFrame(() => {
-          handleClick();
-        });
-      }}
+      {...(!isMobile && {
+        onHoverStart: () => {
+          requestAnimationFrame(handleClick);
+        },
+      })}
       animate={{ x: position.x, y: position.y }}
-      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+      transition={{ type: "spring", stiffness: 120, damping: 25 }}
       //   style={{ position: "fixed" }} // key for screen confinement
       className="border border-paper px-2.5 py-1 text-paper transition-colors hover:border-cyan hover:text-cyan z-50"
     >
