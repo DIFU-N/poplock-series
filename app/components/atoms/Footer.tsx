@@ -30,9 +30,9 @@ export default function Footer() {
             </span>
           </div>
           <div className="text-lg text-blue-500">
-            <Link href={"www.twitter.com/rashadbirmingh1"}>
+            <a href={"www.twitter.com/rashadbirmingh1"}>
               <FaTwitter />
-            </Link>
+            </a>
           </div>
         </div>
 
