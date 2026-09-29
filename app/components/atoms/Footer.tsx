@@ -30,9 +30,13 @@ export default function Footer() {
             </span>
           </div>
           <div className="text-lg text-blue-500">
-            <a href={"www.twitter.com/rashadbirmingh1"}>
+            <Link
+              href={"www.twitter.com/rashadbirmingh1"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaTwitter />
-            </a>
+            </Link>
           </div>
         </div>
 
