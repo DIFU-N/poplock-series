@@ -60,21 +60,18 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
     setTimeout(() => setIsMoving(false), 300);
   };
 
-  const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    doMove();
-  };
-
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  // const handleClick = (e: React.MouseEvent) => {
+  //   e.stopPropagation();
+  //   doMove();
+  // };
 
   return (
     <motion.button
-      onClick={(e) => handleClick(e)}
-      {...(!isMobile && {
-        onHoverStart: () => {
-          requestAnimationFrame(doMove);
-        },
-      })}
+      onPointerEnter={doMove}
+      onPointerDown={(e) => {
+        e.stopPropagation();
+        doMove();
+      }}
       animate={{ x: position.x, y: position.y }}
       transition={{ type: "spring", stiffness: 120, damping: 25 }}
       //   style={{ position: "fixed" }} // key for screen confinement
