@@ -85,11 +85,32 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
 
     // setTimeout(() => setIsMoving(false), 300);
   };
+  const [clicked, setClicked] = useState(false);
 
-  // const handleClick = (e: React.MouseEvent) => {
-  //   e.stopPropagation();
-  //   doMove();
-  // };
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setClicked(!clicked);
+    setHoverCount((c) => {
+      const next = c + 1;
+
+      if (next % 3 === 0) {
+        setPool((prev) => {
+          let poolCopy = prev.length ? prev : shuffle(messages);
+          const [msg, ...rest] = poolCopy;
+
+          requestAnimationFrame(() => onTriggerToast(msg));
+
+          return rest;
+        });
+      }
+
+      return next;
+    });
+
+    setTimeout(() => {
+      setClicked(false);
+    }, 200);
+  };
 
   return (
     <motion.button
@@ -100,14 +121,19 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
       }}
       onPointerDown={(e) => {
         if (e.pointerType !== "mouse") {
-          e.stopPropagation();
-          doMove();
+          // e.stopPropagation();
+          handleClick(e);
         }
       }}
       animate={{ x: position.x, y: position.y }}
       transition={{ type: "tween", duration: 0.2 }}
       //   style={{ position: "fixed" }} // key for screen confinement
-      className="border border-paper px-2.5 py-1 text-paper transition-colors hover:border-cyan hover:text-cyan z-50"
+      // onClick={() => }
+      className={`
+    border border-paper px-2.5 py-1 text-paper transition-colors z-50
+    hover:bg-fuchsia-200
+    ${clicked ? "bg-fuchsia-300 scale-95" : ""}
+  `}
     >
       Swap
     </motion.button>
