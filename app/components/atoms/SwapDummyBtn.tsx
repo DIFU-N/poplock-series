@@ -93,7 +93,7 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
     setHoverCount((c) => {
       const next = c + 1;
 
-      if (next % 3 === 0) {
+      if (next % 2 === 0) {
         setPool((prev) => {
           let poolCopy = prev.length ? prev : shuffle(messages);
           const [msg, ...rest] = poolCopy;
