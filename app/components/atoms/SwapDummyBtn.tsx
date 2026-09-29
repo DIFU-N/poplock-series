@@ -42,7 +42,7 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
 
   const [isMoving, setIsMoving] = useState(false);
 
-  const handleClick = () => {
+  const doMove = () => {
     if (isMoving) return;
 
     setIsMoving(true);
@@ -50,28 +50,29 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
 
     setHoverCount((c) => {
       const next = c + 1;
-
       if (next % 5 === 0) {
         const message = getNextMessage();
-        setTimeout(() => {
-          onTriggerToast(message);
-        }, 0);
+        setTimeout(() => onTriggerToast(message), 0);
       }
-
       return next;
     });
 
     setTimeout(() => setIsMoving(false), 300);
   };
 
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    doMove();
+  };
+
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   return (
     <motion.button
-      onClick={() => handleClick()}
+      onClick={(e) => handleClick(e)}
       {...(!isMobile && {
         onHoverStart: () => {
-          requestAnimationFrame(handleClick);
+          requestAnimationFrame(doMove);
         },
       })}
       animate={{ x: position.x, y: position.y }}
