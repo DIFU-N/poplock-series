@@ -50,10 +50,12 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
 
     setHoverCount((c) => {
       const next = c + 1;
+
       if (next % 5 === 0) {
         const message = getNextMessage();
-        setTimeout(() => onTriggerToast(message), 0);
+        requestAnimationFrame(() => onTriggerToast(message));
       }
+
       return next;
     });
 
@@ -73,7 +75,7 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
         doMove();
       }}
       animate={{ x: position.x, y: position.y }}
-      transition={{ type: "spring", stiffness: 120, damping: 25 }}
+      transition={{ type: "tween", duration: 0.2 }}
       //   style={{ position: "fixed" }} // key for screen confinement
       className="border border-paper px-2.5 py-1 text-paper transition-colors hover:border-cyan hover:text-cyan z-50"
     >
