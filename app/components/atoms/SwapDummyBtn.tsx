@@ -46,20 +46,44 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
     if (isMoving) return;
 
     setIsMoving(true);
+
     setPosition(getRandomPosition());
 
     setHoverCount((c) => {
       const next = c + 1;
 
       if (next % 5 === 0) {
-        const message = getNextMessage();
-        requestAnimationFrame(() => onTriggerToast(message));
+        setPool((prev) => {
+          let poolCopy = prev.length ? prev : shuffle(messages);
+          const [msg, ...rest] = poolCopy;
+
+          requestAnimationFrame(() => onTriggerToast(msg));
+
+          return rest;
+        });
       }
 
       return next;
     });
 
-    setTimeout(() => setIsMoving(false), 300);
+    setTimeout(() => setIsMoving(false), 200);
+    // if (isMoving) return;
+
+    // setIsMoving(true);
+    // setPosition(getRandomPosition());
+
+    // setHoverCount((c) => {
+    //   const next = c + 1;
+
+    //   if (next % 5 === 0) {
+    //     const message = getNextMessage();
+    //     requestAnimationFrame(() => onTriggerToast(message));
+    //   }
+
+    //   return next;
+    // });
+
+    // setTimeout(() => setIsMoving(false), 300);
   };
 
   // const handleClick = (e: React.MouseEvent) => {
@@ -69,10 +93,16 @@ const SwapDummyBtn: React.FC<props> = ({ onTriggerToast }) => {
 
   return (
     <motion.button
-      onPointerEnter={doMove}
+      onPointerEnter={(e) => {
+        if (e.pointerType === "mouse") {
+          doMove();
+        }
+      }}
       onPointerDown={(e) => {
-        e.stopPropagation();
-        doMove();
+        if (e.pointerType !== "mouse") {
+          e.stopPropagation();
+          doMove();
+        }
       }}
       animate={{ x: position.x, y: position.y }}
       transition={{ type: "tween", duration: 0.2 }}
