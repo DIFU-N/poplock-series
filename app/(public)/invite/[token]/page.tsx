@@ -165,7 +165,7 @@ export default function InvitePage() {
           {!loading && !error && submitted && (
             <div className="flex flex-col gap-2">
               <h1 className="mb-3 font-bold font-mono text-2xl">
-                Your Top 50 is saved
+                Your Top 10 is saved
               </h1>
               <p className="max-w-140 font-mono">
                 Thank you. Your list has been submitted. View the Top shows list
