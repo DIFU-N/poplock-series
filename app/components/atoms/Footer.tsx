@@ -29,9 +29,9 @@ export default function Footer() {
               All rights reserved. Made with love.
             </span>
           </div>
-          <div className="text-lg text-blue-500">
+          <div className="text-lg text-blue-500 hover:text-gray-500">
             <Link
-              href={"www.twitter.com/rashadbirmingh1"}
+              href={"https://www.twitter.com/rashadbirmingh1"}
               target="_blank"
               rel="noopener noreferrer"
             >
