@@ -106,7 +106,7 @@ public class RatingController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> GetAllDadamansRating()
     {
-        var filtered = await _rating.GetAllDadamansRating();
+        var filtered = await _ratingService.GetDadamansRatings();
 
         return Ok(filtered);
     }
