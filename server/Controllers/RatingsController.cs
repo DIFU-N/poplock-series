@@ -101,4 +101,13 @@ public class RatingController : ControllerBase
 
         return Ok(filtered);
     }
+
+    [HttpGet("dadaman")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetAllDadamansRating()
+    {
+        var filtered = await _rating.GetAllDadamansRating();
+
+        return Ok(filtered);
+    }
 }
