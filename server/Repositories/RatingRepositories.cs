@@ -69,18 +69,4 @@ public class RatingRepository
             .Find(r => r.UserId == adminId && r.ShowId == showId)
             .FirstOrDefaultAsync();
     }
-
-    public async Task<List<Rating>> GetAllDadamansRating()
-    {
-        User? admin = await _user.Find(u => u.Role == "s.admin").FirstOrDefaultAsync();
-
-        if (admin == null)
-        {
-            throw new InvalidOperationException("Dadaman rating not found. Report to admin");
-        }
-
-        var adminId = admin.Id;
-
-        return await _ratings.Find(r => r.UserId == adminId).ToListAsync();
-    }
 }
