@@ -56,4 +56,9 @@ public class UserRepository
 
         return result.ModifiedCount > 0;
     }
+
+    public async Task<User?> GetByRole(string role)
+    {
+        return await _users.Find(u => u.Role == role).FirstOrDefaultAsync();
+    }
 }
