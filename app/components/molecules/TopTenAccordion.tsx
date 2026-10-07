@@ -33,7 +33,7 @@ export default function TopTenAccordion({
         }`}
       >
         <div>
-          <h3 className="mt-0.5 font-display text-lg">{list.name}</h3>
+          <h3 className="mt-0.5 font-display text-lg">{list.name === "Dadaman" ? list.name : "Invited Guest"}</h3>
           {/* <p className="mt-1 max-w-[60ch] text-sm text-[#c9c8c0]">
             {list.description}
           </p> */}
