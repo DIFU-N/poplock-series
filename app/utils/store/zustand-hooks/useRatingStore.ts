@@ -1,4 +1,5 @@
 import {
+  getAllDadamansRating,
   getAllUsersRatings,
   getAverageRating,
   getDadamansRating,
@@ -23,6 +24,7 @@ type RatingState = {
   error: string;
 
   allRatingByUser: RatingWithShow[];
+  allRatingByDadaman: RatingWithShow[];
 
   userRating: Rating | null;
   dadamanRating: Rating | null;
@@ -37,6 +39,7 @@ type RatingState = {
   updateRating: (rating: UpdateRateShowRequest) => Promise<void>;
 
   getAllUsersRatings: () => Promise<GetRatingWithShowResponse>;
+  getAllDadamansRatings: () => Promise<GetRatingWithShowResponse>;
 };
 
 const initialState: RatingState = {
@@ -44,6 +47,7 @@ const initialState: RatingState = {
   error: "",
 
   allRatingByUser: [],
+  allRatingByDadaman: [],
 
   userRating: null,
   dadamanRating: null,
@@ -57,6 +61,7 @@ const initialState: RatingState = {
   updateRating: async () => {},
 
   getAllUsersRatings: async () => [],
+  getAllDadamansRatings: async () => [],
 };
 
 export const useRatingStore = create<RatingState>()(
@@ -186,6 +191,27 @@ export const useRatingStore = create<RatingState>()(
           });
 
           return null;
+        }
+      },
+      getAllDadamansRatings: async () => {
+        set({ loading: true });
+
+        try {
+          const rating = await getAllDadamansRating();
+
+          set({
+            loading: false,
+            allRatingByDadaman: [...rating],
+          });
+
+          return rating;
+        } catch (error: unknown) {
+          set({
+            loading: false,
+            error: axios.isAxiosError(error)
+              ? error.message
+              : "somehting went wrong",
+          });
         }
       },
     }),

@@ -30,3 +30,8 @@ export const getUserRating = async (showId: string) => {
   const response = await api.get(`/rating/${showId}/me`);
   return response.data;
 };
+
+export const getAllDadamansRating = async () => {
+  const response = await api.get(`/rating/dadaman`);
+  return response.data;
+};

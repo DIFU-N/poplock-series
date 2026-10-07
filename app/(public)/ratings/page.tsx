@@ -5,15 +5,15 @@ import { useRatingStore } from "@/app/utils/store/zustand-hooks/useRatingStore";
 import { useEffect } from "react";
 
 export default function RatingsPage() {
-  const getAllUserRatings = useRatingStore((state) => state.getAllUsersRatings);
-  const allUserRatings = useRatingStore((state) => state.allRatingByUser);
-  const user = useAuthStore((state) => state.user);
+  const getAllDadamanRatings = useRatingStore(
+    (state) => state.getAllDadamansRatings,
+  );
+  const allDadamanRatings = useRatingStore((state) => state.allRatingByDadaman);
+  // const user = useAuthStore((state) => state.user);
 
   useEffect(() => {
-    if (user) {
-      getAllUserRatings();
-    }
-  }, [user, getAllUserRatings]);
+    getAllDadamanRatings();
+  }, [getAllDadamanRatings]);
   return (
     <main>
       <section className="bg-pink-500 px-6 py-16 sm:py-24">
@@ -38,9 +38,9 @@ export default function RatingsPage() {
       <section className="px-6 py-14">
         <div className="mx-auto max-w-295">
           <div className="mb-6 font-mono text-[13px] text-dim">
-            {allUserRatings.length} shows rated
+            {allDadamanRatings.length} shows rated
           </div>
-          <RatingsList initial={allUserRatings} />
+          <RatingsList initial={allDadamanRatings} />
         </div>
       </section>
     </main>
